@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>IQ Test — Discover your potential / Teste de QI</title>
+<meta name="description" content="Quick 35-question IQ test. Save progress, unlock full report after payment." />
+<style>
+/* ----- BASIC THEME ----- */
+:root{
+  --bg1: #071a52;
+  --accent1: #0b66ff;
+  --accent2: #63a4ff;
+  --card:#ffffff;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,var(--bg1),#0b1b45 60%);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  color:#0b1b2e;
+  padding:18px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ----- APP WRAPPER ----- */
+.app {
+  width:100%;
+  max-width:920px;
+  background:var(--card);
+  border-radius:14px;
+  box-shadow:0 20px 60px rgba(2,6,23,0.35);
+  overflow:hidden;
+}
+
+/* ----- HERO / SPLASH ----- */
+.splash {
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:white;
+  padding:34px 28px;
+  text-align:center;
+}
+.logo {
+  width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12);
+  display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;
+  margin-bottom:14px;
+}
+.title { font-size:24px;margin:0 0 8px; }
+.subtitle { font-size:14px;opacity:0.95;margin:0 0 14px;line-height:1.4; }
+.cta-row { display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px; }
+.btn-primary {
+  background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 18px rgba(11,102,255,0.12);
+}
+.btn-ghost { background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer; }
+
+/* subtle animated dots */
+.animated-dots { margin-top:8px; }
+.dot{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.4;animation:blink 1.2s infinite ease-in-out;}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}100%{opacity:.2;transform:translateY(0)}}
+
+/* ----- MAIN AREA ----- */
+.main {
+  padding:22px 26px;
+}
+.topbar {display:flex;gap:12px;align-items:center;justify-content:space-between;}
+.brand {display:flex;gap:12px;align-items:center;}
+.brand .mini { width:44px;height:44;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800 }
+.lang { margin-left:auto;font-size:13px; }
+.lead { color:var(--muted); margin-top:10px; font-size:15px; }
+
+/* quiz area */
+.quiz { margin-top:18px; min-height:220px; }
+.question-card{ background: #fff;padding:18px;border-radius:12px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.03); }
+.q-title{ font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e}
+.choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.choice{ padding:12px;border-radius:10px;border:1px solid #e6eefc;background:#fff;cursor:pointer; transition:all .12s; font-size:15px; }
+.choice:hover{ transform:translateY(-4px); background:#f6fbff }
+.choice.selected{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border-color:transparent; box-shadow:0 8px 20px rgba(11,102,255,0.12) }
+
+/* progress + controls */
+.footer { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; flex-wrap:wrap; }
+.progress-wrap { display:flex; gap:12px; align-items:center; }
+.progress-bar{ width:220px; height:10px; background:#eef2ff; border-radius:8px; overflow:hidden; }
+.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent1)); width:0%; transition:width .35s; }
+.counter { font-size:13px;color:var(--muted); }
+.controls { display:flex; gap:8px; align-items:center; }
+.btn-small{ background:var(--accent1); color:white; border:none; padding:9px 12px; border-radius:9px; cursor:pointer; font-weight:700 }
+.btn-outline{ background:transparent; border:1px solid #e6eefc; padding:8px 12px; border-radius:9px; cursor:pointer; color:#0b1b2e; }
+
+/* result area */
+.result-card{ margin-top:18px; background:#f8fbff; padding:18px; border-radius:12px; border:1px dashed #e6eefc; }
+.small{ font-size:13px;color:var(--muted) }
+.pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pay-button{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12) }
+
+/* final report */
+.report { margin-top:14px; display:none; background:#fff; padding:16px; border-radius:10px; border:1px solid #eef6ff }
+.report h3 { color:var(--accent1); margin:0 0 8px 0 }
+.report p { color:#233; line-height:1.45 }
+
+/* responsive tweaks */
+@media (max-width:520px){
+  .choices{ grid-template-columns:1fr }
+  .progress-bar{ width:140px }
+  .lead{ font-size:14px }
+  .title{ font-size:20px }
+}
+</style>
+</head>
+<body>
+<div class="app" role="application">
+  <!-- SPLASH -->
+  <section id="splash" class="splash">
+    <div style="padding:26px 20px;text-align:center;">
+      <div class="logo">IQ</div>
+      <div class="title">Discover your true IQ</div>
+      <div class="subtitle">35 quick questions • Takes ~6–8 minutes • Immediate, private result</div>
+      <div class="animated-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+
+      <div class="cta-row" style="margin-top:18px;">
+        <button id="startBtn" class="btn-primary">Start Test</button>
+        <button id="startDemo" class="btn-ghost">Learn how it works</button>
+      </div>
+
+      <div style="margin-top:12px;color:rgba(255,255,255,0.9);font-size:13px">Special offer: Unlock full report for <strong>$9</strong> (was $15)</div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section id="main" class="main" style="display:none">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mini">IQ</div>
+        <div>
+          <div style="font-weight:800;font-size:18px">IQ Test — Discover your potential</div>
+          <div class="small" id="subLead">Answer 35 short questions — your progress saves automatically.</div>
+        </div>
+      </div>
+
+      <div class="lang">
+        <label for="langSelect" class="small" style="margin-right:6px">Language</label>
+        <select id="langSelect" aria-label="Language selector">
+          <option value="en">English</option>
+          <option value="pt">Português</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="lead" id="leadText">This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.</div>
+
+    <div class="quiz" id="quiz"></div>
+
+    <div class="footer">
+      <div class="progress-wrap">
+        <div class="counter"><span id="qcount">1</span>/35</div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+
+      <div class="controls">
+        <button id="btnPrev" class="btn-outline">Previous</button>
+        <button id="btnNext" class="btn-small">Next</button>
+        <button id="btnFinish" class="btn-small" title="Finish test and see payment">Finish</button>
+      </div>
+    </div>
+
+    <!-- RESULT / PAYMENT -->
+    <div id="resultBlock" class="result-card" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="small">You answered</div>
+          <div style="font-weight:800;font-size:18px" id="scoreText">-- / 35</div>
+          <div class="small" id="performanceText">Performance: —</div>
+        </div>
+
+        <div style="text-align:right">
+          <div class="small">Unlock full & detailed report</div>
+          <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank" rel="noopener">Pay $9 & Unlock</a>
+          <div style="margin-top:8px" class="small">After payment click "I've paid" to show your report (testing mode).</div>
+          <div style="margin-top:8px"><button id="btnIvePaid" class="btn-outline">I've paid</button></div>
+        </div>
+      </div>
+
+      <div id="report" class="report" aria-live="polite" style="display:none">
+        <h3 id="reportTitle">Full Report</h3>
+        <p id="reportBody"></p>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnShare" class="btn-small">Share</button>
+          <button id="btnCopy" class="btn-outline">Copy result</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 0;text-align:center;color:var(--muted);font-size:13px">© 2025 — IQ Test</div>
+  </section>
+</div>
+
+<script>
+/* ============================
+   CONFIG & QUESTIONS
+   ============================ */
+
+// Your Mercado Pago link already included in mpLink href above
+const MP_LINK = "https://mpago.la/2UqEUEx";
+
+// 35 Questions: mix of reasoning, math, verbal. 'correct' is index 0-3
+const QUESTIONS = [
+  {q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
+  {q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
+  {q:"3. Which does NOT belong: square, rectangle, circle, diamond?", choices:["square","rectangle","circle","diamond"], correct:2},
+  {q:"4. Solve: 7 × 6 − 8 =", choices:["34","36","38","40"], correct:0},
+  {q:"5. Which word does not fit: pen, pencil, notebook, ruler?", choices:["pen","pencil","notebook","ruler"], correct:2},
+  {q:"6. If today is Tuesday, what day will it be in 3 days?", choices:["Friday","Thursday","Saturday","Wednesday"], correct:2},
+  {q:"7. Next number: 1,1,2,3,5,8,?", choices:["10","11","12","13"], correct:3},
+  {q:"8. If all roses are flowers and some flowers wilt, can we say all roses wilt?", choices:["Yes","No","Sometimes","Impossible to know"], correct:1},
+  {q:"9. Synonym of 'fast'?", choices:["Slow","Quick","Weak","Morbid"], correct:1},
+  {q:"10. Train leaves at 10 and travels 120 km in 2 hours. Average speed?", choices:["40 km/h","50 km/h","60 km/h","70 km/h"], correct:2},
+  {q:"11. If A > B and B > C, then A is ____ C.", choices:["smaller than","greater than","equal to","not related"], correct:1},
+  {q:"12. Complete the rhyme: 'Cat on the roof, mouse on the ___.'", choices:["peak","hole","bread","frog"], correct:0},
+  {q:"13. Which number is prime?", choices:["21","29","27","33"], correct:1},
+  {q:"14. If tomorrow is Thursday, what day is today?", choices:["Friday","Wednesday","Tuesday","Sunday"], correct:1},
+  {q:"15. How many sides does a hexagon have?", choices:["5","6","7","8"], correct:1},
+  {q:"16. If 5 shirts cost 100, how much is one?", choices:["10","15","20","25"], correct:2},
+  {q:"17. Analogy: 'Key is to door' as 'pen is to ___'", choices:["paper","book","ink","writing"], correct:3},
+  {q:"18. Solve: (9 + 3) ÷ 3 =", choices:["2","3","4","6"], correct:2},
+  {q:"19. Which figure follows: circle, square, circle, square, ?", choices:["circle","triangle","rectangle","pentagon"], correct:0},
+  {q:"20. If 2x = 10, x = ?", choices:["4","5","6","8"], correct:1},
+  {q:"21. Opposite of 'optimistic'?", choices:["positive","pessimistic","happy","active"], correct:1},
+  {q:"22. What number is missing: 10, 7, 4, ?, -2", choices:["1","0","-1","2"], correct:0},
+  {q:"23. If 3=C, 1=A, 20=T, what word is 20-1-3-8-15?", choices:["TACHO","TACOS","TACOH","TACOS"], correct:1},
+  {q:"24. Result of 12 - (3×2)?", choices:["4","6","8","10"], correct:2},
+  {q:"25. Which letter completes: A, C, E, G, ?", choices:["I","H","J","K"], correct:0},
+  {q:"26. Map scale: 1 cm = 10 km. 3 cm = ? km", choices:["10","20","30","40"], correct:2},
+  {q:"27. Which is greater: 0.75 or 3/4?", choices:["0.75","3/4","they are equal","not possible"], correct:2},
+  {q:"28. 'Water is to thirst as food is to ___.'", choices:["sleep","hunger","light","heat"], correct:1},
+  {q:"29. How many degrees in a right angle?", choices:["45°","60°","90°","180°"], correct:2},
+  {q:"30. João has 3x oranges, gives x to Maria and x to Pedro, remainder x. How many initially?", choices:["x","2x","3x","4x"], correct:2},
+  {q:"31. Next number: 3,6,9,12,?", choices:["13","14","15","16"], correct:2},
+  {q:"32. 'VERDE' has 5 letters, how many has 'AMARELO'?", choices:["6","7","5","8"], correct:1},
+  {q:"33. Which word doesn't belong: apple, banana, carrot, pear?", choices:["apple","banana","carrot","pear"], correct:2},
+  {q:"34. If today is day 10 and after 25 days it will be day:", choices:["25","3 (next month)","5 (next month)","30"], correct:1},
+  {q:"35. Opposite of 'entrance'?", choices:["arrival","exit","start","door"], correct:1}
+];
+
+// ---- storage keys ----
+const STORAGE_KEY = 'iq_v2_answers';
+const STORAGE_PAID = 'iq_v2_paid';
+let lang = localStorage.getItem('iq_lang') || 'en';
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+// load saved answers if any
+try {
+  const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (Array.isArray(s) && s.length === QUESTIONS.length) answers = s;
+} catch(e){}
+
+// paid flag
+let paid = localStorage.getItem(STORAGE_PAID) === 'true';
+
+// elements
+const splash = document.getElementById('splash');
+const main = document.getElementById('main');
+const quiz = document.getElementById('quiz');
+const progressFill = document.getElementById('progressFill');
+const qcount = document.getElementById('qcount');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnFinish = document.getElementById('btnFinish');
+const resultBlock = document.getElementById('resultBlock');
+const scoreText = document.getElementById('scoreText');
+const performanceText = document.getElementById('performanceText');
+const report = document.getElementById('report');
+const reportBody = document.getElementById('reportBody');
+const mpLinkEl = document.getElementById('mpLink');
+const langSelect = document.getElementById('langSelect');
+const startBtn = document.getElementById('startBtn');
+const startDemo = document.getElementById('startDemo');
+const btnIvePaid = document.getElementById('btnIvePaid');
+const btnShare = document.getElementById('btnShare');
+const btnCopy = document.getElementById('btnCopy');
+
+/* ---- language strings ---- */
+const STR = {
+  en: {
+    splashTitle: "Discover your true IQ",
+    splashSub: "35 quick questions • Takes ~6–8 minutes • Immediate private result",
+    start: "Start Test",
+    learn: "How it works",
+    lead: "This test is anonymous and estimates your cognitive strengths. Answer without overthinking.",
+    answered: "You answered",
+    performance: "Performance",
+    unlockNote: "Unlock full & detailed report",
+    paidSim: "I've paid",
+    paidConfirm: "Payment confirmed (simulation). Report unlocked.",
+    shareText: iq => `My estimated IQ is ${iq} — try this test!`,
+    reportTitle: "Full Report",
+    reportAdvice: "This is an online estimate. For professional assessment consult a psychologist."
+  },
+  pt: {
+    splashTitle: "Descubra seu verdadeiro QI",
+    splashSub: "35 perguntas rápidas • Leva ~6–8 minutos • Resultado imediato e privado",
+    start: "Começar Teste",
+    learn: "Como funciona",
+    lead: "Este teste é anônimo e estima suas habilidades cognitivas. Responda sem pensar demais.",
+    answered: "Você respondeu",
+    performance: "Desempenho",
+    unlockNote: "Desbloqueie o relatório completo",
+    paidSim: "Já paguei",
+    paidConfirm: "Pagamento confirmado (simulação). Relatório desbloqueado.",
+    shareText: iq => `Meu QI estimado é ${iq} — faça o teste!`,
+    reportTitle: "Relatório Completo",
+    reportAdvice: "Essa é uma estimativa online. Para avaliação profissional, consulte um psicólogo."
+  }
+};
+
+/* ---- init ui ---- */
+function applyLanguageUI(){
+  lang = localStorage.getItem('iq_lang') || lang;
+  langSelect.value = lang;
+  document.querySelector('.title')?.setAttribute('aria-hidden','true');
+  // splash text
+  document.querySelector('.title').textContent = STR[lang].splashTitle;
+  document.querySelector('.subtitle').textContent = STR[lang].splashSub;
+  startBtn.textContent = STR[lang].start;
+  startDemo.textContent = STR[lang].learn;
+  document.getElementById('subLead').textContent = STR[lang].lead;
+  mpLinkEl.textContent = lang==='pt' ? "Pagar R$ (equiv.) & Desbloquear" : "Pay $9 & Unlock";
+}
+langSelect.addEventListener('change', ()=>{
+  lang = langSelect.value;
+  localStorage.setItem('iq_lang', lang);
+  applyLanguageUI();
+});
+applyLanguageUI();
+
+/* ---- splash actions ---- */
+startBtn.addEventListener('click', ()=> {
+  // animate splash out
+  splash.style.transition = "opacity .35s ease"; splash.style.opacity = "0";
+  setTimeout(()=>{ splash.style.display = "none"; main.style.display = "block"; renderQuestion(current); }, 380);
+});
+startDemo.addEventListener('click', ()=>{
+  alert(lang==='pt' ? "Responda com rapidez — intenção é medir raciocínio." : "Answer quickly — the aim is to measure reasoning.");
+});
+
+/* ---- render question ---- */
+function renderQuestion(index){
+  const item = QUESTIONS[index];
+  qcount.textContent = index+1;
+  // build HTML
+  let html = `<div class="question-card"><div class="q-title">${item.q}</div><div class="choices" role="list">`;
+  item.choices.forEach((ch,i)=>{
+    const selected = answers[index] === i ? ' selected' : '';
+    html += `<div role="listitem" tabindex="0" data-choice="${i}" class="choice${selected}">${ch}</div>`;
+  });
+  html += `</div></div>`;
+  quiz.innerHTML = html;
+  updateProgress();
+  // attach handlers
+  quiz.querySelectorAll('.choice').forEach(el=>{
+    el.addEventListener('click', onChoiceClick);
+    el.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') onChoiceClick.call(el,e); });
+  });
+  // scroll into view on mobile
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function onChoiceClick(e){
+  const choice = parseInt(this.dataset.choice,10);
+  // save immediately
+  answers[current] = choice;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+  // mark selection visually
+  this.parentElement.querySelectorAll('.choice').forEach(c=>c.classList.remove('selected'));
+  this.classList.add('selected');
+  // update progress & provisional analysis
+  updateProgress();
+  // auto-advance after short delay
+  setTimeout(()=>{
+    if(current < QUESTIONS.length - 1){
+      current++;
+      renderQuestion(current);
+    } else {
+      finishFlow();
+    }
+  }, 380);
+}
+
+/* ---- navigation handlers ---- */
+btnNext.addEventListener('click', ()=> {
+  if(current < QUESTIONS.length -1){ current++; renderQuestion(current); }
+});
+btnPrev.addEventListener('click', ()=> {
+  if(current > 0){ current--; renderQuestion(current); }
+});
+btnFinish.addEventListener('click', ()=> {
+  const unanswered = answers.filter(a=>a===null).length;
+  if(unanswered > 0){
+    const ok = confirm((lang==='pt' ? `Faltam ${unanswered} perguntas. Enviar mesmo assim?` : `There are ${unanswered} unanswered. Submit anyway?`));
+    if(!ok) return;
+  }
+  finishFlow();
+});
+
+/* ---- progress & analysis ---- */
+function updateProgress(){
+  const answered = answers.filter(a=>a!==null).length;
+  const percent = Math.round((answered / QUESTIONS.length) * 100);
+  progressFill.style.width = percent + '%';
+  // provisional classification
+  const {score, iq} = computeScore();
+  const cls = classify(iq);
+  performanceText.textContent = (lang==='pt' ? 'Desempenho: ' : 'Performance: ') + (lang==='pt'?cls.pt:cls.en) + ` — ${answered}/${QUESTIONS.length} answered`;
+}
+
+/* ---- scoring ---- */
+function computeScore(){
+  let score = 0;
+  for(let i=0;i<QUESTIONS.length;i++){
+    if(answers[i] === QUESTIONS[i].correct) score++;
+  }
+  // Map score to IQ-ish value (approx)
+  const iq = Math.round(70 + (score / QUESTIONS.length) * 60); // 70..130
+  return {score, iq};
+}
+function classify(iq){
+  if(iq >= 130) return {en:'Very superior', pt:'Muito superior'};
+  if(iq >= 120) return {en:'Superior', pt:'Superior'};
+  if(iq >= 110) return {en:'Above average', pt:'Acima da média'};
+  if(iq >= 90) return {en:'Average', pt:'Média'};
+  if(iq >= 80) return {en:'Below average', pt:'Abaixo da média'};
+  return {en:'Very below average', pt:'Muito abaixo da média'};
+}
+
+/* ---- finish flow & payment UI ---- */
+function finishFlow(){
+  // compute
+  const {score, iq} = computeScore();
+  scoreText.textContent = `${score} / ${QUESTIONS.length}`;
+  // show result block
+  resultBlock.style.display = 'block';
+  // update performance text
+  const cls = classify(iq);
+  performanceText.textContent = (lang==='pt'? 'Desempenho: ' : 'Performance: ') + (lang==='pt'?cls.pt:cls.en);
+  // save score local
+  localStorage.setItem('iq_last_score', score);
+  // if user is already marked paid, show report
+  if(localStorage.getItem(STORAGE_PAID) === 'true'){
+    unlockReport();
+  } else {
+    report.style.display = 'none';
+  }
+  // scroll to result
+  setTimeout(()=> resultBlock.scrollIntoView({behavior:'smooth'}), 200);
+}
+
+/* ---- simulate paid & unlock report ---- */
+btnIvePaid.addEventListener('click', ()=> {
+  // For testing: mark as paid (you will later replace with secure backend verification)
+  localStorage.setItem(STORAGE_PAID, 'true');
+  paid = true;
+  alert(STR[lang].paidConfirm);
+  unlockReport();
+});
+
+function unlockReport(){
+  const {score, iq} = computeScore();
+  const cls = classify(iq);
+  document.getElementById('reportTitle').textContent = STR[lang].reportTitle;
+  reportBody.innerHTML = `
+    <p><strong>${lang==='pt'?'QI estimado':'Estimated IQ'}: </strong>${iq}</p>
+    <p><strong>${lang==='pt'?'Classificação':'Classification'}: </strong>${lang==='pt'?cls.pt:cls.en}</p>
+    <p><strong>${lang==='pt'?'Pontuação':'Score'}: </strong>${score} / ${QUESTIONS.length}</p>
+    <hr>
+    <p>${STR[lang].reportAdvice}</p>
+    <h4>${lang==='pt'?'Dicas rápidas':'Quick tips'}</h4>
+    <ul>
+      <li>${lang==='pt'?'Pratique jogos lógicos (Sudoku, quebra-cabeças).':'Practice logic games (Sudoku, puzzles).'}</li>
+      <li>${lang==='pt'?'Leia textos desafiadores para vocabulário e compreensão.':'Read challenging texts to boost verbal skills.'}</li>
+      <li>${lang==='pt'?'Mantenha sono e alimentação adequados para foco.':'Maintain sleep and nutrition for focus.'}</li>
+    </ul>
+  `;
+  report.style.display = 'block';
+  // share & copy handlers
+  btnShare.onclick = async ()=>{
+    const txt = STR[lang].shareText(iq);
+    if(navigator.share){ try{ await navigator.share({title:'IQ Test', text:txt, url:location.href}); } catch(e){} }
+    else { alert(lang==='pt'? 'Compartilhamento não disponível' : 'Share not supported'); }
+  };
+  btnCopy.onclick = ()=>{
+    const txt = STR[lang].shareText(iq);
+    navigator.clipboard.writeText(txt).then(()=> alert(lang==='pt' ? 'Resultado copiado' : 'Result copied'));
+  };
+  // scroll
+  setTimeout(()=> report.scrollIntoView({behavior:'smooth'}), 120);
+}
+
+/* ---- helpers / start initial question ---- */
+function startFromSaved(){
+  // resume at first unanswered
+  const idx = answers.findIndex(a => a === null);
+  current = idx === -1 ? QUESTIONS.length - 1 : idx;
+  renderQuestion(current);
+}
+function renderQuestion(idx){
+  // if idx out of bounds adjust
+  if(idx < 0) idx = 0;
+  if(idx >= QUESTIONS.length) idx = QUESTIONS.length - 1;
+  current = idx;
+  // build question html
+  const item = QUESTIONS[current];
+  let html = `<div class="question-card"><div class="q-title">${item.q}</div><div class="choices" role="list">`;
+  item.choices.forEach((c,i) => {
+    const sel = answers[current] === i ? ' selected' : '';
+    html += `<div role="listitem" tabindex="0" data-cho="${i}" class="choice${sel}" aria-pressed="${answers[current]===i}">${c}</div>`;
+  });
+  html += `</div></div>`;
+  quiz.innerHTML = html;
+  // attach handlers
+  quiz.querySelectorAll('.choice').forEach(ch => {
+    ch.onclick = function(){ choose(parseInt(this.dataset.cho,10)); };
+    ch.onkeydown = function(e){ if(e.key === 'Enter' || e.key === ' ') choose(parseInt(this.dataset.cho,10)); };
+  });
+  // update progress and UI
+  progressFill.style.width = `${Math.round(((answers.filter(a=>a!==null).length)/QUESTIONS.length)*100)}%`;
+  qcount.textContent = current+1;
+  // update next/prev disabled states
+  btnPrev.disabled = current === 0;
+  btnNext.disabled = current === QUESTIONS.length - 1;
+}
+
+/* choose handler used by both click and keyboard */
+function choose(choiceIndex){
+  answers[current] = choiceIndex;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+  // visually mark
+  const elems = quiz.querySelectorAll('.choice'); elems.forEach(el=>el.classList.remove('selected'));
+  const chosen = Array.from(elems).find(el => parseInt(el.dataset.cho,10) === choiceIndex);
+  if(chosen) chosen.classList.add('selected');
+  // update progress & provisional result
+  updateProgress();
+  // auto advance
+  setTimeout(()=>{
+    if(current < QUESTIONS.length - 1){ current++; renderQuestion(current); }
+    else finishFlow();
+  }, 300);
+}
+
+/* initial start */
+document.addEventListener('DOMContentLoaded', ()=> {
+  // hide main until user starts
+  main.style.display = 'none';
+  // set mp link
+  mpLinkEl.href = MP_LINK;
+  // initial UI language
+  applyLanguageUI();
+  // resume or start
+  startFromSaved();
+});
+
+/* optional: warn before leaving unsaved progress */
+window.addEventListener('beforeunload', function (e) {
+  if(answers.some(a => a !== null)){ e.preventDefault(); e.returnValue = ''; }
+});
+</script>
+</body>
+</html>
