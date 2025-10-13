@@ -4,154 +4,162 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>IQ Test — Discover your Potential</title>
-<meta name="description" content="Quick 35-question IQ test. Save progress, unlock full report after payment." />
+<meta name="description" content="35-question IQ test. Save progress and unlock full report after payment." />
 <style>
-/* ====== COLORS & FONTS ====== */
-:root{
-  --bg1:#0d1b3f;
-  --bg2:#071a52;
-  --accent1:#0b66ff;
-  --accent2:#63a4ff;
-  --card:#ffffff;
-  --muted:#b0b0b0;
-  --success:#4ade80;
-}
-*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-html,body{height:100%;margin:0;background:linear-gradient(-45deg,var(--bg1),var(--bg2),var(--bg1),var(--bg2));background-size:400% 400%;animation:gradientBG 15s ease infinite;color:#0b1b2e;}
-@keyframes gradientBG{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
-body{display:flex;justify-content:center;align-items:center;padding:18px;}
+  :root{
+    --bg1:#07122b; --bg2:#071a52;
+    --accent1:#0b66ff; --accent2:#63a4ff;
+    --card:#ffffff; --muted:#9aa4b2;
+    --success:#35c07a;
+  }
+  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  html,body{height:100%;margin:0;background:linear-gradient(-45deg,var(--bg1),var(--bg2),#03102a,#07204a);background-size:400% 400%;animation:bgAnim 18s linear infinite;color:#061025;}
+  @keyframes bgAnim{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+  body{display:flex;align-items:center;justify-content:center;padding:20px;}
 
-/* ====== APP CONTAINER ====== */
-.app{width:100%;max-width:920px;background:var(--card);border-radius:16px;box-shadow:0 20px 60px rgba(2,6,23,0.35);overflow:hidden;transition:transform .3s;}
-.app:hover{transform:translateY(-5px);}
+  .app{width:100%;max-width:980px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:0 30px 80px rgba(2,6,23,0.6);overflow:hidden;backdrop-filter: blur(6px);}
 
-/* ====== SPLASH ====== */
-.splash{padding:34px 28px;text-align:center;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;transition:opacity .5s;}
-.logo{width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;margin-bottom:14px;}
-.title{font-size:28px;margin:0 0 8px;font-weight:700;}
-.subtitle{font-size:15px;opacity:0.95;margin:0 0 14px;line-height:1.4;}
-.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
-.btn-primary{background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(11,102,255,0.12);transition:all .2s;}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(11,102,255,0.2);}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:12px;cursor:pointer;transition:all .2s;}
-.btn-ghost:hover{background:rgba(255,255,255,0.1);}
+  /* SPLASH */
+  .splash{padding:44px 36px;text-align:center;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;}
+  .logo{width:92px;height:92px;border-radius:18px;background:rgba(255,255,255,0.09);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:30px;margin-bottom:16px}
+  .title{font-size:28px;margin:0 0 8px}
+  .subtitle{font-size:14px;opacity:0.95;margin:0 0 14px}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{border:0;padding:12px 18px;border-radius:12px;cursor:pointer;font-weight:700}
+  .btn-dark{background:rgba(255,255,255,0.12);color:white}
+  .btn-light{background:white;color:var(--accent1);box-shadow:0 8px 26px rgba(11,102,255,0.12)}
 
-/* animated dots */
-.animated-dots{margin-top:8px;}
-.dot{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.4;animation:blink 1.2s infinite ease-in-out;}
-.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
-@keyframes blink{0%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}100%{opacity:.2;transform:translateY(0)}}
+  /* MAIN */
+  .main{display:none;padding:26px 28px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))}
+  .topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .brand{display:flex;gap:12px;align-items:center}
+  .mini{width:48px;height:48;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+  .lead{color:var(--muted);margin-top:8px}
 
-/* ====== MAIN AREA ====== */
-.main{padding:26px 28px;display:none;}
-.topbar{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.brand{display:flex;gap:12px;align-items:center;}
-.brand .mini{width:44px;height:44px;border-radius:12px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px;}
-.lead{color:var(--muted);margin-top:10px;font-size:15px;}
+  /* QUESTION */
+  .quiz{margin-top:18px;min-height:260px;transition:opacity .28s ease}
+  .card{background:var(--card);border-radius:14px;padding:20px;border:1px solid rgba(6,24,40,0.05);box-shadow:0 20px 40px rgba(2,6,23,0.08);transition:transform .25s ease,box-shadow .25s ease}
+  .card-enter{transform:translateY(10px);opacity:0}
+  .card-exit{transform:translateY(-6px);opacity:0}
+  .q-title{font-weight:700;font-size:18px;margin-bottom:14px;color:#061025}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .choice{padding:14px;border-radius:12px;border:1px solid #e7eefc;background:#fff;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+  .choice:hover{transform:translateY(-4px);box-shadow:0 10px 20px rgba(11,102,255,0.06)}
+  .choice.selected{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;border-color:transparent;box-shadow:0 16px 30px rgba(11,102,255,0.12);transform:translateY(-2px)}
+  .choice .label{display:block}
 
-/* ====== QUIZ ====== */
-.quiz{margin-top:18px;min-height:220px;transition:all .3s;}
-.question-card{background:#fff;padding:20px;border-radius:14px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.08);transition:all .3s;}
-.question-card:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(11,102,255,0.15);}
-.q-title{font-weight:700;font-size:18px;margin-bottom:14px;color:#0b1b2e;}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.choice{padding:14px;border-radius:12px;border:1px solid #e6eefc;background:#fff;cursor:pointer;transition:all .2s;font-size:15px;user-select:none;}
-.choice:hover{background:#f6fbff;transform:translateY(-2px);}
-.choice.selected{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;border-color:transparent;box-shadow:0 8px 20px rgba(11,102,255,0.2);animation:selectAnim .3s;}
-@keyframes selectAnim{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+  /* footer */
+  .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px;flex-wrap:wrap}
+  .progress-wrap{display:flex;align-items:center;gap:12px}
+  .progress-bar{height:12px;width:320px;background:#eef6ff;border-radius:999px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent1));width:0;transition:width .5s cubic-bezier(.2,.9,.2,1)}
+  .counter{color:var(--muted)}
+  .controls{display:flex;gap:10px;align-items:center}
+  .btn-ghost{background:transparent;border:1px solid rgba(11,102,255,0.12);color:var(--accent1);padding:10px 14px;border-radius:10px}
 
-/* ====== FOOTER ====== */
-.footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;flex-wrap:wrap;}
-.progress-wrap{display:flex;gap:12px;align-items:center;}
-.progress-bar{width:220px;height:10px;background:#eef2ff;border-radius:8px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent1));width:0%;transition:width .35s;}
-.counter{font-size:13px;color:var(--muted);}
-.controls{display:flex;gap:8px;align-items:center;}
-.btn-small{background:var(--accent1);color:white;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;transition:all .2s;}
-.btn-small:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(11,102,255,0.2);}
-.btn-outline{background:transparent;border:1px solid #e6eefc;padding:8px 12px;border-radius:9px;cursor:pointer;color:#0b1b2e;transition:all .2s;}
-.btn-outline:hover{background:#f0f6ff;}
+  /* result */
+  .result{display:none;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(11,102,255,0.04),rgba(99,164,255,0.03));margin-top:18px;border:1px dashed rgba(11,102,255,0.06)}
+  .promo{font-weight:800;font-size:18px}
+  .promo-sub{color:var(--muted);margin-top:6px}
+  .pay-cta{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .pay-button{background:linear-gradient(90deg,#ff7044,#ffbf55);color:white;padding:14px 20px;border-radius:14px;text-decoration:none;font-weight:800;box-shadow:0 12px 36px rgba(255,112,68,0.14)}
+  #btnIvePaid{display:none;padding:10px 16px;border-radius:12px;border:1px solid rgba(6,24,40,0.06);background:transparent;color:#061025;cursor:pointer}
 
-/* ====== RESULT ====== */
-.result-card{margin-top:18px;background:#f8fbff;padding:18px;border-radius:12px;border:1px dashed #e6eefc;display:none;}
-.pay-wrap{margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
-.pay-button{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;padding:14px 20px;border-radius:14px;text-decoration:none;font-weight:800;box-shadow:0 10px 30px rgba(11,102,255,0.15);transition:all .3s;}
-.pay-button:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(11,102,255,0.25);}
-#btnIvePaid{margin-top:30px;display:none;}
+  .report{display:none;margin-top:14px;background:#fff;padding:16px;border-radius:10px;border:1px solid #eef6ff}
+  .report h3{color:var(--accent1);margin:0 0 8px 0}
+  .report p{color:#233;line-height:1.45}
 
-.report{margin-top:14px;display:none;background:#fff;padding:16px;border-radius:12px;border:1px solid #eef6ff;}
-.report h3{color:var(--accent1);margin:0 0 8px 0;}
-.report p{color:#233;line-height:1.45;}
-@media (max-width:520px){.choices{grid-template-columns:1fr}.progress-bar{width:140px}.lead{font-size:14px}.title{font-size:22px;}}
-
+  /* modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center;z-index:9999;padding:20px}
+  .modal .panel{background:white;border-radius:12px;padding:18px;max-width:720px;width:100%;box-shadow:0 20px 50px rgba(2,6,23,0.3)}
+  .close{float:right;cursor:pointer;font-weight:700;color:#666}
+  @media(max-width:720px){.choices{grid-template-columns:1fr}.progress-bar{width:180px}.app{margin:16px}}
 </style>
 </head>
 <body>
 <div class="app" role="application">
-  <!-- SPLASH -->
-  <section id="splash" class="splash">
-    <div style="padding:26px 20px;text-align:center;">
+  <!-- Splash -->
+  <section id="splash" class="splash" aria-hidden="false">
+    <div>
       <div class="logo">IQ</div>
       <div class="title">Discover your true IQ</div>
-      <div class="subtitle">35 quick questions • Takes ~6–8 minutes • Immediate, private result</div>
-      <div class="animated-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-      <div class="cta-row" style="margin-top:18px;">
-        <button id="startBtn" class="btn-primary">Start Test</button>
-        <button id="startDemo" class="btn-ghost">Learn how it works</button>
+      <div class="subtitle">35 quick questions • ~6–8 minutes • Immediate, private result</div>
+      <div class="cta-row">
+        <button id="startBtn" class="btn btn-light">Start Test</button>
+        <button id="howBtn" class="btn btn-dark">How it works</button>
       </div>
     </div>
   </section>
 
-  <!-- MAIN CONTENT -->
-  <section id="main" class="main">
+  <!-- Main -->
+  <section id="main" class="main" aria-hidden="true">
     <div class="topbar">
       <div class="brand">
         <div class="mini">IQ</div>
         <div>
           <div style="font-weight:800;font-size:18px">IQ Test — Discover your potential</div>
+          <div class="lead">This test is anonymous and estimates your cognitive strengths. Answer without overthinking.</div>
         </div>
       </div>
     </div>
 
-    <div class="lead">This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.</div>
-
-    <div class="quiz" id="quiz"></div>
+    <div id="quizArea" class="quiz" aria-live="polite"></div>
 
     <div class="footer">
       <div class="progress-wrap">
         <div class="counter"><span id="qcount">1</span>/35</div>
-        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div id="progressFill" class="progress-fill"></div></div>
       </div>
+
       <div class="controls">
-        <button id="btnPrev" class="btn-outline">Previous</button>
-        <button id="btnNext" class="btn-small">Next</button>
-        <button id="btnFinish" class="btn-small" title="Finish test">Finish</button>
+        <button id="prevBtn" class="btn-ghost">Previous</button>
+        <button id="nextBtn" class="btn-small">Next</button>
+        <button id="finishBtn" class="btn-small" style="display:none">Finish</button>
       </div>
     </div>
 
-    <!-- RESULT / PAYMENT -->
-    <div id="resultBlock" class="result-card">
-      <div style="text-align:center;">
-        <div style="font-weight:800;font-size:18px;margin-bottom:12px">Discover your full result for only $13!</div>
-        <div style="margin-bottom:16px;color:var(--muted);">Promotion: $50 → $13</div>
-        <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank">Unlock for $13</a>
-        <button id="btnIvePaid" class="btn-outline">I've paid</button>
+    <div id="resultBlock" class="result" aria-hidden="true">
+      <div style="text-align:center">
+        <div class="promo">Your personalized IQ result is ready!</div>
+        <div class="promo-sub">Unlock your full report now — limited offer: <strong>$13</strong> (was $50)</div>
+
+        <div class="pay-cta">
+          <a id="unlockLink" class="pay-button" href="#" target="_blank" rel="noopener">Unlock for $13</a>
+          <button id="paidBtn" style="display:none">I've paid</button>
+        </div>
       </div>
+
       <div id="report" class="report" aria-live="polite">
         <h3>Full Report</h3>
-        <p id="reportBody"></p>
+        <div id="reportBody"></div>
       </div>
     </div>
 
-    <div style="padding:18px 0;text-align:center;color:var(--muted);font-size:13px">© 2025 — IQ Test</div>
   </section>
 </div>
 
-<!-- SOUND -->
-<audio id="selectSound" src="https://freesound.org/data/previews/337/337049_3235475-lq.mp3"></audio>
+<!-- How it works modal -->
+<div id="howModal" class="modal" role="dialog" aria-hidden="true">
+  <div class="panel">
+    <div style="text-align:right"><span id="closeHow" class="close">×</span></div>
+    <h2>How it works</h2>
+    <p>This test contains 35 carefully selected questions that measure your logic, reasoning, and problem-solving abilities.</p>
+    <p>You’ll have one question per screen. Your progress is saved automatically in your browser, so you can resume where you left off if you close or refresh the page.</p>
+    <p>At the end, you’ll see a summary score and an option to unlock a detailed report with estimated IQ and actionable tips.</p>
+  </div>
+</div>
+
+<!-- Confetti container -->
+<canvas id="confettiCanvas" style="position:fixed;pointer-events:none;inset:0;z-index:9998;display:none"></canvas>
 
 <script>
-const MP_LINK = "https://mpago.la/2UqEUEx";
+/* ========= Config & State ========= */
+const MP_LINK = "https://mpago.la/2UqEUEx"; // change if needed
+const STORAGE_ANS = 'iq_v3_answers';
+const STORAGE_IDX = 'iq_v3_index';
+const STORAGE_UNLOCK = 'iq_v3_unlocked';
+const STORAGE_PAID = 'iq_v3_paid';
+
 const QUESTIONS = [
   {q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
   {q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
@@ -163,7 +171,7 @@ const QUESTIONS = [
   {q:"8. If all roses are flowers and some flowers wilt, can we say all roses wilt?", choices:["Yes","No","Cannot determine","Sometimes"], correct:2},
   {q:"9. Which shape has 4 equal sides?", choices:["Rectangle","Square","Triangle","Circle"], correct:1},
   {q:"10. Find the odd one: Mercury, Venus, Earth, Pluto", choices:["Mercury","Venus","Earth","Pluto"], correct:3},
-  {q:"11. Continue series: 5, 10, 20, 40, ?", choices:["60","70","80","90"], correct:2},
+  {q:"11. Continue series: 5,10,20,40, ?", choices:["60","70","80","90"], correct:2},
   {q:"12. Which word is synonym to 'rapid'?", choices:["Fast","Slow","Quick","Dull"], correct:0},
   {q:"13. Find the missing letter: A, C, E, ?", choices:["F","G","H","I"], correct:2},
   {q:"14. If John is taller than Mike and Mike is taller than Sam, who is tallest?", choices:["John","Mike","Sam","Cannot tell"], correct:0},
@@ -187,88 +195,329 @@ const QUESTIONS = [
   {q:"32. Odd one: Apple, Banana, Orange, Car", choices:["Apple","Banana","Orange","Car"], correct:3},
   {q:"33. Next in series: 1,4,9,16,?", choices:["20","25","30","36"], correct:1},
   {q:"34. If all cats are animals and all animals eat, do all cats eat?", choices:["Yes","No","Cannot tell","Sometimes"], correct:0},
-  {q:"35. Last: What is 100 ÷ 4?", choices:["20","25","30","24"], correct:1}
+  {q:"35. What is 100 ÷ 4?", choices:["20","25","30","24"], correct:1}
 ];
 
-let currentIndex = Number(localStorage.getItem("iqCurrent") || 0);
-let answers = JSON.parse(localStorage.getItem("iqAnswers") || "[]");
+let answers = JSON.parse(localStorage.getItem(STORAGE_ANS) || '[]');
+if(!Array.isArray(answers) || answers.length !== QUESTIONS.length) answers = Array(QUESTIONS.length).fill(null);
+let idx = parseInt(localStorage.getItem(STORAGE_IDX) || '0', 10);
+if(Number.isNaN(idx) || idx < 0) idx = 0;
+let unlocked = localStorage.getItem(STORAGE_UNLOCK) === 'true';
+let paid = localStorage.getItem(STORAGE_PAID) === 'true';
 
-const splash=document.getElementById("splash");
-const main=document.getElementById("main");
-const quiz=document.getElementById("quiz");
-const qcount=document.getElementById("qcount");
-const progressFill=document.getElementById("progressFill");
-const btnPrev=document.getElementById("btnPrev");
-const btnNext=document.getElementById("btnNext");
-const btnFinish=document.getElementById("btnFinish");
-const resultBlock=document.getElementById("resultBlock");
-const mpLink=document.getElementById("mpLink");
-const btnIvePaid=document.getElementById("btnIvePaid");
-const report=document.getElementById("report");
-const reportBody=document.getElementById("reportBody");
-const selectSound=document.getElementById("selectSound");
+/* ========= Elements ========= */
+const splash = document.getElementById('splash');
+const howBtn = document.getElementById('howBtn');
+const howModal = document.getElementById('howModal');
+const closeHow = document.getElementById('closeHow');
+const startBtn = document.getElementById('startBtn');
+const main = document.getElementById('main');
+const quizArea = document.getElementById('quizArea');
+const qcount = document.getElementById('qcount');
+const progressFill = document.getElementById('progressFill');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const finishBtn = document.getElementById('finishBtn');
+const resultBlock = document.getElementById('resultBlock');
+const unlockLink = document.getElementById('unlockLink');
+const paidBtn = document.getElementById('paidBtn');
+const reportEl = document.getElementById('report');
+const reportBody = document.getElementById('reportBody');
+const confettiCanvas = document.getElementById('confettiCanvas').getContext('2d');
 
-function showSplash(){
-  splash.style.display="block";
-  main.style.display="none";
+/* ========= UI helpers ========= */
+function saveState(){ localStorage.setItem(STORAGE_ANS, JSON.stringify(answers)); localStorage.setItem(STORAGE_IDX, String(idx)); }
+function updateProgressUI(){
+  qcount.textContent = Math.min(idx+1, QUESTIONS.length);
+  const pct = Math.round(((idx) / QUESTIONS.length) * 100);
+  progressFill.style.width = pct + '%';
 }
-function showMain(){
-  splash.style.display="none";
-  main.style.display="block";
-  renderQuestion();
-  updateProgress();
+
+/* ========= Sound via Web Audio API (no external file) ========= */
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playClickSound(){
+  try{
+    const now = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(880, now);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.12, now + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(now); o.stop(now + 0.26);
+  }catch(e){/* ignore */ }
 }
 
-document.getElementById("startBtn").addEventListener("click",showMain);
-document.getElementById("startDemo").addEventListener("click",()=>{alert("Answer the 35 questions to see your IQ score. Focus and try your best!");});
-
+/* ========= Render question ========= */
+let animTimeout = null;
 function renderQuestion(){
-  if(currentIndex>=QUESTIONS.length){showResult();return;}
-  const q=QUESTIONS[currentIndex];
-  quiz.innerHTML=`<div class="question-card">
-    <div class="q-title">${q.q}</div>
-    <div class="choices">${q.choices.map((c,i)=>`<div class="choice" data-index="${i}">${c}</div>`).join('')}</div>
-  </div>`;
-  const choiceEls=quiz.querySelectorAll(".choice");
-  choiceEls.forEach(el=>{
-    el.addEventListener("click",()=>{
-      selectSound.currentTime=0;selectSound.play();
-      choiceEls.forEach(x=>x.classList.remove("selected"));
-      el.classList.add("selected");
-      answers[currentIndex]=Number(el.dataset.index);
-      localStorage.setItem("iqAnswers",JSON.stringify(answers));
+  if(idx >= QUESTIONS.length){
+    showResultStage();
+    return;
+  }
+  const q = QUESTIONS[idx];
+  // animate card in
+  quizArea.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<div class="q-title">${q.q}</div>`;
+  const choicesWr = document.createElement('div');
+  choicesWr.className = 'choices';
+  q.choices.forEach((c,i)=>{
+    const ch = document.createElement('div');
+    ch.className = 'choice';
+    ch.tabIndex = 0;
+    ch.dataset.i = i;
+    ch.innerHTML = `<span class="label">${c}</span>`;
+    if(answers[idx] === i) ch.classList.add('selected');
+    ch.addEventListener('click', ()=>{
+      // play sound and animate selection
+      playClickSound();
+      // set
+      answers[idx] = i;
+      saveState();
+      // visual
+      Array.from(choicesWr.children).forEach(x=>x.classList.remove('selected'));
+      ch.classList.add('selected');
+      // subtle pulse
+      ch.style.transform = 'scale(1.03)';
+      setTimeout(()=> ch.style.transform = '', 180);
     });
-    // mark previously selected
-    if(answers[currentIndex]===Number(el.dataset.index)) el.classList.add("selected");
+    ch.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') ch.click(); });
+    choicesWr.appendChild(ch);
   });
-  qcount.textContent=currentIndex+1;
-  progressFill.style.width=`${((currentIndex)/QUESTIONS.length)*100}%`;
+  card.appendChild(choicesWr);
+  quizArea.appendChild(card);
+
+  updateProgressUI();
+
+  // update controls visibility
+  prevBtn.style.display = idx === 0 ? 'none' : 'inline-block';
+  if(idx === QUESTIONS.length - 1){ nextBtn.style.display = 'none'; finishBtn.style.display = 'inline-block'; }
+  else { nextBtn.style.display = 'inline-block'; finishBtn.style.display = 'none'; }
 }
 
-btnNext.addEventListener("click",()=>{if(currentIndex<QUESTIONS.length-1){currentIndex++;localStorage.setItem("iqCurrent",currentIndex);renderQuestion();}});
-btnPrev.addEventListener("click",()=>{if(currentIndex>0){currentIndex--;localStorage.setItem("iqCurrent",currentIndex);renderQuestion();}});
-btnFinish.addEventListener("click",()=>{currentIndex=QUESTIONS.length;showResult();localStorage.setItem("iqCurrent",currentIndex);});
+/* ========= Navigation ========= */
+nextBtn.addEventListener('click', ()=>{
+  // require a selection before advancing
+  if(answers[idx] === null){
+    alert('Please select an answer before continuing.');
+    return;
+  }
+  if(idx < QUESTIONS.length - 1){ idx++; saveState(); renderQuestion(); }
+});
+prevBtn.addEventListener('click', ()=>{
+  if(idx > 0){ idx--; saveState(); renderQuestion(); }
+});
+finishBtn.addEventListener('click', ()=>{
+  if(answers[idx] === null){ alert('Please select an answer before finishing.'); return; }
+  idx = QUESTIONS.length;
+  saveState();
+  renderQuestion();
+});
 
-function showResult(){
-  quiz.innerHTML="";
-  btnPrev.style.display="none";
-  btnNext.style.display="none";
-  btnFinish.style.display="none";
-  progressFill.style.width="100%";
-  qcount.textContent=QUESTIONS.length;
-  resultBlock.style.display="block";
-  reportBody.textContent="Your IQ score will be revealed after payment.";
+/* ========= Result / Unlock flow ========= */
+function showResultStage(){
+  // hide quiz area controls
+  quizArea.innerHTML = '';
+  prevBtn.style.display = 'none';
+  nextBtn.style.display = 'none';
+  finishBtn.style.display = 'none';
+  updateProgressUI();
+  // show result block
+  document.getElementById('resultBlock').style.display = 'block';
+  // show unlock link only (no payment text earlier anywhere)
+  document.getElementById('resultBlock').scrollIntoView({behavior:'smooth'});
+  // if already unlocked previously, reveal paidBtn immediately
+  unlocked = localStorage.getItem(STORAGE_UNLOCK) === 'true';
+  paid = localStorage.getItem(STORAGE_PAID) === 'true';
+  if(unlocked) paidBtn.style.display = 'inline-block';
+  // if already paid previously, reveal report
+  if(paid) revealReport();
 }
 
-mpLink.addEventListener("click",()=>{
-  btnIvePaid.style.display="inline-block";
+/* unlock click -> open payment and reveal "I've paid" */
+unlockLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  // open payment link in new tab
+  window.open(MP_LINK, '_blank', 'noopener');
+  // mark unlocked and show I've paid button
+  unlocked = true; localStorage.setItem(STORAGE_UNLOCK, 'true');
+  paidBtn.style.display = 'inline-block';
 });
 
-btnIvePaid.addEventListener("click",()=>{
-  report.style.display="block";
-  reportBody.textContent="Congratulations! Based on your answers, your IQ is estimated to be high. Keep learning and challenging yourself for the best results!";
-  btnIvePaid.style.display="none";
+/* I've paid -> simulate verification and reveal report + confetti */
+paidBtn.addEventListener('click', ()=>{
+  // In production: verify payment server-side (this is simulated)
+  paid = true; localStorage.setItem(STORAGE_PAID, 'true');
+  revealReport(true);
 });
+
+/* compute score & estimated IQ */
+function computeScoreAndIQ(){
+  let score = 0;
+  for(let i=0;i<QUESTIONS.length;i++){
+    if(answers[i] === QUESTIONS[i].correct) score++;
+  }
+  // map score to IQ scale roughly 70-130
+  const iq = Math.round(70 + (score / QUESTIONS.length) * 60);
+  return {score, iq};
+}
+
+function classification(iq){
+  if(iq >= 130) return 'Very superior';
+  if(iq >= 120) return 'Superior';
+  if(iq >= 110) return 'Above average';
+  if(iq >= 90) return 'Average';
+  if(iq >= 80) return 'Below average';
+  return 'Very below average';
+}
+
+/* reveal report and optional confetti */
+function revealReport(doConfetti=false){
+  const {score, iq} = computeScoreAndIQ();
+  const cls = classification(iq);
+  reportEl.style.display = 'block';
+  reportBody.innerHTML = `
+    <p><strong>Estimated IQ:</strong> ${iq}</p>
+    <p><strong>Classification:</strong> ${cls}</p>
+    <p><strong>Score:</strong> ${score} / ${QUESTIONS.length}</p>
+    <hr/>
+    <p><strong>Quick tips</strong></p>
+    <ul>
+      <li>Practice logic puzzles (Sudoku, pattern games).</li>
+      <li>Read challenging material to boost verbal reasoning.</li>
+      <li>Sleep well and train focus — cognitive performance improves with habits.</li>
+    </ul>
+  `;
+  if(doConfetti) launchConfetti();
+}
+
+/* ========= Confetti (simple) ========= */
+let confettiParticles = [];
+let confettiAnimationId = null;
+function launchConfetti(){
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * DPR;
+  canvas.height = window.innerHeight * DPR;
+  canvas.style.display = 'block';
+  confettiParticles = [];
+  const colors = ['#ff4c4c','#ff9900','#63a4ff','#0b66ff','#7CFFB2'];
+  for(let i=0;i<150;i++){
+    confettiParticles.push({
+      x: Math.random() * canvas.width,
+      y: -Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 6,
+      vy: Math.random() * 6 + 2,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.2
+    });
+  }
+  let t0 = performance.now();
+  function frame(t){
+    const dt = (t - t0) / 16.6667; t0 = t;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(const p of confettiParticles){
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.rot += p.vr * dt;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2 * DPR, -p.size/2 * DPR, p.size * DPR, p.size * DPR);
+      ctx.restore();
+    }
+    confettiParticles = confettiParticles.filter(p => p.y < canvas.height + 100);
+    if(confettiParticles.length > 0){
+      confettiAnimationId = requestAnimationFrame(frame);
+    } else {
+      cancelAnimationFrame(confettiAnimationId);
+      canvas.style.display = 'none';
+    }
+  }
+  confettiAnimationId = requestAnimationFrame(frame);
+}
+
+/* ========= Resume banner on splash if progress exists ========= */
+function maybeShowResume(){
+  if(answers.some(a => a !== null) || idx > 0){
+    const banner = document.createElement('div');
+    banner.style.marginTop = '14px';
+    banner.style.background = 'rgba(255,255,255,0.06)';
+    banner.style.padding = '12px';
+    banner.style.borderRadius = '10px';
+    banner.style.color = '#fff';
+    banner.innerHTML = `<strong>You have an unfinished test.</strong>
+      <div style="margin-top:8px">
+        <button id="resumeBtn" class="btn btn-dark" style="margin-right:8px">Resume</button>
+        <button id="restartBtn" class="btn btn-dark">Start Over</button>
+      </div>`;
+    splash.appendChild(banner);
+    document.getElementById('resumeBtn').addEventListener('click', ()=>{
+      showMain();
+    });
+    document.getElementById('restartBtn').addEventListener('click', ()=>{
+      if(!confirm('Clear saved progress and start over?')) return;
+      answers = Array(QUESTIONS.length).fill(null);
+      idx = 0;
+      localStorage.removeItem(STORAGE_ANS);
+      localStorage.removeItem(STORAGE_IDX);
+      localStorage.removeItem(STORAGE_UNLOCK);
+      localStorage.removeItem(STORAGE_PAID);
+      showMain();
+    });
+  }
+}
+
+/* ========= How modal handlers ========= */
+howBtn.addEventListener('click', ()=>{ howModal.style.display = 'flex'; howModal.setAttribute('aria-hidden','false'); });
+closeHow.addEventListener('click', ()=>{ howModal.style.display = 'none'; howModal.setAttribute('aria-hidden','true'); });
+howModal.addEventListener('click', (e)=>{ if(e.target === howModal){ howModal.style.display = 'none'; howModal.setAttribute('aria-hidden','true'); }});
+
+/* ========= Entry ========= */
+startBtn.addEventListener('click', ()=>{
+  showMain();
+});
+function showMain(){
+  splash.style.display = 'none';
+  main.style.display = 'block';
+  document.getElementById('main').setAttribute('aria-hidden','false');
+  renderQuestion();
+  updateProgressUI();
+}
+
+/* On load: show splash and resume banner if needed */
+document.addEventListener('DOMContentLoaded', ()=>{
+  maybeShowResume();
+  // bind unlock link
+  unlockLink.href = MP_LINK;
+  // if previously paid, reveal report on load when results visible
+  if(localStorage.getItem(STORAGE_PAID) === 'true'){
+    paid = true;
+  }
+  // if user had finished previously and paid, we can show resultBlock directly
+  if(parseInt(localStorage.getItem(STORAGE_IDX) || '0',10) >= QUESTIONS.length){
+    // user completed before — show splash but allow resume to go to results
+    // keep behavior: user must click Start to view results
+  }
+});
+
+/* keyboard nav */
+document.addEventListener('keydown', (e)=>{
+  if(main.style.display === 'block'){
+    if(e.key === 'ArrowRight') nextBtn.click();
+    if(e.key === 'ArrowLeft') prevBtn.click();
+  }
+});
+
+/* For accessibility: ensure focus outlines visible */
 </script>
 </body>
 </html>
