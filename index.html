@@ -1,215 +1,276 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IQ Test</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>IQ Test — Discover your potential</title>
+<meta name="description" content="Quick 35-question IQ test. Save progress, unlock full report after payment." />
 <style>
-  body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f9f9f9;}
-  #splash, #main, #howModal, #resultBlock{display:none;}
-  .container{max-width:700px;margin:20px auto;padding:20px;background:white;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
-  button, .pay-button{padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:16px;margin:5px;display:inline-block;text-decoration:none;color:white;}
-  .btn-primary{background:#0b66ff;}
-  .btn-secondary{background:#777;}
-  .question-card{margin-bottom:20px;}
-  .q-title{font-weight:bold;margin-bottom:10px;}
-  .choices{display:flex;flex-direction:column;}
-  .choice{padding:8px;margin-bottom:6px;border:1px solid #ccc;border-radius:4px;cursor:pointer;}
-  .choice.selected{background:#0b66ff;color:white;border-color:#0b66ff;}
-  #progressBar{background:#eee;width:100%;height:10px;border-radius:5px;margin-bottom:20px;overflow:hidden;}
-  #progressFill{height:10px;width:0;background:#0b66ff;}
-  #unlockArea, #postUnlockArea{margin-top:20px;}
-  .pay-button{background:#28a745;}
-  .small{font-size:0.9em;color:#555;}
-  #howModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;}
-  #howModal .container{max-width:500px;}
-  #closeModal{float:right;cursor:pointer;font-weight:bold;}
+:root{
+  --bg1:#071a52;
+  --accent1:#0b66ff;
+  --accent2:#63a4ff;
+  --card:#ffffff;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+html,body{height:100%;}
+body{margin:0;background:linear-gradient(180deg,var(--bg1),#0b1b45 60%);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#0b1b2e;padding:18px;display:flex;align-items:center;justify-content:center;}
+.app{width:100%;max-width:920px;background:var(--card);border-radius:14px;box-shadow:0 20px 60px rgba(2,6,23,0.35);overflow:hidden;}
+.splash{background: linear-gradient(90deg,var(--accent1),var(--accent2));color:white;padding:34px 28px;text-align:center;}
+.logo{width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;margin-bottom:14px;}
+.title { font-size:24px;margin:0 0 8px; }
+.subtitle { font-size:14px;opacity:0.95;margin:0 0 14px;line-height:1.4; }
+.cta-row { display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px; }
+.btn-primary { background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(11,102,255,0.12);}
+.btn-ghost { background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer; }
+.animated-dots { margin-top:8px; }
+.dot{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.4;animation:blink 1.2s infinite ease-in-out;}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}100%{opacity:.2;transform:translateY(0)}}
+.main{padding:22px 26px;}
+.topbar {display:flex;gap:12px;align-items:center;justify-content:space-between;}
+.brand {display:flex;gap:12px;align-items:center;}
+.brand .mini { width:44px;height:44;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800 }
+.lead { color:var(--muted); margin-top:10px; font-size:15px; }
+.quiz { margin-top:18px; min-height:220px; }
+.question-card{ background: #fff;padding:18px;border-radius:12px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.03); }
+.q-title{ font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e}
+.choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.choice{ padding:12px;border-radius:10px;border:1px solid #e6eefc;background:#fff;cursor:pointer; transition:all .12s; font-size:15px; }
+.choice:hover{ transform:translateY(-4px); background:#f6fbff }
+.choice.selected{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border-color:transparent; box-shadow:0 8px 20px rgba(11,102,255,0.12) }
+.footer { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; flex-wrap:wrap; }
+.progress-wrap { display:flex; gap:12px; align-items:center; }
+.progress-bar{ width:220px; height:10px; background:#eef2ff; border-radius:8px; overflow:hidden; }
+.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent1)); width:0%; transition:width .35s; }
+.counter { font-size:13px;color:var(--muted); }
+.controls { display:flex; gap:8px; align-items:center; }
+.btn-small{ background:var(--accent1); color:white; border:none; padding:9px 12px; border-radius:9px; cursor:pointer; font-weight:700 }
+.btn-outline{ background:transparent; border:1px solid #e6eefc; padding:8px 12px; border-radius:9px; cursor:pointer; color:#0b1b2e; }
+.result-card{ margin-top:18px; background:#f8fbff; padding:18px; border-radius:12px; border:1px dashed #e6eefc; }
+.small{ font-size:13px;color:var(--muted) }
+.pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pay-button{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12) }
+.report { margin-top:14px; display:none; background:#fff; padding:16px; border-radius:10px; border:1px solid #eef6ff }
+.report h3 { color:var(--accent1); margin:0 0 8px 0 }
+.report p { color:#233; line-height:1.45 }
+@media (max-width:520px){.choices{ grid-template-columns:1fr }.progress-bar{ width:140px }.lead{ font-size:14px }.title{ font-size:20px }}
 </style>
 </head>
 <body>
+<div class="app" role="application">
+  <section id="splash" class="splash">
+    <div style="padding:26px 20px;text-align:center;">
+      <div class="logo">IQ</div>
+      <div class="title">Discover your true IQ</div>
+      <div class="subtitle">35 quick questions • Takes ~6–8 minutes • Immediate, private result</div>
+      <div class="animated-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="cta-row" style="margin-top:18px;">
+        <button id="startBtn" class="btn-primary">Start Test</button>
+        <button id="startDemo" class="btn-ghost">How it works</button>
+      </div>
+    </div>
+  </section>
 
-<div id="splash" class="container" style="display:block;">
-  <h1>Welcome to the Ultimate IQ Test</h1>
-  <p>Discover your IQ score with 35 questions!</p>
-  <button id="startBtn" class="btn-primary">Start Test</button>
-  <button id="startDemo" class="btn-secondary">How it works</button>
-  <div id="resumeContainer"></div>
-</div>
+  <section id="main" class="main" style="display:none">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mini">IQ</div>
+        <div>
+          <div style="font-weight:800;font-size:18px">IQ Test — Discover your potential</div>
+          <div class="small" id="subLead">Answer 35 short questions — your progress saves automatically.</div>
+        </div>
+      </div>
+    </div>
+    <div class="lead" id="leadText">This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.</div>
+    <div class="quiz" id="quiz"></div>
+    <div class="footer">
+      <div class="progress-wrap">
+        <div class="counter"><span id="qcount">1</span>/35</div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+      <div class="controls">
+        <button id="btnPrev" class="btn-outline">Previous</button>
+        <button id="btnNext" class="btn-small">Next</button>
+        <button id="btnFinish" class="btn-small" title="Finish test">Finish</button>
+      </div>
+    </div>
 
-<div id="howModal">
-  <div class="container">
-    <span id="closeModal">&times;</span>
-    <h2>How it works</h2>
-    <p>Answer all 35 questions. At the end, unlock your full report.</p>
-  </div>
-</div>
-
-<div id="main" class="container">
-  <div id="progressBar"><div id="progressFill"></div></div>
-  <div id="qcount"></div>
-  <div id="quiz"></div>
-  <button id="btnPrev" class="btn-secondary">Previous</button>
-  <button id="btnNext" class="btn-primary">Next</button>
-  <button id="btnFinish" class="btn-primary">Finish</button>
-</div>
-
-<div id="resultBlock" class="container">
-  <h2>Your Test Results</h2>
-  <p>Score: <span id="scoreText"></span></p>
-  <p>Performance: <span id="performanceText"></span></p>
-  <div id="unlockArea"></div>
-  <div id="postUnlockArea" style="display:none;">
-    <button id="btnIvePaid" class="btn-primary">I've paid</button>
-  </div>
+    <div id="resultBlock" class="result-card" style="display:none">
+      <div id="unlockArea"></div>
+      <div id="postUnlockArea" style="display:none;margin-top:18px">
+        <button id="btnIvePaid" class="btn-outline">I've paid</button>
+      </div>
+      <div id="report" class="report" aria-live="polite">
+        <h3 id="reportTitle">Full Report</h3>
+        <p id="reportBody"></p>
+      </div>
+    </div>
+    <div style="padding:18px 0;text-align:center;color:var(--muted);font-size:13px">© 2025 — IQ Test</div>
+  </section>
 </div>
 
 <script>
-/* ---------- CONFIG ---------- */
-const MP_LINK = "https://mpago.la/2UqEUEx"; // MercadoPago link
-const STORAGE_KEY_ANS = 'iq_answers_final_v3';
-const STORAGE_KEY_IDX = 'iq_index_final_v3';
-const STORAGE_KEY_UNLOCKED = 'iq_unlocked_final_v3';
-const STORAGE_KEY_PAID = 'iq_paid_final_v3';
+const MP_LINK="https://mpago.la/2UqEUEx";
+const STORAGE_KEY="iq_v2_answers";
+const STORAGE_KEY_PAID="iq_v2_paid";
+const STORAGE_KEY_UNLOCKED="iq_v2_unlocked";
+let current=0,paid=false,unlocked=false;
+let answers=new Array(35).fill(null);
+try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY));if(Array.isArray(s) && s.length===35) answers=s;}catch(e){}
+paid=localStorage.getItem(STORAGE_KEY_PAID)==='true';
+unlocked=localStorage.getItem(STORAGE_KEY_UNLOCKED)==='true';
 
-/* ---------- QUESTIONS ---------- */
-const QUESTIONS = [
-  {q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
-  {q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
-  {q:"3. Which does NOT belong: square, rectangle, circle, diamond?", choices:["square","rectangle","circle","diamond"], correct:2},
-  {q:"4. Solve: 7 × 6 − 8 =", choices:["34","36","38","40"], correct:0},
-  {q:"5. Which word does not fit: pen, pencil, notebook, ruler?", choices:["pen","pencil","notebook","ruler"], correct:2},
-  {q:"6. If today is Tuesday, what day will it be in 3 days?", choices:["Friday","Thursday","Saturday","Wednesday"], correct:2},
-  {q:"7. Next number: 1,1,2,3,5,8,?", choices:["10","11","12","13"], correct:3},
-  {q:"8. If all roses are flowers and some flowers wilt, can we say all roses wilt?", choices:["Yes","No","Sometimes","Impossible to know"], correct:1},
-  {q:"9. Synonym of 'fast'?", choices:["Slow","Quick","Weak","Morbid"], correct:1},
-  {q:"10. Train leaves at 10 and travels 120 km in 2 hours. Average speed?", choices:["40 km/h","50 km/h","60 km/h","70 km/h"], correct:2},
-  {q:"11. If A > B and B > C, then A is ____ C.", choices:["smaller than","greater than","equal to","not related"], correct:1},
-  {q:"12. Complete the rhyme: 'Cat on the roof, mouse on the ___.'", choices:["peak","hole","bread","frog"], correct:0},
-  {q:"13. Which number is prime?", choices:["21","29","27","33"], correct:1},
-  {q:"14. If tomorrow is Thursday, what day is today?", choices:["Friday","Wednesday","Tuesday","Sunday"], correct:1},
-  {q:"15. How many sides does a hexagon have?", choices:["5","6","7","8"], correct:1},
-  {q:"16. If 5 shirts cost 100, how much is one?", choices:["10","15","20","25"], correct:2},
-  {q:"17. Analogy: 'Key is to door' as 'pen is to ___'", choices:["paper","book","ink","writing"], correct:3},
-  {q:"18. Solve: (9 + 3) ÷ 3 =", choices:["2","3","4","6"], correct:2},
-  {q:"19. Which figure follows: circle, square, circle, square, ?", choices:["circle","triangle","rectangle","pentagon"], correct:0},
-  {q:"20. If 2x = 10, x = ?", choices:["4","5","6","8"], correct:1},
-  {q:"21. Opposite of 'optimistic'?", choices:["positive","pessimistic","happy","active"], correct:1},
-  {q:"22. What number is missing: 10, 7, 4, ?, -2", choices:["1","0","-1","2"], correct:0},
-  {q:"23. If 3=C, 1=A, 20=T, what word is 20-1-3-8-15?", choices:["TACHO","TACOS","TACOH","TACOS"], correct:1},
-  {q:"24. Result of 12 - (3×2)?", choices:["4","6","8","10"], correct:2},
-  {q:"25. Which letter completes: A, C, E, G, ?", choices:["I","H","J","K"], correct:0},
-  {q:"26. Map scale: 1 cm = 10 km. 3 cm = ? km", choices:["10","20","30","40"], correct:2},
-  {q:"27. Which is greater: 0.75 or 3/4?", choices:["0.75","3/4","they are equal","not possible"], correct:2},
-  {q:"28. Which is an even number?", choices:["13","22","37","49"], correct:1},
-  {q:"29. If a train travels 60 km/h for 2 hours, how far?", choices:["100 km","110 km","120 km","130 km"], correct:2},
-  {q:"30. Synonym of 'happy'?", choices:["Sad","Joyful","Angry","Lazy"], correct:1},
-  {q:"31. Which shape has 3 sides?", choices:["Square","Triangle","Rectangle","Circle"], correct:1},
-  {q:"32. Solve: 5 + 7 × 2", choices:["19","24","14","26"], correct:0},
-  {q:"33. Which number is smallest?", choices:["0.9","0.99","0.909","0.89"], correct:3},
-  {q:"34. If John is taller than Mike and Mike is taller than Tom, who is shortest?", choices:["John","Mike","Tom","Cannot know"], correct:2},
-  {q:"35. Complete series: 2, 4, 8, 16, 32, ?", choices:["48","64","62","50"], correct:1}
+const splash=document.getElementById('splash'),main=document.getElementById('main'),quiz=document.getElementById('quiz');
+const progressFill=document.getElementById('progressFill'),qcount=document.getElementById('qcount');
+const btnPrev=document.getElementById('btnPrev'),btnNext=document.getElementById('btnNext'),btnFinish=document.getElementById('btnFinish');
+const resultBlock=document.getElementById('resultBlock'),report=document.getElementById('report'),reportBody=document.getElementById('reportBody');
+const unlockArea=document.getElementById('unlockArea'),postUnlockArea=document.getElementById('postUnlockArea');
+const btnIvePaid=document.getElementById('btnIvePaid'),startBtn=document.getElementById('startBtn'),startDemo=document.getElementById('startDemo');
+
+const QUESTIONS=[
+{q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
+{q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
+{q:"3. Which does NOT belong: square, rectangle, circle, diamond?", choices:["square","rectangle","circle","diamond"], correct:2},
+{q:"4. Solve: 7 × 6 − 8 =", choices:["34","36","38","40"], correct:0},
+{q:"5. Which word does not fit: pen, pencil, notebook, ruler?", choices:["pen","pencil","notebook","ruler"], correct:2},
+{q:"6. If today is Tuesday, what day will it be in 3 days?", choices:["Friday","Thursday","Saturday","Wednesday"], correct:2},
+{q:"7. Next number: 1,1,2,3,5,8,?", choices:["10","11","12","13"], correct:3},
+{q:"8. If all roses are flowers and some flowers fade quickly, which is true?", choices:["All roses fade","Some roses fade","No rose fades","All flowers fade"], correct:1},
+{q:"9. Find the odd one: iron, copper, silver, water", choices:["iron","copper","silver","water"], correct:3},
+{q:"10. 14 ÷ 2 + 6 × 3 =", choices:["27","28","29","30"], correct:1},
+{q:"11. Which is antonym of 'happy'?", choices:["sad","glad","joyful","excited"], correct:0},
+{q:"12. Find next in sequence: 5,10,20,40,?", choices:["50","60","70","80"], correct:3},
+{q:"13. Which does not belong: cat, dog, bird, car?", choices:["cat","dog","bird","car"], correct:3},
+{q:"14. Solve: 9 × 3 − 7 =", choices:["19","20","21","22"], correct:2},
+{q:"15. If it takes 5 machines 5 minutes to make 5 gadgets, how long for 100 machines?", choices:["100","5","50","10"], correct:1},
+{q:"16. Find odd one: red, blue, green, square", choices:["red","blue","green","square"], correct:3},
+{q:"17. 2,4,8,16,32,?", choices:["64","62","60","66"], correct:0},
+{q:"18. Choose synonym of 'big':", choices:["small","large","huge","tiny"], correct:2},
+{q:"19. If 3 cats catch 3 mice in 3 minutes, how long for 6 cats to catch 6 mice?", choices:["3 min","6 min","9 min","12 min"], correct:0},
+{q:"20. Which is not a prime number?", choices:["2","3","5","9"], correct:3},
+{q:"21. Solve: 15 − 3 × 4 + 6 =", choices:["9","15","13","21"], correct:2},
+{q:"22. Find next in series: 2,4,6,8,?", choices:["10","12","14","16"], correct:0},
+{q:"23. Choose odd: apple, banana, grape, carrot", choices:["apple","banana","grape","carrot"], correct:3},
+{q:"24. 5 × (6 − 2) =", choices:["15","20","25","30"], correct:3},
+{q:"25. Which is antonym of 'hot'?", choices:["cold","warm","boiling","humid"], correct:0},
+{q:"26. 1,4,9,16,25,?", choices:["30","36","35","32"], correct:1},
+{q:"27. Which does not belong: piano, guitar, violin, table", choices:["piano","guitar","violin","table"], correct:3},
+{q:"28. Solve: 18 ÷ 3 + 7 × 2 =", choices:["20","21","22","23"], correct:3},
+{q:"29. Choose synonym of 'fast':", choices:["quick","slow","rapid","late"], correct:0},
+{q:"30. Find next number: 3,6,12,24,?", choices:["36","48","50","52"], correct:1},
+{q:"31. Which is odd: car, bus, bike, banana", choices:["car","bus","bike","banana"], correct:3},
+{q:"32. Solve: 8 × 7 − 15 =", choices:["41","45","41","41"], correct:0},
+{q:"33. Which is antonym of 'dark'?", choices:["light","bright","dim","shadow"], correct:0},
+{q:"34. 7,14,28,56,?", choices:["110","112","108","120"], correct:1},
+{q:"35. Choose the odd one: table, chair, sofa, apple", choices:["table","chair","sofa","apple"], correct:3}
 ];
 
-/* ---------- STATE ---------- */
-let index = parseInt(localStorage.getItem(STORAGE_KEY_IDX)) || 0;
-let answers = JSON.parse(localStorage.getItem(STORAGE_KEY_ANS)) || Array(35).fill(null);
-let unlocked = localStorage.getItem(STORAGE_KEY_UNLOCKED)==='true';
-let paid = localStorage.getItem(STORAGE_KEY_PAID)==='true';
-
-/* ---------- ELEMENTS ---------- */
-const quizEl=document.getElementById('quiz');
-const qcountEl=document.getElementById('qcount');
-const progressFillEl=document.getElementById('progressFill');
-const btnPrev=document.getElementById('btnPrev');
-const btnNext=document.getElementById('btnNext');
-const btnFinish=document.getElementById('btnFinish');
-const startBtn=document.getElementById('startBtn');
-const startDemo=document.getElementById('startDemo');
-const splash=document.getElementById('splash');
-const mainSection=document.getElementById('main');
-const resumeContainer=document.getElementById('resumeContainer');
-const howModal=document.getElementById('howModal');
-const closeModal=document.getElementById('closeModal');
-const unlockArea=document.getElementById('unlockArea');
-const postUnlockArea=document.getElementById('postUnlockArea');
-const btnIvePaid=document.getElementById('btnIvePaid');
-const resultBlock=document.getElementById('resultBlock');
-const scoreText=document.getElementById('scoreText');
-const performanceText=document.getElementById('performanceText');
-
-/* ---------- HELPERS ---------- */
-function saveProgress(){ localStorage.setItem(STORAGE_KEY_ANS,JSON.stringify(answers)); localStorage.setItem(STORAGE_KEY_IDX,String(index)); }
-function clearProgress(){ localStorage.removeItem(STORAGE_KEY_ANS); localStorage.removeItem(STORAGE_KEY_IDX); localStorage.removeItem(STORAGE_KEY_UNLOCKED); localStorage.removeItem(STORAGE_KEY_PAID); unlocked=paid=false; }
-function classification(score){ return score>=30?'Genius':score>=25?'Above average':score>=18?'Average':'Below average'; }
-
-/* ---------- CONFETTI ---------- */
-function launchConfetti(){ for(let i=0;i<80;i++){ const d=document.createElement('div'); d.style.position='fixed'; d.style.width='6px'; d.style.height='6px'; d.style.background=['#ff4c4c','#ff9900','#63a4ff','#0b66ff'][Math.floor(Math.random()*4)]; d.style.left=Math.random()*window.innerWidth+'px'; d.style.top='-10px'; d.style.opacity=1; d.style.zIndex=2000; d.style.borderRadius='50%'; document.body.appendChild(d); const fall=setInterval(()=>{ const t=parseFloat(d.style.top); d.style.top=t+Math.random()*7+2+'px'; d.style.left=parseFloat(d.style.left)+Math.random()*6-3+'px'; d.style.opacity-=0.01; if(d.style.opacity<=0){ d.remove(); clearInterval(fall); } },16); }}
-
-/* ---------- RENDER ---------- */
 function renderQuestion(){
-  quizEl.innerHTML='';
-  const q=QUESTIONS[index];
-  const card=document.createElement('div'); card.className='question-card';
-  const title=document.createElement('div'); title.className='q-title'; title.textContent=q.q; card.appendChild(title);
-  const choices=document.createElement('div'); choices.className='choices';
-  q.choices.forEach((c,i)=>{ const ch=document.createElement('div'); ch.className='choice'; ch.tabIndex=0; ch.textContent=c; ch.dataset.index=i; if(answers[index]===i)ch.classList.add('selected'); ch.addEventListener('click',()=>{ answers[index]=i; choices.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected')); ch.classList.add('selected'); saveProgress(); }); ch.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') ch.click(); }); choices.appendChild(ch); });
-  card.appendChild(choices); quizEl.appendChild(card);
-  qcountEl.textContent=`Question ${index+1} of ${QUESTIONS.length}`;
-  progressFillEl.style.width=`${Math.round((index+1)/QUESTIONS.length*100)}%`;
-  btnPrev.style.display=index===0?'none':'inline-block';
-  btnNext.style.display=index===QUESTIONS.length-1?'none':'inline-block';
-  btnFinish.style.display=index===QUESTIONS.length-1?'inline-block':'none';
+  const q=QUESTIONS[current];
+  quiz.innerHTML='';
+  const card=document.createElement('div');
+  card.className='question-card';
+  const title=document.createElement('div');
+  title.className='q-title';
+  title.textContent=q.q;
+  card.appendChild(title);
+  const choices=document.createElement('div');
+  choices.className='choices';
+  q.choices.forEach((c,i)=>{
+    const ch=document.createElement('div');
+    ch.className='choice';
+    ch.textContent=c;
+    if(answers[current]===i) ch.classList.add('selected');
+    ch.addEventListener('click',()=>{
+      answers[current]=i;
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(answers));
+      Array.from(choices.children).forEach(x=>x.classList.remove('selected'));
+      ch.classList.add('selected');
+    });
+    choices.appendChild(ch);
+  });
+  card.appendChild(choices);
+  quiz.appendChild(card);
+  qcount.textContent=current+1;
+  progressFill.style.width=((current+1)/QUESTIONS.length*100)+'%';
 }
 
-/* ---------- NAV ---------- */
-btnNext.addEventListener('click',()=>{ if(answers[index]===null){ alert('Select an answer first.'); return; } if(index<QUESTIONS.length-1){ index++; saveProgress(); renderQuestion(); }});
-btnPrev.addEventListener('click',()=>{ if(index>0){ index--; saveProgress(); renderQuestion(); }});
-btnFinish.addEventListener('click',()=>{ if(answers[index]===null){ alert('Select an answer.'); return; } showResults(); });
+function showResult(){
+  splash.style.display='none';
+  main.style.display='block';
+  renderQuestion();
+}
 
-/* ---------- START/RESUME ---------- */
-function injectResumeBanner(){ resumeContainer.innerHTML=''; if(answers.some(a=>a!==null)){ const banner=document.createElement('div'); banner.innerHTML=`<strong>Unfinished test found.</strong> <button id="btnResume" class="btn-secondary" style="margin-left:8px">Resume</button> <button id="btnRestart" class="btn-secondary" style="margin-left:8px">Start Over</button>`; resumeContainer.appendChild(banner); document.getElementById('btnResume').addEventListener('click',()=>{ splash.style.display='none'; mainSection.style.display='block'; renderQuestion(); }); document.getElementById('btnRestart').addEventListener('click',()=>{ if(!confirm('Clear progress?')) return; answers=Array(QUESTIONS.length).fill(null); index=0; clearProgress(); splash.style.display='none'; mainSection.style.display='block'; renderQuestion(); }); } }
-startBtn.addEventListener('click',()=>{ splash.style.display='none'; mainSection.style.display='block'; renderQuestion(); });
-startDemo.addEventListener('click',()=>{ howModal.style.display='flex'; });
-closeModal.addEventListener('click',()=>{ howModal.style.display='none'; });
-window.addEventListener('click',(e)=>{ if(e.target===howModal) howModal.style.display='none'; });
+function nextQuestion(){
+  if(current<QUESTIONS.length-1){
+    current++;
+    renderQuestion();
+  } else {
+    renderUnlockArea();
+  }
+}
 
-/* ---------- RESULTS/UNLOCK ---------- */
-function showResults(){
-  let score=0; for(let i=0;i<QUESTIONS.length;i++) if(answers[i]===QUESTIONS[i].correct) score++;
-  scoreText.textContent=`${score}/${QUESTIONS.length}`;
-  performanceText.textContent=classification(score);
-  resultBlock.style.display='block'; progressFillEl.style.width='100%';
-  renderUnlockArea();
-  localStorage.setItem(STORAGE_KEY_ANS,JSON.stringify(answers));
-  localStorage.removeItem(STORAGE_KEY_IDX);
+function prevQuestion(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
 }
 
 function renderUnlockArea(){
   unlockArea.innerHTML='';
   if(!unlocked){
     const info=document.createElement('div');
-    info.innerHTML=`<div class="small" style="margin-bottom:10px">Discover your full report for <strong>$13</strong> (originally $50).</div>`;
-    const unlockBtn=document.createElement('a'); unlockBtn.className='pay-button'; unlockBtn.href='#'; unlockBtn.textContent='Unlock for $13';
-    unlockBtn.addEventListener('click',(e)=>{ e.preventDefault(); showPaymentOptions(); unlocked=true; localStorage.setItem(STORAGE_KEY_UNLOCKED,'true'); });
-    info.appendChild(unlockBtn); unlockArea.appendChild(info);
-  } else showPaymentOptions();
+    info.className='small';
+    info.style.marginBottom='10px';
+    info.innerHTML=`Discover your full report for <strong>$13</strong> (originally $50).`;
+
+    const unlockBtn=document.createElement('a');
+    unlockBtn.className='pay-button';
+    unlockBtn.href=MP_LINK;
+    unlockBtn.target='_blank';
+    unlockBtn.rel='noopener';
+    unlockBtn.textContent='Unlock for $13';
+    
+    unlockBtn.addEventListener('click',()=>{
+      unlocked=true;
+      localStorage.setItem(STORAGE_KEY_UNLOCKED,'true');
+      postUnlockArea.style.display='block';
+    });
+
+    info.appendChild(unlockBtn);
+    unlockArea.appendChild(info);
+  } else {
+    postUnlockArea.style.display='block';
+  }
 }
 
-function showPaymentOptions(){
-  unlockArea.innerHTML='';
-  const note=document.createElement('div'); note.className='small'; note.style.marginBottom='8px';
-  note.textContent='Complete payment using the link below. After payment, click "I\'ve paid" to view your full report.';
-  const payLink=document.createElement('a'); payLink.className='pay-button'; payLink.href=MP_LINK; payLink.target='_blank'; payLink.rel='noopener'; payLink.textContent='Pay $13 & Unlock';
-  unlockArea.appendChild(note); unlockArea.appendChild(payLink);
-  postUnlockArea.style.display='block';
-}
-
-btnIvePaid.addEventListener('click',()=>{
-  paid=true; localStorage.setItem(STORAGE_KEY_PAID,'true'); launchConfetti(); alert('Payment confirmed! Full report unlocked.');
+btnPrev.addEventListener('click',prevQuestion);
+btnNext.addEventListener('click',nextQuestion);
+btnFinish.addEventListener('click',()=>{
+  current=QUESTIONS.length-1;
+  renderQuestion();
+  renderUnlockArea();
 });
 
-injectResumeBanner();
-</script>
+btnIvePaid.addEventListener('click',()=>{
+  paid=true;
+  localStorage.setItem(STORAGE_KEY_PAID,'true');
+  report.style.display='block';
+  reportBody.innerHTML='🎉 Congratulations! Here is your detailed report based on your answers. Keep improving your skills and cognitive performance.';
+});
 
+startBtn.addEventListener('click',()=>{
+  splash.style.display='none';
+  main.style.display='block';
+  renderQuestion();
+});
+startDemo.addEventListener('click',()=>{
+  alert('Answer the questions honestly. No payments required until the end.');
+});
+renderQuestion();
+</script>
 </body>
 </html>
