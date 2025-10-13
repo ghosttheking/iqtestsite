@@ -24,32 +24,13 @@ body{
   padding:18px;
   display:flex;align-items:center;justify-content:center;
 }
-.app {
-  width:100%;
-  max-width:920px;
-  background:var(--card);
-  border-radius:14px;
-  box-shadow:0 20px 60px rgba(2,6,23,0.35);
-  overflow:hidden;
-}
-.splash {
-  background: linear-gradient(90deg,var(--accent1),var(--accent2));
-  color:white;
-  padding:34px 28px;
-  text-align:center;
-}
-.logo {
-  width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12);
-  display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;
-  margin-bottom:14px;
-}
+.app { width:100%; max-width:920px; background:var(--card); border-radius:14px; box-shadow:0 20px 60px rgba(2,6,23,0.35); overflow:hidden; }
+.splash { background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:34px 28px; text-align:center; }
+.logo { width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12); display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px; margin-bottom:14px; }
 .title { font-size:24px;margin:0 0 8px; }
 .subtitle { font-size:14px;opacity:0.95;margin:0 0 14px;line-height:1.4; }
 .cta-row { display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px; }
-.btn-primary {
-  background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;
-  box-shadow:0 6px 18px rgba(11,102,255,0.12);
-}
+.btn-primary { background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer; box-shadow:0 6px 18px rgba(11,102,255,0.12); }
 .btn-ghost { background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer; }
 .animated-dots { margin-top:8px; }
 .dot{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.4;animation:blink 1.2s infinite ease-in-out;}
@@ -63,7 +44,7 @@ body{
 .lead { color:var(--muted); margin-top:10px; font-size:15px; }
 .quiz { margin-top:18px; min-height:220px; }
 .question-card{ background: #fff;padding:18px;border-radius:12px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.03); }
-.q-title{ font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e }
+.q-title{ font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e}
 .choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .choice{ padding:12px;border-radius:10px;border:1px solid #e6eefc;background:#fff;cursor:pointer; transition:all .12s; font-size:15px; }
 .choice:hover{ transform:translateY(-4px); background:#f6fbff }
@@ -79,7 +60,7 @@ body{
 .result-card{ margin-top:18px; background:#f8fbff; padding:18px; border-radius:12px; border:1px dashed #e6eefc; display:none; }
 .small{ font-size:13px;color:var(--muted) }
 .pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-.pay-button{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12) }
+.pay-button{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12); display:none; }
 .report { margin-top:14px; display:none; background:#fff; padding:16px; border-radius:10px; border:1px solid #eef6ff }
 .report h3 { color:var(--accent1); margin:0 0 8px 0 }
 .report p { color:#233; line-height:1.45 }
@@ -103,7 +84,9 @@ body{
         <button id="startBtn" class="btn-primary">Start Test</button>
         <button id="startDemo" class="btn-ghost">Learn how it works</button>
       </div>
-      <div id="promoText" style="margin-top:12px;color:rgba(255,255,255,0.9);font-size:13px; display:none;">Special offer: Unlock full report for <strong>$13</strong> (was $50)</div>
+      <div style="margin-top:12px;color:rgba(255,255,255,0.9);font-size:13px">
+        Special offer: Unlock full report for <strong>$13</strong> (was $50)
+      </div>
     </div>
   </section>
 
@@ -126,7 +109,6 @@ body{
     </div>
 
     <div class="lead" id="leadText">This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.</div>
-
     <div class="quiz" id="quiz"></div>
 
     <div class="footer">
@@ -144,18 +126,17 @@ body{
     <div id="resultBlock" class="result-card">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
-          <div class="small" id="answeredLabel">You answered</div>
+          <div class="small" id="answeredText">You answered</div>
           <div style="font-weight:800;font-size:18px" id="scoreText">-- / 35</div>
           <div class="small" id="performanceText">Performance: —</div>
         </div>
         <div style="text-align:right">
-          <div class="small" id="unlockLabel">Unlock full & detailed report</div>
-          <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank" rel="noopener">Pay $13 (was $50) & Unlock</a>
+          <div class="small" id="unlockNote">Unlock full & detailed report</div>
+          <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank" rel="noopener">Pay $13 & Unlock</a>
           <div style="margin-top:8px" class="small">After payment click "I've paid" to show your report (testing mode).</div>
           <div style="margin-top:8px"><button id="btnIvePaid" class="btn-outline">I've paid</button></div>
         </div>
       </div>
-
       <div id="report" class="report" aria-live="polite">
         <h3 id="reportTitle">Full Report</h3>
         <p id="reportBody"></p>
@@ -171,52 +152,139 @@ body{
 </div>
 
 <script>
-// ========================= CONFIG ========================
+// ================= CONFIG & QUESTIONS =================
 const MP_LINK = "https://mpago.la/2UqEUEx";
 
 const QUESTIONS = [
-  {q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
-  {q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
-  {q:"3. Which does NOT belong: square, rectangle, circle, diamond?", choices:["square","rectangle","circle","diamond"], correct:2},
-  {q:"4. Solve: 7 × 6 − 8 =", choices:["34","36","38","40"], correct:0},
-  {q:"5. Which word does not fit: pen, pencil, notebook, ruler?", choices:["pen","pencil","notebook","ruler"], correct:2},
-  {q:"6. If today is Tuesday, what day will it be in 3 days?", choices:["Friday","Thursday","Saturday","Wednesday"], correct:2},
-  {q:"7. Next number: 1,1,2,3,5,8,?", choices:["10","11","12","13"], correct:3},
-  {q:"8. If all roses are flowers and some flowers wilt, can we say all roses wilt?", choices:["Yes","No","Sometimes","Impossible to know"], correct:1},
-  {q:"9. Synonym of 'fast'?", choices:["Slow","Quick","Weak","Morbid"], correct:1},
-  {q:"10. Train leaves at 10 and travels 120 km in 2 hours. Average speed?", choices:["40 km/h","50 km/h","60 km/h","70 km/h"], correct:2},
-  {q:"11. If A > B and B > C, then A is ____ C.", choices:["smaller than","greater than","equal to","not related"], correct:1},
-  {q:"12. Complete the rhyme: 'Cat on the roof, mouse on the ___.'", choices:["peak","hole","bread","frog"], correct:0},
-  {q:"13. Which number is prime?", choices:["21","29","27","33"], correct:1},
-  {q:"14. If tomorrow is Thursday, what day is today?", choices:["Friday","Wednesday","Tuesday","Sunday"], correct:1},
-  {q:"15. How many sides does a hexagon have?", choices:["5","6","7","8"], correct:1},
-  {q:"16. If 5 shirts cost 100, how much is one?", choices:["10","15","20","25"], correct:2},
-  {q:"17. Analogy: 'Key is to door' as 'pen is to ___'", choices:["paper","book","ink","writing"], correct:3},
-  {q:"18. Solve: (9 + 3) ÷ 3 =", choices:["2","3","4","6"], correct:2},
-  {q:"19. Which figure follows: circle, square, circle, square, ?", choices:["circle","triangle","rectangle","pentagon"], correct:0},
-  {q:"20. If 2x = 10, x = ?", choices:["4","5","6","8"], correct:1},
-  {q:"21. Opposite of 'optimistic'?", choices:["positive","pessimistic","happy","active"], correct:1},
-  {q:"22. What number is missing: 10, 7, 4, ?, -2", choices:["1","0","-1","2"], correct:0},
-  {q:"23. If 3=C, 1=A, 20=T, what word is 20-1-3-8-15?", choices:["TACHO","TACOS","TACOH","TACOS"], correct:1},
-  {q:"24. Result of 12 - (3×2)?", choices:["4","6","8","10"], correct:2},
-  {q:"25. Which letter completes: A, C, E, G, ?", choices:["I","H","J","K"], correct:0},
-  {q:"26. Map scale: 1 cm = 10 km. 3 cm = ? km", choices:["10","20","30","40"], correct:2},
-  {q:"27. Which is greater: 0.75 or 3/4?", choices:["0.75","3/4","they are equal","not possible"], correct:2},
-  {q:"28. 'Water is to thirst as food is to ___.'", choices:["sleep","hunger","light","heat"], correct:1},
-  {q:"29. How many degrees in a right angle?", choices:["45°","60°","90°","180°"], correct:2},
-  {q:"30. João has 3x oranges, gives x to Maria and x to Pedro, remainder x. How many initially?", choices:["x","2x","3x","4x"], correct:2},
-  {q:"31. Next number: 3,6,9,12,?", choices:["13","14","15","16"], correct:2},
-  {q:"32. 'VERDE' has 5 letters, how many has 'AMARELO'?", choices:["6","7","5","8"], correct:1},
-  {q:"33. Which word doesn't belong: apple, banana, carrot, pear?", choices:["apple","banana","carrot","pear"], correct:2},
-  {q:"34. If today is day 10 and after 25 days it will be day:", choices:["25","3 (next month)","5 (next month)","30"], correct:1},
-  {q:"35. Opposite of 'entrance'?", choices:["arrival","exit","start","door"], correct:1}
+{q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["32","24","18","20"], correct:0},
+{q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
+{q:"3. Which does NOT belong: square, rectangle, circle, diamond?", choices:["square","rectangle","circle","diamond"], correct:2},
+{q:"4. Solve: 7 × 6 − 8 =", choices:["34","36","38","40"], correct:0},
+{q:"5. Which word does not fit: pen, pencil, notebook, ruler?", choices:["pen","pencil","notebook","ruler"], correct:2},
+{q:"6. If today is Tuesday, what day will it be in 3 days?", choices:["Friday","Thursday","Saturday","Wednesday"], correct:2},
+{q:"7. Next number: 1,1,2,3,5,8,?", choices:["10","11","12","13"], correct:3},
+{q:"8. If all roses are flowers and some flowers wilt, can we say all roses wilt?", choices:["Yes","No","Sometimes","Impossible to know"], correct:1},
+{q:"9. Synonym of 'fast'?", choices:["Slow","Quick","Weak","Morbid"], correct:1},
+{q:"10. Train leaves at 10 and travels 120 km in 2 hours. Average speed?", choices:["40 km/h","50 km/h","60 km/h","70 km/h"], correct:2},
+{q:"11. If A > B and B > C, then A is ____ C.", choices:["smaller than","greater than","equal to","cannot tell"], correct:1},
+{q:"12. Complete: 3,6,9,___,15", choices:["10","12","11","13"], correct:1},
+{q:"13. Opposite of joy?", choices:["Happiness","Sadness","Pleasure","Satisfaction"], correct:1},
+{q:"14. All dogs are mammals, some mammals are cats. True or False?", choices:["All dogs are cats","Some dogs are cats","No dog is cat","Cannot tell"], correct:3},
+{q:"15. Next number: 5,10,20,40,?", choices:["60","70","80","90"], correct:2},
+{q:"16. Which figure completes the series?", choices:["A","B","C","D"], correct:0},
+{q:"17. Complete: 2,4,8,16,?", choices:["32","24","20","18"], correct:0},
+{q:"18. If all squares are red, all blocks are squares. What color are blocks?", choices:["Blue","Red","Green","Yellow"], correct:1},
+{q:"19. Height: Maria > João > Ana. Who is shortest?", choices:["Maria","João","Ana","Cannot tell"], correct:2},
+{q:"20. Find missing number: 3,6,9,___,15", choices:["10","12","11","13"], correct:1},
+{q:"21. Which shape comes next?", choices:["Circle","Triangle","Square","Diamond"], correct:2},
+{q:"22. Solve: 12 ÷ 4 + 3 × 2 = ?", choices:["6","7","8","9"], correct:2},
+{q:"23. Complete: 1,4,9,16,?", choices:["20","25","30","36"], correct:1},
+{q:"24. Which number is prime?", choices:["9","15","11","21"], correct:2},
+{q:"25. Find next in sequence: 2,3,5,7,11,?", choices:["12","13","14","15"], correct:1},
+{q:"26. Which is opposite of 'cold'?", choices:["Hot","Warm","Cool","Chilly"], correct:0},
+{q:"27. Select odd one: apple, banana, carrot, grape", choices:["apple","banana","carrot","grape"], correct:2},
+{q:"28. If all cats are animals and some animals can fly, can a cat fly?", choices:["Yes","No","Maybe","Cannot tell"], correct:3},
+{q:"29. Next number: 0,1,1,2,3,5,?", choices:["5","6","7","8"], correct:3},
+{q:"30. Solve: 100 ÷ 5 × 2 - 10 =", choices:["30","40","50","60"], correct:1},
+{q:"31. Which figure completes: ▲, ▼, ▲, ▼, ?", choices:["▲","▼","◆","◇"], correct:0},
+{q:"32. All squares are rectangles. True or False?", choices:["True","False","Cannot tell","Sometimes"], correct:0},
+{q:"33. Next number: 10, 20, 30, 40, ?", choices:["50","45","60","55"], correct:0},
+{q:"34. Solve: 3² + 4² = ?", choices:["9","12","16","25"], correct:3},
+{q:"35. Which number is smallest: 0.5, 0.05, 0.005, 0.0005?", choices:["0.5","0.05","0.005","0.0005"], correct:3},
 ];
 
-// STORAGE
-const STORAGE_KEY = 'iq_v2_answers';
-const STORAGE_PAID = 'iq_v2_paid';
-let lang = localStorage.getItem('iq_lang') || 'en';
-let current = 0;
-let answers = new Array(QUESTIONS.length).fill(null);
-try { const s = JSON.parse(localStorage.getItem(STORAGE_KEY)); if(Array.isArray(s) && s.length === QUESTIONS.length) answers = s; } catch(e){ }
-let paid = localStorage.getItem(STORAGE_PAID
+// =============== MAIN APP LOGIC =================
+let currentQ = 0;
+const answers = Array(QUESTIONS.length).fill(null);
+const quizEl = document.getElementById("quiz");
+const qcount = document.getElementById("qcount");
+const progressFill = document.getElementById("progressFill");
+const btnPrev = document.getElementById("btnPrev");
+const btnNext = document.getElementById("btnNext");
+const btnFinish = document.getElementById("btnFinish");
+const resultBlock = document.getElementById("resultBlock");
+const mpLink = document.getElementById("mpLink");
+const btnIvePaid = document.getElementById("btnIvePaid");
+const report = document.getElementById("report");
+const reportBody = document.getElementById("reportBody");
+const startBtn = document.getElementById("startBtn");
+const langSelect = document.getElementById("langSelect");
+const splash = document.getElementById("splash");
+const main = document.getElementById("main");
+
+function renderQuestion(){
+  const q = QUESTIONS[currentQ];
+  let html = `<div class="question-card"><div class="q-title">${q.q}</div><div class="choices">`;
+  q.choices.forEach((c,i)=>{
+    const selected = answers[currentQ]===i ? "selected":"";
+    html+=`<div class="choice ${selected}" data-index="${i}">${c}</div>`;
+  });
+  html += "</div></div>";
+  quizEl.innerHTML = html;
+  qcount.textContent = currentQ+1;
+  progressFill.style.width = ((currentQ+1)/QUESTIONS.length*100) + "%";
+  document.querySelectorAll(".choice").forEach(el=>{
+    el.addEventListener("click",()=>{
+      answers[currentQ] = parseInt(el.dataset.index);
+      renderQuestion();
+    });
+  });
+}
+
+function goNext(){ if(currentQ<QUESTIONS.length-1){ currentQ++; renderQuestion(); } }
+function goPrev(){ if(currentQ>0){ currentQ--; renderQuestion(); } }
+
+function finishTest(){
+  resultBlock.style.display="block";
+  mpLink.style.display="inline-block"; // show only at end
+  const score = answers.filter((a,i)=>a===QUESTIONS[i].correct).length;
+  document.getElementById("scoreText").textContent = score + " / "+QUESTIONS.length;
+  let performance = score<=10?"Below average":score<=20?"Average":score<=30?"Above average":"High IQ";
+  document.getElementById("performanceText").textContent = "Performance: "+performance;
+}
+
+btnNext.addEventListener("click",goNext);
+btnPrev.addEventListener("click",goPrev);
+btnFinish.addEventListener("click",finishTest);
+
+startBtn.addEventListener("click",()=>{
+  splash.style.display="none";
+  main.style.display="block";
+  renderQuestion();
+});
+
+// Payment simulate
+btnIvePaid.addEventListener("click",()=>{
+  report.style.display="block";
+  reportBody.textContent = "Congratulations! Based on your answers, your estimated IQ is calculated with detailed strengths and weaknesses per section. Full analysis includes verbal reasoning, math, logic, spatial reasoning, and memory performance.";
+});
+
+// Language switch
+langSelect.addEventListener("change",()=>{
+  if(langSelect.value==="pt"){
+    document.querySelector(".title").textContent="Descubra seu QI verdadeiro";
+    document.querySelector(".subtitle").textContent="35 perguntas rápidas • Dura ~6–8 minutos • Resultado imediato e privado";
+    document.querySelector("#leadText").textContent="Este teste é anônimo e estima suas habilidades cognitivas. Tente responder sem pensar demais.";
+    document.querySelector("#startBtn").textContent="Iniciar Teste";
+    btnNext.textContent="Próxima";
+    btnPrev.textContent="Anterior";
+    btnFinish.textContent="Finalizar";
+    mpLink.textContent="Pagar $13 e desbloquear";
+    btnIvePaid.textContent="Já paguei";
+    document.getElementById("unlockNote").textContent="Desbloqueie o relatório completo";
+  } else {
+    document.querySelector(".title").textContent="Discover your true IQ";
+    document.querySelector(".subtitle").textContent="35 quick questions • Takes ~6–8 minutes • Immediate, private result";
+    document.querySelector("#leadText").textContent="This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.";
+    document.querySelector("#startBtn").textContent="Start Test";
+    btnNext.textContent="Next";
+    btnPrev.textContent="Previous";
+    btnFinish.textContent="Finish";
+    mpLink.textContent="Pay $13 & Unlock";
+    btnIvePaid.textContent="I've paid";
+    document.getElementById("unlockNote").textContent="Unlock full & detailed report";
+  }
+});
+</script>
+</body>
+</html>
