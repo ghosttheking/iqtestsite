@@ -4,93 +4,97 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>IQ Test — Discover your potential</title>
-<meta name="description" content="Quick 35-question IQ test. Save progress, unlock full report after payment." />
+<meta name="description" content="35-question IQ test. Save progress, unlock full report after payment." />
 <style>
 :root{
-  --bg1: #071a52;
-  --accent1: #0b66ff;
-  --accent2: #63a4ff;
-  --card:#ffffff;
-  --muted:#6b7280;
+  --bg1:#071a52; --accent1:#0b66ff; --accent2:#63a4ff; --card:#ffffff; --muted:#6b7280;
 }
 *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-html,body{height:100%}
-body{
-  margin:0;
-  background:linear-gradient(180deg,var(--bg1),#0b1b45 60%);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  color:#0b1b2e;
-  padding:18px;
-  display:flex;align-items:center;justify-content:center;
-}
-.app { width:100%; max-width:920px; background:var(--card); border-radius:14px; box-shadow:0 20px 60px rgba(2,6,23,0.35); overflow:hidden; }
-.splash { background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:34px 28px; text-align:center; }
-.logo { width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12); display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px; margin-bottom:14px; }
-.title { font-size:24px;margin:0 0 8px; }
-.subtitle { font-size:14px;opacity:0.95;margin:0 0 14px;line-height:1.4; }
-.cta-row { display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px; }
-.btn-primary { background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer; box-shadow:0 6px 18px rgba(11,102,255,0.12); }
-.btn-ghost { background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer; }
-.animated-dots { margin-top:8px; }
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1),#0b1b45 60%);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#0b1b2e;}
+body{padding:18px;display:flex;align-items:center;justify-content:center;}
+.app{width:100%;max-width:960px;background:var(--card);border-radius:14px;box-shadow:0 20px 60px rgba(2,6,23,0.35);overflow:hidden;}
+/* SPLASH */
+.splash{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;padding:34px 28px;text-align:center;}
+.logo{width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;margin-bottom:14px;}
+.title{font-size:24px;margin:0 0 8px;}
+.subtitle{font-size:14px;opacity:0.95;margin:0 0 14px;line-height:1.4;}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.btn-primary{background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(11,102,255,0.12);}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer;}
+.btn-secondary{background:rgba(255,255,255,0.08);border:none;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer;}
+.animated-dots{margin-top:8px;}
 .dot{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.4;animation:blink 1.2s infinite ease-in-out;}
 .dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
 @keyframes blink{0%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}100%{opacity:.2;transform:translateY(0)}}
-.main { padding:22px 26px; }
-.topbar {display:flex;gap:12px;align-items:center;justify-content:space-between;}
-.brand {display:flex;gap:12px;align-items:center;}
-.brand .mini { width:44px;height:44;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800 }
-.lead { color:var(--muted); margin-top:10px; font-size:15px; }
-.quiz { margin-top:18px; min-height:220px; }
-.question-card{ background: #fff;padding:18px;border-radius:12px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.03); }
-.q-title{ font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e}
-.choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.choice{ padding:12px;border-radius:10px;border:1px solid #e6eefc;background:#fff;cursor:pointer; transition:all .12s; font-size:15px; }
-.choice:hover{ transform:translateY(-4px); background:#f6fbff }
-.choice.selected{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border-color:transparent; box-shadow:0 8px 20px rgba(11,102,255,0.12) }
-.footer { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; flex-wrap:wrap; }
-.progress-wrap { display:flex; gap:12px; align-items:center; }
-.progress-bar{ width:220px; height:10px; background:#eef2ff; border-radius:8px; overflow:hidden; }
-.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent1)); width:0%; transition:width .35s; }
-.counter { font-size:13px;color:var(--muted); }
-.controls { display:flex; gap:8px; align-items:center; }
-.btn-small{ background:var(--accent1); color:white; border:none; padding:9px 12px; border-radius:9px; cursor:pointer; font-weight:700 }
-.btn-outline{ background:transparent; border:1px solid #e6eefc; padding:8px 12px; border-radius:9px; cursor:pointer; color:#0b1b2e; }
-.result-card{ margin-top:18px; background:#f8fbff; padding:18px; border-radius:12px; border:1px dashed #e6eefc; display:none; }
-.small{ font-size:13px;color:var(--muted) }
-.pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; flex-direction:column; }
-.pay-button{ background:linear-gradient(90deg,#ff4c4c,#ff9900); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12) }
-.report { margin-top:14px; display:none; background:#fff; padding:16px; border-radius:10px; border:1px solid #eef6ff }
-.report h3 { color:var(--accent1); margin:0 0 8px 0 }
-.report p { color:#233; line-height:1.45 }
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; }
-.modal-content { background:white; padding:24px; border-radius:12px; max-width:480px; width:90%; }
-.modal-content h3{ margin-top:0; }
-.closeModal { float:right; cursor:pointer; font-weight:bold; font-size:18px; }
-@media (max-width:520px){
-  .choices{ grid-template-columns:1fr }
-  .progress-bar{ width:140px }
-  .lead{ font-size:14px }
-  .title{ font-size:20px }
-}
+
+/* MAIN */
+.main{padding:22px 26px;display:none;}
+.topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;}
+.brand{display:flex;gap:12px;align-items:center;}
+.brand .mini{width:44px;height:44;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+.lead{color:var(--muted);margin-top:10px;font-size:15px;}
+.quiz{margin-top:18px;min-height:220px;}
+.question-card{background:#fff;padding:18px;border-radius:12px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.03);}
+.q-title{font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.choice{padding:12px;border-radius:10px;border:1px solid #e6eefc;background:#fff;cursor:pointer;transition:all .12s;font-size:15px;text-align:left;}
+.choice:hover{transform:translateY(-4px);background:#f6fbff}
+.choice.selected{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;border-color:transparent;box-shadow:0 8px 20px rgba(11,102,255,0.12)}
+
+/* FOOTER */
+.footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;flex-wrap:wrap;}
+.progress-wrap{display:flex;gap:12px;align-items:center;}
+.progress-bar{width:320px;max-width:60vw;height:12px;background:#eef2ff;border-radius:10px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent1));width:0%;transition:width .35s;}
+.counter{font-size:13px;color:var(--muted);}
+.controls{display:flex;gap:8px;align-items:center;}
+.btn-small{background:var(--accent1);color:white;border:none;padding:9px 12px;border-radius:9px;cursor:pointer;font-weight:700}
+.btn-outline{background:transparent;border:1px solid #e6eefc;padding:8px 12px;border-radius:9px;cursor:pointer;color:#0b1b2e}
+
+/* RESULT / PAYMENT */
+.result-card{margin-top:18px;background:#f8fbff;padding:18px;border-radius:12px;border:1px dashed #e6eefc;display:none;}
+.small{font-size:13px;color:var(--muted)}
+.pay-wrap{margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex-direction:column;}
+.pay-button{background:linear-gradient(90deg,#ff4c4c,#ff9900);color:white;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:800;box-shadow:0 10px 30px rgba(11,102,255,0.12)}
+.report{margin-top:14px;display:none;background:#fff;padding:16px;border-radius:10px;border:1px solid #eef6ff}
+.report h3{color:var(--accent1);margin:0 0 8px 0}
+.report p{color:#233;line-height:1.45}
+.report .detail{font-size:13px;margin-top:8px;padding:8px;border-radius:8px;background:#f6fbff;border:1px solid #eef6ff}
+
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;padding:20px;z-index:1000;}
+.modal-content{background:white;padding:20px;border-radius:12px;max-width:640px;width:100%;position:relative;}
+.closeModal{position:absolute;right:12px;top:10px;cursor:pointer;font-weight:700;font-size:18px;color:#666}
+
+/* small helpers */
+.resume-banner{background:#fff6db;padding:10px;border-radius:10px;border:1px solid #fde3a7;margin-top:12px;text-align:center}
+@media(max-width:620px){.choices{grid-template-columns:1fr} .progress-bar{width:220px}}
 </style>
 </head>
 <body>
 <div class="app">
+  <!-- SPLASH -->
   <section id="splash" class="splash">
     <div style="padding:26px 20px;text-align:center;">
       <div class="logo">IQ</div>
       <div class="title">Discover your true IQ</div>
-      <div class="subtitle">35 quick questions • Takes ~6–8 minutes • Immediate, private result</div>
+      <div class="subtitle">35 quick questions • ~6–8 minutes • Immediate, private result</div>
       <div class="animated-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+
       <div class="cta-row" style="margin-top:18px;">
-        <button id="startBtn" class="btn-primary">Start Test</button>
-        <button id="startDemo" class="btn-ghost">How it works</button>
+        <button id="startBtn" class="btn-primary" aria-label="Start test">Start Test</button>
+        <button id="startDemo" class="btn-ghost" aria-label="How it works">How it works</button>
       </div>
+
+      <!-- resume button injected by JS if progress exists -->
+      <div id="resumeContainer"></div>
+
+      <div style="margin-top:12px;color:rgba(255,255,255,0.9);font-size:13px">No payment info shown until you finish the test.</div>
     </div>
   </section>
 
-  <section id="main" class="main" style="display:none">
+  <!-- MAIN -->
+  <section id="main" class="main" aria-live="polite">
     <div class="topbar">
       <div class="brand">
         <div class="mini">IQ</div>
@@ -100,30 +104,44 @@ body{
         </div>
       </div>
     </div>
+
     <div class="lead" id="leadText">This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.</div>
-    <div class="quiz" id="quiz"></div>
+
+    <div class="quiz" id="quiz" role="application" aria-atomic="true"></div>
 
     <div class="footer">
       <div class="progress-wrap">
         <div class="counter"><span id="qcount">1</span>/35</div>
-        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+        <div class="progress-bar" aria-hidden="true"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
       </div>
+
       <div class="controls">
-        <button id="btnPrev" class="btn-outline">Previous</button>
-        <button id="btnNext" class="btn-small">Next</button>
-        <button id="btnFinish" class="btn-small" title="Finish test">Finish</button>
+        <button id="btnPrev" class="btn-outline" aria-label="Previous question">Previous</button>
+        <button id="btnNext" class="btn-small" aria-label="Next question">Next</button>
+        <button id="btnFinish" class="btn-small" title="Finish test" aria-label="Finish test" style="display:none">Finish</button>
       </div>
     </div>
 
-    <div id="resultBlock" class="result-card">
-      <div class="pay-wrap">
-        <div class="small">Discover your full IQ report for only <strong>$13</strong>! (originally $50)</div>
-        <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank">Pay $13 & Unlock</a>
-        <button id="btnIvePaid" class="btn-outline" style="margin-top:16px">I've paid</button>
+    <div id="resultBlock" class="result-card" role="region" aria-live="polite">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="small">You answered</div>
+          <div style="font-weight:800;font-size:18px" id="scoreText">-- / 35</div>
+          <div class="small" id="performanceText">Performance: —</div>
+        </div>
+
+        <div style="text-align:center">
+          <div class="small" style="margin-bottom:8px">Discover your full IQ report for only <strong>$13</strong> (originally $50)</div>
+          <a id="mpLink" class="pay-button" href="#" target="_blank" rel="noopener">Pay $13 & Unlock</a>
+          <!-- "I've paid" intentionally placed below and separated -->
+          <div style="margin-top:18px"><button id="btnIvePaid" class="btn-outline">I've paid</button></div>
+        </div>
       </div>
+
       <div id="report" class="report" aria-live="polite">
         <h3 id="reportTitle">Full Report</h3>
         <p id="reportBody"></p>
+        <div class="detail" id="reportDetails" style="display:none"></div>
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
           <button id="btnShare" class="btn-small">Share</button>
           <button id="btnCopy" class="btn-outline">Copy result</button>
@@ -135,16 +153,24 @@ body{
   </section>
 </div>
 
-<!-- Modal -->
-<div id="howModal" class="modal">
-  <div class="modal-content">
-    <span class="closeModal" id="closeModal">&times;</span>
-    <h3>How it works</h3>
-    <p>This IQ test contains 35 questions assessing logical reasoning, pattern recognition, and problem-solving skills. Answer all questions to unlock your full IQ report for only $13 (originally $50).</p>
+<!-- How it works modal (no payment mention) -->
+<div id="howModal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+    <span class="closeModal" id="closeModal" aria-label="Close">&times;</span>
+    <h3 id="howTitle">How it works</h3>
+    <p>This IQ test contains 35 short questions that assess logical reasoning, pattern recognition and basic problem solving. Try to answer quickly and honestly — don't overthink. Your progress is saved automatically and you can return later to continue where you left off.</p>
+    <p>The full report (if unlocked) provides an estimated IQ range and actionable tips to improve reasoning and verbal skills.</p>
   </div>
 </div>
 
 <script>
+/* ================= CONFIG ================= */
+const MP_LINK = "https://mpago.la/2UqEUEx"; // replace if you want another payment link
+const STORAGE_KEY_ANS = 'iq_answers_v1';
+const STORAGE_KEY_IDX = 'iq_index_v1';
+const STORAGE_KEY_PAID = 'iq_paid_v1';
+
+/* ================= QUESTIONS (35) ================= */
 const QUESTIONS = [
 {q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
 {q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
@@ -183,105 +209,308 @@ const QUESTIONS = [
 {q:"35. Complete series: 2, 4, 8, 16, 32, ?", choices:["48","64","62","50"], correct:1}
 ];
 
-let currentQ = parseInt(localStorage.getItem('currentQ')) || 0;
-let answers = JSON.parse(localStorage.getItem('answers')) || Array(QUESTIONS.length).fill(null);
-
-const startBtn = document.getElementById('startBtn');
-const mainSection = document.getElementById('main');
-const splash = document.getElementById('splash');
-const quizDiv = document.getElementById('quiz');
-const btnNext = document.getElementById('btnNext');
+/* =============== state & elements =============== */
+const quizEl = document.getElementById('quiz');
+const qcountEl = document.getElementById('qcount');
+const progressFillEl = document.getElementById('progressFill');
 const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
 const btnFinish = document.getElementById('btnFinish');
-const qcount = document.getElementById('qcount');
-const progressFill = document.getElementById('progressFill');
+const startBtn = document.getElementById('startBtn');
+const startDemo = document.getElementById('startDemo');
+const splash = document.getElementById('splash');
+const mainSection = document.getElementById('main');
+const resumeContainer = document.getElementById('resumeContainer');
+const howModal = document.getElementById('howModal');
+const closeModal = document.getElementById('closeModal');
+const mpLinkEl = document.getElementById('mpLink');
 const resultBlock = document.getElementById('resultBlock');
 const scoreText = document.getElementById('scoreText');
 const performanceText = document.getElementById('performanceText');
-const report = document.getElementById('report');
-const reportBody = document.getElementById('reportBody');
 const btnIvePaid = document.getElementById('btnIvePaid');
+const reportEl = document.getElementById('report');
+const reportBody = document.getElementById('reportBody');
+const reportDetails = document.getElementById('reportDetails');
 const btnCopy = document.getElementById('btnCopy');
 const btnShare = document.getElementById('btnShare');
 
-const startDemo = document.getElementById('startDemo');
-const modal = document.getElementById('howModal');
-const closeModal = document.getElementById('closeModal');
+let index = parseInt(localStorage.getItem(STORAGE_KEY_IDX), 10);
+if (Number.isNaN(index)) index = 0;
+let answers = JSON.parse(localStorage.getItem(STORAGE_KEY_ANS));
+if (!Array.isArray(answers) || answers.length !== QUESTIONS.length) answers = Array(QUESTIONS.length).fill(null);
 
-startBtn.addEventListener('click',()=>{ splash.style.display='none'; mainSection.style.display='block'; renderQuestion(); });
-startDemo.addEventListener('click',()=>{ modal.style.display='flex'; });
-closeModal.addEventListener('click',()=>{ modal.style.display='none'; });
-window.addEventListener('click', e=>{ if(e.target==modal) modal.style.display='none'; });
+let paid = localStorage.getItem(STORAGE_KEY_PAID) === 'true';
 
+/* =============== helpers =============== */
+function saveProgress(){
+  localStorage.setItem(STORAGE_KEY_ANS, JSON.stringify(answers));
+  localStorage.setItem(STORAGE_KEY_IDX, String(index));
+}
+
+function clearProgress(){
+  localStorage.removeItem(STORAGE_KEY_ANS);
+  localStorage.removeItem(STORAGE_KEY_IDX);
+}
+
+/* =============== UI actions =============== */
 function renderQuestion(){
-  quizDiv.innerHTML='';
-  const q=QUESTIONS[currentQ];
-  const card = document.createElement('div'); card.className='question-card';
-  const qTitle = document.createElement('div'); qTitle.className='q-title'; qTitle.textContent=q.q; card.appendChild(qTitle);
-  const choicesDiv = document.createElement('div'); choicesDiv.className='choices';
-  q.choices.forEach((ch,i)=>{
-    const c=document.createElement('div'); c.className='choice'; c.textContent=ch; c.dataset.index=i;
-    if(answers[currentQ]===i) c.classList.add('selected');
-    c.addEventListener('click',()=>{ answers[currentQ]=i; localStorage.setItem('answers',JSON.stringify(answers)); localStorage.setItem('currentQ',currentQ); renderQuestion(); });
-    choicesDiv.appendChild(c);
+  const q = QUESTIONS[index];
+  quizEl.innerHTML = '';
+  const card = document.createElement('div'); card.className = 'question-card';
+  const title = document.createElement('div'); title.className = 'q-title'; title.textContent = q.q;
+  card.appendChild(title);
+
+  const choices = document.createElement('div'); choices.className = 'choices';
+  q.choices.forEach((c, i) => {
+    const ch = document.createElement('div');
+    ch.className = 'choice';
+    ch.tabIndex = 0;
+    ch.textContent = c;
+    ch.dataset.index = i;
+    if (answers[index] === i) ch.classList.add('selected');
+    ch.addEventListener('click', () => {
+      answers[index] = i;
+      saveProgress();
+      // visually mark selection
+      choices.querySelectorAll('.choice').forEach(x => x.classList.remove('selected'));
+      ch.classList.add('selected');
+    });
+    ch.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') ch.click(); });
+    choices.appendChild(ch);
   });
-  card.appendChild(choicesDiv); quizDiv.appendChild(card);
-  qcount.textContent=currentQ+1;
-  progressFill.style.width = `${((currentQ+1)/QUESTIONS.length)*100}%`;
-  btnPrev.style.display = currentQ===0?'none':'inline-block';
-  btnNext.style.display = currentQ===QUESTIONS.length-1?'none':'inline-block';
-  btnFinish.style.display = currentQ===QUESTIONS.length-1?'inline-block':'none';
+  card.appendChild(choices);
+  quizEl.appendChild(card);
+
+  // update footer UI
+  qcountEl.textContent = (index + 1);
+  const pct = Math.round(((index + 1) / QUESTIONS.length) * 100);
+  progressFillEl.style.width = `${pct}%`;
+
+  // prev/next/finish visibility
+  btnPrev.style.display = index === 0 ? 'none' : 'inline-block';
+  if (index === QUESTIONS.length - 1) {
+    btnNext.style.display = 'none';
+    btnFinish.style.display = 'inline-block';
+  } else {
+    btnNext.style.display = 'inline-block';
+    btnFinish.style.display = 'none';
+  }
 }
 
-btnNext.addEventListener('click',()=>{
-  if(answers[currentQ]===null){ alert('Please select an answer'); return; }
-  currentQ++;
+btnNext.addEventListener('click', () => {
+  // allow going next even if answer was already chosen on previous visit; require selection if none yet
+  if (answers[index] === null) {
+    alert('Please select an answer before moving to the next question.');
+    return;
+  }
+  if (index < QUESTIONS.length - 1) {
+    index++;
+    saveProgress();
+    renderQuestion();
+  }
+});
+
+btnPrev.addEventListener('click', () => {
+  if (index > 0) {
+    index--;
+    saveProgress();
+    renderQuestion();
+  }
+});
+
+btnFinish.addEventListener('click', () => {
+  if (answers[index] === null) {
+    alert('Please select an answer for the last question before finishing.');
+    return;
+  }
+  // show results area
+  showResults();
+});
+
+/* Start / Resume logic */
+function showSplashWithResume(){
+  // if there are any answers saved (non-null) then show Resume button
+  const anyAnswered = answers.some(a => a !== null);
+  resumeContainer.innerHTML = '';
+  if (anyAnswered) {
+    const banner = document.createElement('div');
+    banner.className = 'resume-banner';
+    banner.innerHTML = `<strong>Resume your previous attempt?</strong> &nbsp;
+      <button id="btnResume" class="btn-secondary">Resume</button>
+      &nbsp;<button id="btnRestart" class="btn-secondary">Start Over</button>`;
+    resumeContainer.appendChild(banner);
+    document.getElementById('btnResume').addEventListener('click', () => {
+      splash.style.display = 'none';
+      mainSection.style.display = 'block';
+      renderQuestion();
+    });
+    document.getElementById('btnRestart').addEventListener('click', () => {
+      if (!confirm('This will clear your saved progress and start a new test. Continue?')) return;
+      answers = Array(QUESTIONS.length).fill(null);
+      index = 0;
+      saveProgress();
+      splash.style.display = 'none';
+      mainSection.style.display = 'block';
+      renderQuestion();
+    });
+  }
+}
+
+/* How it works modal: show / hide */
+startDemo.addEventListener('click', () => {
+  howModal.style.display = 'flex';
+  howModal.setAttribute('aria-hidden', 'false');
+});
+closeModal.addEventListener('click', () => {
+  howModal.style.display = 'none';
+  howModal.setAttribute('aria-hidden', 'true');
+});
+window.addEventListener('click', (e) => { if (e.target === howModal) { howModal.style.display = 'none'; howModal.setAttribute('aria-hidden', 'true'); } });
+
+/* Start button */
+startBtn.addEventListener('click', () => {
+  splash.style.display = 'none';
+  mainSection.style.display = 'block';
   renderQuestion();
 });
 
-btnPrev.addEventListener('click',()=>{
-  currentQ--;
-  renderQuestion();
-});
+/* ============ Results / Payment / Report ============ */
+mpLinkEl.href = MP_LINK; // set payment link
 
-btnFinish.addEventListener('click',()=>{
-  if(answers[currentQ]===null){ alert('Please select an answer'); return; }
-  calculateResult();
-});
-
-function calculateResult(){
+function showResults(){
+  // compute score
   let score = 0;
-  answers.forEach((ans,i)=>{ if(ans===QUESTIONS[i].correct) score++; });
-  scoreText.textContent=`${score}/35`;
-  let perfText='';
-  if(score>=30) perfText='Genius level';
-  else if(score>=25) perfText='Above average';
-  else if(score>=18) perfText='Average';
-  else perfText='Below average';
-  performanceText.textContent=perfText;
-  resultBlock.style.display='block';
-  progressFill.style.width = `100%`;
-  localStorage.removeItem('currentQ');
-  localStorage.removeItem('answers');
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    if (answers[i] === QUESTIONS[i].correct) score++;
+  }
+  scoreText.textContent = `${score} / ${QUESTIONS.length}`;
+  let perf = '';
+  if (score >= 30) perf = 'Genius level';
+  else if (score >= 25) perf = 'Above average';
+  else if (score >= 18) perf = 'Average';
+  else perf = 'Below average';
+  performanceText.textContent = perf;
+
+  // show block
+  resultBlock.style.display = 'block';
+  // ensure progress completion
+  progressFillEl.style.width = '100%';
+  // clear saved progress because test finished (but keep paid flag separate)
+  // we keep answers in storage until user chooses to clear; but remove index so resume won't start mid-finished
+  localStorage.removeItem(STORAGE_KEY_IDX);
+  // store answers so they can be shown in report after payment
+  localStorage.setItem(STORAGE_KEY_ANS, JSON.stringify(answers));
 }
 
-btnIvePaid.addEventListener('click',()=>{
-  report.style.display='block';
-  reportBody.innerHTML = `<strong>IQ Score:</strong> ${scoreText.textContent} <br> <strong>Performance:</strong> ${performanceText.textContent} <br><br> Detailed insights: You excel in logical reasoning, pattern recognition, and problem-solving. Keep practicing to improve your speed and accuracy.`;
+/* I've paid -> show detailed report */
+btnIvePaid.addEventListener('click', () => {
+  // mark as paid (client-side simulation)
+  localStorage.setItem(STORAGE_KEY_PAID, 'true');
+  paid = true;
+  showFullReportUI();
 });
 
-btnCopy.addEventListener('click',()=>{
-  const text = `IQ Test Result: ${scoreText.textContent} (${performanceText.textContent})`;
-  navigator.clipboard.writeText(text);
-  alert('Result copied to clipboard!');
+/* If already paid from previous session, show report immediately */
+function showFullReportUI(){
+  // Build report content
+  const savedAnswers = JSON.parse(localStorage.getItem(STORAGE_KEY_ANS)) || answers;
+  let correctCount = 0;
+  let detailsHTML = '<ol style="padding-left:18px;">';
+  for (let i = 0; i < QUESTIONS.length; i++){
+    const q = QUESTIONS[i];
+    const userIdx = savedAnswers[i];
+    const userText = userIdx === null ? '<em>No answer</em>' : q.choices[userIdx];
+    const correctText = q.choices[q.correct];
+    const correctMark = userIdx === q.correct ? '✅' : '⛔';
+    if (userIdx === q.correct) correctCount++;
+    detailsHTML += `<li style="margin-bottom:8px"><strong>${q.q}</strong><div>Your answer: ${userText} ${correctMark}</div><div style="color:#0b66ff">Correct: ${correctText}</div></li>`;
+  }
+  detailsHTML += '</ol>';
+
+  const estIQ = Math.round(70 + (correctCount / QUESTIONS.length) * 60); // same mapping used earlier
+  reportBody.innerHTML = `<strong>Estimated IQ:</strong> ${estIQ}<br><strong>Score:</strong> ${correctCount} / ${QUESTIONS.length}<br><strong>Classification:</strong> ${classification(estIQ)}<br><br><strong>Quick tips:</strong><ul><li>Practice logic puzzles (Sudoku, pattern games).</li><li>Read challenging texts to strengthen verbal reasoning.</li><li>Sleep well and stay hydrated for better focus.</li></ul>`;
+  reportDetails.innerHTML = detailsHTML;
+  reportDetails.style.display = 'block';
+  reportEl.style.display = 'block';
+}
+
+/* classification helper */
+function classification(iq){
+  if (iq>=130) return 'Very superior';
+  if (iq>=120) return 'Superior';
+  if (iq>=110) return 'Above average';
+  if (iq>=90) return 'Average';
+  if (iq>=80) return 'Below average';
+  return 'Very below average';
+}
+
+/* copy / share */
+btnCopy.addEventListener('click', () => {
+  const text = reportBody.innerText + '\n\nFull details available in the report.';
+  navigator.clipboard.writeText(text).then(()=> alert('Report copied to clipboard!'), ()=> alert('Copy failed'));
+});
+btnShare.addEventListener('click', () => {
+  const shareText = `${document.title} — I completed the IQ test. Estimated result: ${reportBody.textContent.split('\n')[0] || ''}`;
+  if (navigator.share) {
+    navigator.share({title: document.title, text: shareText, url: location.href}).catch(()=> alert('Share cancelled'));
+  } else {
+    // fallback: open prompt with text
+    window.prompt('Share this text', shareText + '\n' + location.href);
+  }
 });
 
-btnShare.addEventListener('click',()=>{
-  const url = window.location.href;
-  const text = `I just completed this IQ Test and scored ${scoreText.textContent} (${performanceText.textContent})! Try it yourself: ${url}`;
-  if(navigator.share){ navigator.share({title:'IQ Test Result',text,url}); }
-  else{ prompt('Copy and share this link:', text); }
+/* on load: set start behaviors and resume button if needed */
+document.addEventListener('DOMContentLoaded', () => {
+  // attach splash resume if answers exist (any non-null or index > 0)
+  const anyAnswer = (answers && answers.some(a => a !== null));
+  if (anyAnswer || (index && index > 0)) {
+    // show resume container with Resume and Start Over buttons (already injected area)
+    showResumeBanner();
+  }
+  // if the user had already paid earlier, show report on load (but only after they press Start or Resume)
+  if (localStorage.getItem(STORAGE_KEY_PAID) === 'true') {
+    paid = true;
+    // allow report to be shown once they navigate to results (we won't auto-open)
+  }
 });
+
+/* resume banner creation function */
+function showResumeBanner(){
+  resumeContainer.innerHTML = '';
+  const banner = document.createElement('div');
+  banner.className = 'resume-banner';
+  banner.innerHTML = `<strong>You have an unfinished test.</strong> <button id="resumeBtn" class="btn-secondary" style="margin-left:8px">Resume</button> <button id="restartBtn" class="btn-secondary" style="margin-left:6px">Start Over</button>`;
+  resumeContainer.appendChild(banner);
+  document.getElementById('resumeBtn').addEventListener('click', () => {
+    splash.style.display = 'none';
+    mainSection.style.display = 'block';
+    renderQuestion();
+  });
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    if (!confirm('Clear progress and start over?')) return;
+    answers = Array(QUESTIONS.length).fill(null);
+    index = 0;
+    clearProgress();
+    splash.style.display = 'none';
+    mainSection.style.display = 'block';
+    renderQuestion();
+  });
+}
+
+/* allow keyboard navigation: left previous, right next */
+document.addEventListener('keydown', (e)=>{
+  if (mainSection.style.display === 'block') {
+    if (e.key === 'ArrowRight') { btnNext.click(); }
+    if (e.key === 'ArrowLeft') { btnPrev.click(); }
+  }
+});
+
+/* optional: if user came back and was already paid, show report directly after pressing "I've paid" or reveal automatically */
+if (paid) {
+  // if user already paid, when they open results, we'll show the report automatically
+}
+
+/* End of script */
 </script>
 </body>
 </html>
