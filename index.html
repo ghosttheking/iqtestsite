@@ -7,10 +7,10 @@
 <meta name="description" content="35-question IQ test. Save progress and continue later." />
 <style>
 :root{
-  --bg1:#071a52; --accent1:#0b66ff; --accent2:#63a4ff; --card:#ffffff; --muted:#6b7280;
+  --bg:#071a52; --accent1:#0b66ff; --accent2:#63a4ff; --card:#fff; --muted:#6b7280;
 }
 *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1),#0b1b45 60%);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#0b1b2e;}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0b1b45 60%);-webkit-font-smoothing:antialiased;color:#0b1b2e;}
 body{padding:18px;display:flex;align-items:center;justify-content:center;}
 .app{width:100%;max-width:960px;background:var(--card);border-radius:14px;box-shadow:0 20px 60px rgba(2,6,23,0.35);overflow:hidden;}
 /* SPLASH */
@@ -66,7 +66,7 @@ body{padding:18px;display:flex;align-items:center;justify-content:center;}
 .modal-content{background:white;padding:20px;border-radius:12px;max-width:640px;width:100%;position:relative;}
 .closeModal{position:absolute;right:12px;top:10px;cursor:pointer;font-weight:700;font-size:18px;color:#666}
 
-/* RESUME BANNER */
+/* RESUME */
 .resume-banner{background:#fff6db;padding:10px;border-radius:10px;border:1px solid #fde3a7;margin-top:12px;text-align:center}
 @media(max-width:620px){.choices{grid-template-columns:1fr}.progress-bar{width:220px}}
 </style>
@@ -74,7 +74,7 @@ body{padding:18px;display:flex;align-items:center;justify-content:center;}
 <body>
 <div class="app">
   <!-- SPLASH -->
-  <section id="splash" class="splash" aria-hidden="false">
+  <section id="splash" class="splash">
     <div style="padding:26px 20px;text-align:center;">
       <div class="logo">IQ</div>
       <div class="title">Discover your true IQ</div>
@@ -91,7 +91,7 @@ body{padding:18px;display:flex;align-items:center;justify-content:center;}
   </section>
 
   <!-- MAIN -->
-  <section id="main" class="main" style="display:none" aria-hidden="true">
+  <section id="main" class="main" style="display:none">
     <div class="topbar">
       <div class="brand">
         <div class="mini">IQ</div>
@@ -128,10 +128,16 @@ body{padding:18px;display:flex;align-items:center;justify-content:center;}
         </div>
 
         <div style="text-align:center">
-          <div class="small" style="margin-bottom:8px">Unlock your full IQ report</div>
-          <a id="mpLink" class="pay-button" href="#" target="_blank" rel="noopener">Unlock for $13</a>
-          <div style="margin-top:18px"><button id="btnIvePaid" class="btn-outline">I've paid</button></div>
+          <!-- Unlock button appears here when results are shown -->
+          <div id="unlockArea">
+            <!-- placeholder -->
+          </div>
         </div>
+      </div>
+
+      <div id="postUnlockArea" style="margin-top:18px;text-align:center;display:none">
+        <!-- "I've paid" must appear only after clicking Unlock -->
+        <button id="btnIvePaid" class="btn-outline">I've paid</button>
       </div>
 
       <div id="report" class="report" aria-live="polite">
@@ -149,24 +155,25 @@ body{padding:18px;display:flex;align-items:center;justify-content:center;}
   </section>
 </div>
 
-<!-- HOW IT WORKS MODAL (no mention of payment) -->
+<!-- HOW IT WORKS MODAL (no payment mention) -->
 <div id="howModal" class="modal" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="howTitle">
     <span class="closeModal" id="closeModal" aria-label="Close">&times;</span>
     <h3 id="howTitle">How it works</h3>
     <p>This IQ test contains 35 short questions that assess logical reasoning, pattern recognition and problem solving. Answer quickly and honestly — don't overthink your answers. Your progress is saved automatically and you can resume later where you left off.</p>
-    <p>After finishing the test you'll see your estimated score and an option to unlock a detailed report.</p>
+    <p>At the end you'll see your score and be able to unlock a detailed report (optional).</p>
   </div>
 </div>
 
 <script>
-/* ---------------- CONFIG ---------------- */
-const MP_LINK = "https://mpago.la/2UqEUEx"; // payment link used only at the result stage
-const STORAGE_KEY_ANS = 'iq_answers_v2';
-const STORAGE_KEY_IDX = 'iq_index_v2';
-const STORAGE_KEY_PAID = 'iq_paid_v2';
+/* ---------- CONFIG ---------- */
+const MP_LINK = "https://mpago.la/2UqEUEx"; // replace with real link if needed
+const STORAGE_KEY_ANS = 'iq_answers_final_v1';
+const STORAGE_KEY_IDX = 'iq_index_final_v1';
+const STORAGE_KEY_UNLOCKED = 'iq_unlocked_v1';
+const STORAGE_KEY_PAID = 'iq_paid_v1';
 
-/* ---------------- QUESTIONS (35) ---------------- */
+/* ---------- QUESTIONS (35) ---------- */
 const QUESTIONS = [
 {q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["18","24","32","34"], correct:2},
 {q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
@@ -205,14 +212,15 @@ const QUESTIONS = [
 {q:"35. Complete series: 2, 4, 8, 16, 32, ?", choices:["48","64","62","50"], correct:1}
 ];
 
-/* ---------------- STATE ---------------- */
+/* ---------- STATE ---------- */
 let index = parseInt(localStorage.getItem(STORAGE_KEY_IDX), 10);
 if (!Number.isInteger(index) || index < 0) index = 0;
 let answers = JSON.parse(localStorage.getItem(STORAGE_KEY_ANS));
 if (!Array.isArray(answers) || answers.length !== QUESTIONS.length) answers = Array(QUESTIONS.length).fill(null);
+let unlocked = localStorage.getItem(STORAGE_KEY_UNLOCKED) === 'true';
 let paid = localStorage.getItem(STORAGE_KEY_PAID) === 'true';
 
-/* ---------------- ELEMENTS ---------------- */
+/* ---------- ELEMENTS ---------- */
 const quizEl = document.getElementById('quiz');
 const qcountEl = document.getElementById('qcount');
 const progressFillEl = document.getElementById('progressFill');
@@ -226,23 +234,24 @@ const mainSection = document.getElementById('main');
 const resumeContainer = document.getElementById('resumeContainer');
 const howModal = document.getElementById('howModal');
 const closeModal = document.getElementById('closeModal');
-const mpLinkEl = document.getElementById('mpLink');
+const unlockArea = document.getElementById('unlockArea');
+const postUnlockArea = document.getElementById('postUnlockArea');
+const btnIvePaid = document.getElementById('btnIvePaid');
 const resultBlock = document.getElementById('resultBlock');
 const scoreText = document.getElementById('scoreText');
 const performanceText = document.getElementById('performanceText');
-const btnIvePaid = document.getElementById('btnIvePaid');
 const reportEl = document.getElementById('report');
 const reportBody = document.getElementById('reportBody');
 const reportDetails = document.getElementById('reportDetails');
 const btnCopy = document.getElementById('btnCopy');
 const btnShare = document.getElementById('btnShare');
 
-/* ---------------- HELPERS ---------------- */
+/* ---------- HELPERS ---------- */
 function saveProgress(){ localStorage.setItem(STORAGE_KEY_ANS, JSON.stringify(answers)); localStorage.setItem(STORAGE_KEY_IDX, String(index)); }
-function clearProgress(){ localStorage.removeItem(STORAGE_KEY_ANS); localStorage.removeItem(STORAGE_KEY_IDX); }
+function clearProgress(){ localStorage.removeItem(STORAGE_KEY_ANS); localStorage.removeItem(STORAGE_KEY_IDX); localStorage.removeItem(STORAGE_KEY_UNLOCKED); localStorage.removeItem(STORAGE_KEY_PAID); unlocked = paid = false; }
 function classification(iq){ if(iq>=130) return 'Very superior'; if(iq>=120) return 'Superior'; if(iq>=110) return 'Above average'; if(iq>=90) return 'Average'; if(iq>=80) return 'Below average'; return 'Very below average'; }
 
-/* ---------------- RENDER QUESTION ---------------- */
+/* ---------- RENDER QUESTION ---------- */
 function renderQuestion(){
   quizEl.innerHTML = '';
   const q = QUESTIONS[index];
@@ -260,7 +269,6 @@ function renderQuestion(){
     if (answers[index] === i) ch.classList.add('selected');
     ch.addEventListener('click', () => {
       answers[index] = i;
-      // mark visually
       choices.querySelectorAll('.choice').forEach(x => x.classList.remove('selected'));
       ch.classList.add('selected');
       saveProgress();
@@ -287,29 +295,27 @@ function renderQuestion(){
   }
 }
 
-/* ---------------- NAVIGATION ---------------- */
+/* ---------- NAV ---------- */
 btnNext.addEventListener('click', ()=>{
   if (answers[index] === null){ alert('Please select an answer before continuing.'); return; }
   if (index < QUESTIONS.length - 1){ index++; saveProgress(); renderQuestion(); }
 });
-
 btnPrev.addEventListener('click', ()=>{
   if (index > 0){ index--; saveProgress(); renderQuestion(); }
 });
-
 btnFinish.addEventListener('click', ()=>{
   if (answers[index] === null){ alert('Please select an answer for the last question.'); return; }
-  showResults();
+  showResults(); // shows resultBlock (unlock button injected here)
 });
 
-/* ---------------- START / RESUME / MODAL ---------------- */
+/* ---------- START/RESUME/MODAL ---------- */
 function injectResumeBanner(){
   resumeContainer.innerHTML = '';
   const anyAnswered = answers.some(a => a !== null);
   if (anyAnswered || (index && index > 0)){
     const banner = document.createElement('div');
     banner.className = 'resume-banner';
-    banner.innerHTML = `<strong>Unfinished test found.</strong> <button id="btnResume" class="btn-secondary">Resume</button> <button id="btnRestart" class="btn-secondary" style="margin-left:8px">Start Over</button>`;
+    banner.innerHTML = `<strong>Unfinished test found.</strong> <button id="btnResume" class="btn-secondary" style="margin-left:8px">Resume</button> <button id="btnRestart" class="btn-secondary" style="margin-left:8px">Start Over</button>`;
     resumeContainer.appendChild(banner);
     document.getElementById('btnResume').addEventListener('click', ()=>{
       splash.style.display = 'none';
@@ -341,13 +347,11 @@ startBtn.addEventListener('click', ()=>{
   renderQuestion();
 });
 
-/* ---------------- RESULTS & PAYMENT (appears ONLY after finish) ---------------- */
-mpLinkEl.href = MP_LINK;
-
+/* ---------- RESULTS / UNLOCK FLOW ---------- */
 function showResults(){
   // calculate score
   let score = 0;
-  for (let i=0;i<QUESTIONS.length;i++){ if (answers[i] === QUESTIONS[i].correct) score++; }
+  for (let i=0;i<QUESTIONS.length;i++) if (answers[i] === QUESTIONS[i].correct) score++;
   scoreText.textContent = `${score} / ${QUESTIONS.length}`;
   let perf = '';
   if (score >= 30) perf = 'Genius level';
@@ -356,23 +360,77 @@ function showResults(){
   else perf = 'Below average';
   performanceText.textContent = perf;
 
-  // show result block (payment/UI appears here only)
+  // show result block
   resultBlock.style.display = 'block';
-  // ensure progress bar full
   progressFillEl.style.width = '100%';
-  // remove resume index (test considered completed) but keep answers saved so report can be built after payment
-  localStorage.removeItem(STORAGE_KEY_IDX);
+
+  // inject Unlock button (only here, none shown earlier)
+  renderUnlockArea();
+
+  // persist answers for report later
   localStorage.setItem(STORAGE_KEY_ANS, JSON.stringify(answers));
+  // remove the resume index so we consider the test "finished" for resume logic
+  localStorage.removeItem(STORAGE_KEY_IDX);
 }
 
-/* Simulated unlock (client-side). In production, replace with server-side payment verification. */
+/* Inject Unlock button into unlockArea */
+function renderUnlockArea(){
+  unlockArea.innerHTML = ''; // clear
+  // If already unlocked earlier, show the unlock confirmation and show "I've paid" if paid flag was set
+  const unlockedFlag = localStorage.getItem(STORAGE_KEY_UNLOCKED) === 'true';
+  if (!unlockedFlag) {
+    const info = document.createElement('div');
+    info.innerHTML = `<div class="small" style="margin-bottom:10px">Unlock your full IQ report for <strong>$13</strong> (originally $50).</div>`;
+    const unlockBtn = document.createElement('a');
+    unlockBtn.className = 'pay-button';
+    unlockBtn.href = '#';
+    unlockBtn.textContent = 'Unlock for $13';
+    unlockBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      // user clicked unlock: show payment options (link) and then reveal "I've paid"
+      showPaymentOptions();
+      // mark unlocked so the "I've paid" area can appear (persist)
+      localStorage.setItem(STORAGE_KEY_UNLOCKED, 'true');
+      unlocked = true;
+    });
+    info.appendChild(unlockBtn);
+    unlockArea.appendChild(info);
+  } else {
+    // unlocked previously: show payment link directly (still no "I've paid" until they click pay/unlock now or later)
+    showPaymentOptions();
+  }
+}
+
+/* Show payment link and then reveal "I've paid" button only after user clicked Unlock (or unlocked earlier) */
+function showPaymentOptions(){
+  unlockArea.innerHTML = '';
+  const note = document.createElement('div');
+  note.className = 'small';
+  note.style.marginBottom = '8px';
+  note.textContent = 'Complete payment using the link below (opens external). After payment, click "I\'ve paid" to view your full report.';
+  const payLink = document.createElement('a');
+  payLink.className = 'pay-button';
+  payLink.href = MP_LINK;
+  payLink.target = '_blank';
+  payLink.rel = 'noopener';
+  payLink.textContent = 'Pay $13 & Unlock';
+  // clicking payLink marks nothing client-side (we cannot verify payment here).
+  unlockArea.appendChild(note);
+  unlockArea.appendChild(payLink);
+
+  // show "I've paid" area (only after unlock step)
+  postUnlockArea.style.display = 'block';
+}
+
+/* "I've paid" handler: simulated unlock of the report (client-side). In a production site you must verify server-side. */
 btnIvePaid.addEventListener('click', ()=>{
+  // mark paid locally
   localStorage.setItem(STORAGE_KEY_PAID, 'true');
   paid = true;
   revealFullReport();
 });
 
-/* Reveal full report if paid */
+/* If already paid earlier, reveal report automatically when appropriate (after results shown) */
 function revealFullReport(){
   const savedAnswers = JSON.parse(localStorage.getItem(STORAGE_KEY_ANS)) || answers;
   let correctCount = 0;
@@ -388,21 +446,21 @@ function revealFullReport(){
   }
   details += '</ol>';
   const estIQ = Math.round(70 + (correctCount / QUESTIONS.length) * 60);
-  reportBody.innerHTML = `<strong>Estimated IQ:</strong> ${estIQ}<br><strong>Score:</strong> ${correctCount}/${QUESTIONS.length}<br><strong>Classification:</strong> ${classification(estIQ)}<br><br><strong>Quick tips:</strong><ul><li>Practice logic puzzles and pattern games.</li><li>Read challenging texts to strengthen verbal skills.</li><li>Prioritize sleep and concentration exercises.</li></ul>`;
+  reportBody.innerHTML = `<strong>Estimated IQ:</strong> ${estIQ}<br><strong>Score:</strong> ${correctCount}/${QUESTIONS.length}<br><strong>Classification:</strong> ${classification(estIQ)}<br><br><strong>Quick tips:</strong><ul><li>Practice logic puzzles and pattern games.</li><li>Read challenging content to boost verbal skills.</li><li>Sleep well and train focus.</li></ul>`;
   reportDetails.innerHTML = details;
   reportDetails.style.display = 'block';
   reportEl.style.display = 'block';
 }
 
-/* copy & share functionality */
+/* copy & share */
 btnCopy.addEventListener('click', ()=>{
-  const txt = reportBody.innerText + '\n\nFull details available after unlock.';
+  const txt = reportBody.innerText + '\n\nFull details available in the report.';
   navigator.clipboard.writeText(txt).then(()=> alert('Report copied to clipboard!'), ()=> alert('Copy failed'));
 });
 btnShare.addEventListener('click', ()=>{
-  const txt = `I completed the IQ Test. ${reportBody.innerText.split('\n')[0] || ''}`;
+  const txt = `I completed an IQ test. ${reportBody.innerText.split('\n')[0] || ''}`;
   if (navigator.share) navigator.share({title: document.title, text: txt, url: location.href}).catch(()=>{});
-  else window.prompt('Copy and share', txt + '\n' + location.href);
+  else window.prompt('Share this text', txt + '\n' + location.href);
 });
 
 /* keyboard navigation */
@@ -413,17 +471,15 @@ document.addEventListener('keydown', (e)=>{
   }
 });
 
-/* DOMContentLoaded: show resume banner if needed and set mp link only later */
+/* on load: resume banner injection + keep flags */
 document.addEventListener('DOMContentLoaded', ()=>{
   injectResumeBanner();
-  // set payment link when results show (prevents any payment text showing on splash/main before finish)
-  mpLinkEl.href = MP_LINK;
-  // If the user previously paid, auto-reveal report when they press "I've paid" (we keep paid flag) --
-  // but we don't auto-open the result block; it appears after Finish as normal.
-  if (localStorage.getItem(STORAGE_KEY_PAID) === 'true') paid = true;
+  // if user already unlocked earlier, keep unlocked true and show pay area once results displayed
+  unlocked = localStorage.getItem(STORAGE_KEY_UNLOCKED) === 'true';
+  paid = localStorage.getItem(STORAGE_KEY_PAID) === 'true';
 });
 
-/* End of script */
+/* End */
 </script>
 </body>
 </html>
