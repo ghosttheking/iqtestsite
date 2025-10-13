@@ -58,11 +58,15 @@ body{
 .btn-outline{ background:transparent; border:1px solid #e6eefc; padding:8px 12px; border-radius:9px; cursor:pointer; color:#0b1b2e; }
 .result-card{ margin-top:18px; background:#f8fbff; padding:18px; border-radius:12px; border:1px dashed #e6eefc; display:none; }
 .small{ font-size:13px;color:var(--muted) }
-.pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; flex-direction:column; }
 .pay-button{ background:linear-gradient(90deg,#ff4c4c,#ff9900); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12) }
 .report { margin-top:14px; display:none; background:#fff; padding:16px; border-radius:10px; border:1px solid #eef6ff }
 .report h3 { color:var(--accent1); margin:0 0 8px 0 }
 .report p { color:#233; line-height:1.45 }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; }
+.modal-content { background:white; padding:24px; border-radius:12px; max-width:480px; width:90%; }
+.modal-content h3{ margin-top:0; }
+.closeModal { float:right; cursor:pointer; font-weight:bold; font-size:18px; }
 @media (max-width:520px){
   .choices{ grid-template-columns:1fr }
   .progress-bar{ width:140px }
@@ -112,17 +116,10 @@ body{
     </div>
 
     <div id="resultBlock" class="result-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div>
-          <div class="small">You answered</div>
-          <div style="font-weight:800;font-size:18px" id="scoreText">-- / 35</div>
-          <div class="small" id="performanceText">Performance: —</div>
-        </div>
-        <div style="text-align:right">
-          <div class="small">Discover your full IQ report for only <strong>$13</strong>! (originally $50)</div>
-          <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank">Pay $13 & Unlock</a>
-          <div style="margin-top:8px"><button id="btnIvePaid" class="btn-outline">I've paid</button></div>
-        </div>
+      <div class="pay-wrap">
+        <div class="small">Discover your full IQ report for only <strong>$13</strong>! (originally $50)</div>
+        <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank">Pay $13 & Unlock</a>
+        <button id="btnIvePaid" class="btn-outline" style="margin-top:16px">I've paid</button>
       </div>
       <div id="report" class="report" aria-live="polite">
         <h3 id="reportTitle">Full Report</h3>
@@ -136,6 +133,15 @@ body{
 
     <div style="padding:18px 0;text-align:center;color:var(--muted);font-size:13px">© 2025 — IQ Test</div>
   </section>
+</div>
+
+<!-- Modal -->
+<div id="howModal" class="modal">
+  <div class="modal-content">
+    <span class="closeModal" id="closeModal">&times;</span>
+    <h3>How it works</h3>
+    <p>This IQ test contains 35 questions assessing logical reasoning, pattern recognition, and problem-solving skills. Answer all questions to unlock your full IQ report for only $13 (originally $50).</p>
+  </div>
 </div>
 
 <script>
@@ -177,8 +183,8 @@ const QUESTIONS = [
 {q:"35. Complete series: 2, 4, 8, 16, 32, ?", choices:["48","64","62","50"], correct:1}
 ];
 
-let currentQ = 0;
-let answers = Array(QUESTIONS.length).fill(null);
+let currentQ = parseInt(localStorage.getItem('currentQ')) || 0;
+let answers = JSON.parse(localStorage.getItem('answers')) || Array(QUESTIONS.length).fill(null);
 
 const startBtn = document.getElementById('startBtn');
 const mainSection = document.getElementById('main');
@@ -198,33 +204,30 @@ const btnIvePaid = document.getElementById('btnIvePaid');
 const btnCopy = document.getElementById('btnCopy');
 const btnShare = document.getElementById('btnShare');
 
-startBtn.addEventListener('click',()=>{
-  splash.style.display='none';
-  mainSection.style.display='block';
-  renderQuestion();
-});
+const startDemo = document.getElementById('startDemo');
+const modal = document.getElementById('howModal');
+const closeModal = document.getElementById('closeModal');
+
+startBtn.addEventListener('click',()=>{ splash.style.display='none'; mainSection.style.display='block'; renderQuestion(); });
+startDemo.addEventListener('click',()=>{ modal.style.display='flex'; });
+closeModal.addEventListener('click',()=>{ modal.style.display='none'; });
+window.addEventListener('click', e=>{ if(e.target==modal) modal.style.display='none'; });
 
 function renderQuestion(){
-  const qObj = QUESTIONS[currentQ];
-  quizDiv.innerHTML = `
-    <div class="question-card">
-      <div class="q-title">${qObj.q}</div>
-      <div class="choices">
-        ${qObj.choices.map((c,i)=>`<div class="choice ${answers[currentQ]===i?'selected':''}" data-index="${i}">${c}</div>`).join('')}
-      </div>
-    </div>
-  `;
-  qcount.textContent = currentQ+1;
-  progressFill.style.width = `${((currentQ)/QUESTIONS.length)*100}%`;
-
-  document.querySelectorAll('.choice').forEach(el=>{
-    el.addEventListener('click',()=>{
-      answers[currentQ]=parseInt(el.dataset.index);
-      document.querySelectorAll('.choice').forEach(ch=>ch.classList.remove('selected'));
-      el.classList.add('selected');
-    });
+  quizDiv.innerHTML='';
+  const q=QUESTIONS[currentQ];
+  const card = document.createElement('div'); card.className='question-card';
+  const qTitle = document.createElement('div'); qTitle.className='q-title'; qTitle.textContent=q.q; card.appendChild(qTitle);
+  const choicesDiv = document.createElement('div'); choicesDiv.className='choices';
+  q.choices.forEach((ch,i)=>{
+    const c=document.createElement('div'); c.className='choice'; c.textContent=ch; c.dataset.index=i;
+    if(answers[currentQ]===i) c.classList.add('selected');
+    c.addEventListener('click',()=>{ answers[currentQ]=i; localStorage.setItem('answers',JSON.stringify(answers)); localStorage.setItem('currentQ',currentQ); renderQuestion(); });
+    choicesDiv.appendChild(c);
   });
-
+  card.appendChild(choicesDiv); quizDiv.appendChild(card);
+  qcount.textContent=currentQ+1;
+  progressFill.style.width = `${((currentQ+1)/QUESTIONS.length)*100}%`;
   btnPrev.style.display = currentQ===0?'none':'inline-block';
   btnNext.style.display = currentQ===QUESTIONS.length-1?'none':'inline-block';
   btnFinish.style.display = currentQ===QUESTIONS.length-1?'inline-block':'none';
@@ -248,10 +251,8 @@ btnFinish.addEventListener('click',()=>{
 
 function calculateResult(){
   let score = 0;
-  answers.forEach((ans,i)=>{
-    if(ans===QUESTIONS[i].correct) score++;
-  });
-  scoreText.textContent = `${score} / 35`;
+  answers.forEach((ans,i)=>{ if(ans===QUESTIONS[i].correct) score++; });
+  scoreText.textContent=`${score}/35`;
   let perfText='';
   if(score>=30) perfText='Genius level';
   else if(score>=25) perfText='Above average';
@@ -260,6 +261,8 @@ function calculateResult(){
   performanceText.textContent=perfText;
   resultBlock.style.display='block';
   progressFill.style.width = `100%`;
+  localStorage.removeItem('currentQ');
+  localStorage.removeItem('answers');
 }
 
 btnIvePaid.addEventListener('click',()=>{
