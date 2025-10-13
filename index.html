@@ -1,290 +1,143 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>IQ Test — Discover your potential / Teste de QI</title>
-<meta name="description" content="Quick 35-question IQ test. Save progress, unlock full report after payment." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Interativo</title>
 <style>
-:root{
-  --bg1: #071a52;
-  --accent1: #0b66ff;
-  --accent2: #63a4ff;
-  --card:#ffffff;
-  --muted:#6b7280;
-}
-*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-html,body{height:100%}
-body{
-  margin:0;
-  background:linear-gradient(180deg,var(--bg1),#0b1b45 60%);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  color:#0b1b2e;
-  padding:18px;
-  display:flex;align-items:center;justify-content:center;
-}
-.app { width:100%; max-width:920px; background:var(--card); border-radius:14px; box-shadow:0 20px 60px rgba(2,6,23,0.35); overflow:hidden; }
-.splash { background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:34px 28px; text-align:center; }
-.logo { width:86px;height:86px;border-radius:16px;background:rgba(255,255,255,0.12); display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:28px; margin-bottom:14px; }
-.title { font-size:24px;margin:0 0 8px; }
-.subtitle { font-size:14px;opacity:0.95;margin:0 0 14px;line-height:1.4; }
-.cta-row { display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px; }
-.btn-primary { background:#fff;color:var(--accent1);border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer; box-shadow:0 6px 18px rgba(11,102,255,0.12); }
-.btn-ghost { background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer; }
-.animated-dots { margin-top:8px; }
-.dot{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.4;animation:blink 1.2s infinite ease-in-out;}
-.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
-@keyframes blink{0%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}100%{opacity:.2;transform:translateY(0)}}
-.main { padding:22px 26px; }
-.topbar {display:flex;gap:12px;align-items:center;justify-content:space-between;}
-.brand {display:flex;gap:12px;align-items:center;}
-.brand .mini { width:44px;height:44;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800 }
-.lang { margin-left:auto;font-size:13px; }
-.lead { color:var(--muted); margin-top:10px; font-size:15px; }
-.quiz { margin-top:18px; min-height:220px; }
-.question-card{ background: #fff;padding:18px;border-radius:12px;border:1px solid #eef2ff;box-shadow:0 6px 18px rgba(11,102,255,0.03); }
-.q-title{ font-weight:700;font-size:18px;margin-bottom:12px;color:#0b1b2e}
-.choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.choice{ padding:12px;border-radius:10px;border:1px solid #e6eefc;background:#fff;cursor:pointer; transition:all .12s; font-size:15px; }
-.choice:hover{ transform:translateY(-4px); background:#f6fbff }
-.choice.selected{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border-color:transparent; box-shadow:0 8px 20px rgba(11,102,255,0.12) }
-.footer { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; flex-wrap:wrap; }
-.progress-wrap { display:flex; gap:12px; align-items:center; }
-.progress-bar{ width:220px; height:10px; background:#eef2ff; border-radius:8px; overflow:hidden; }
-.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent1)); width:0%; transition:width .35s; }
-.counter { font-size:13px;color:var(--muted); }
-.controls { display:flex; gap:8px; align-items:center; }
-.btn-small{ background:var(--accent1); color:white; border:none; padding:9px 12px; border-radius:9px; cursor:pointer; font-weight:700 }
-.btn-outline{ background:transparent; border:1px solid #e6eefc; padding:8px 12px; border-radius:9px; cursor:pointer; color:#0b1b2e; }
-.result-card{ margin-top:18px; background:#f8fbff; padding:18px; border-radius:12px; border:1px dashed #e6eefc; display:none; }
-.small{ font-size:13px;color:var(--muted) }
-.pay-wrap { margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-.pay-button{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(11,102,255,0.12); display:none; }
-.report { margin-top:14px; display:none; background:#fff; padding:16px; border-radius:10px; border:1px solid #eef6ff }
-.report h3 { color:var(--accent1); margin:0 0 8px 0 }
-.report p { color:#233; line-height:1.45 }
-@media (max-width:520px){
-  .choices{ grid-template-columns:1fr }
-  .progress-bar{ width:140px }
-  .lead{ font-size:14px }
-  .title{ font-size:20px }
-}
+  body {font-family: Arial, sans-serif; background:#f7f7f7; padding:20px;}
+  .quiz-container {max-width:700px; margin:auto; background:#fff; padding:20px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.2);}
+  .question {font-size:1.2em; margin-bottom:15px;}
+  .choices button {display:block; margin:8px 0; padding:12px; width:100%; border:none; border-radius:8px; background:#e0e0e0; cursor:pointer; text-align:left; transition:0.3s;}
+  .choices button:hover {background:#d0d0d0;}
+  .choices button.correct {background:#4CAF50; color:white;}
+  .choices button.wrong {background:#F44336; color:white;}
+  .next-btn, .language-btn {margin-top:15px; padding:12px 20px; border:none; border-radius:8px; cursor:pointer; font-size:1em;}
+  .next-btn {background:#4CAF50; color:white;}
+  .language-btn {background:#2196F3; color:white; float:right;}
+  .payment {display:none; margin-top:20px; padding:25px; background:#fff0e0; border-radius:12px; text-align:center; box-shadow:0 0 10px rgba(0,0,0,0.2);}
+  .price {font-weight:bold; font-size:1.3em; margin-bottom:15px;}
+  .explanation {margin-top:12px; font-style:italic; color:#555;}
+  .progress-bar {height:20px; background:#e0e0e0; border-radius:10px; overflow:hidden; margin-bottom:15px;}
+  .progress {height:100%; width:0%; background:#4CAF50; transition:0.4s;}
 </style>
 </head>
 <body>
-<div class="app" role="application">
-  <section id="splash" class="splash">
-    <div style="padding:26px 20px;text-align:center;">
-      <div class="logo">IQ</div>
-      <div class="title">Discover your true IQ</div>
-      <div class="subtitle">35 quick questions • Takes ~6–8 minutes • Immediate, private result</div>
-      <div class="animated-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-      <div class="cta-row" style="margin-top:18px;">
-        <button id="startBtn" class="btn-primary">Start Test</button>
-        <button id="startDemo" class="btn-ghost">Learn how it works</button>
-      </div>
-      <div style="margin-top:12px;color:rgba(255,255,255,0.9);font-size:13px">
-        Special offer: Unlock full report for <strong>$13</strong> (was $50)
-      </div>
-    </div>
-  </section>
 
-  <section id="main" class="main" style="display:none">
-    <div class="topbar">
-      <div class="brand">
-        <div class="mini">IQ</div>
-        <div>
-          <div style="font-weight:800;font-size:18px">IQ Test — Discover your potential</div>
-          <div class="small" id="subLead">Answer 35 short questions — your progress saves automatically.</div>
-        </div>
-      </div>
-      <div class="lang">
-        <label for="langSelect" class="small" style="margin-right:6px">Language</label>
-        <select id="langSelect" aria-label="Language selector">
-          <option value="en">English</option>
-          <option value="pt">Português</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="lead" id="leadText">This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.</div>
-    <div class="quiz" id="quiz"></div>
-
-    <div class="footer">
-      <div class="progress-wrap">
-        <div class="counter"><span id="qcount">1</span>/35</div>
-        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
-      </div>
-      <div class="controls">
-        <button id="btnPrev" class="btn-outline">Previous</button>
-        <button id="btnNext" class="btn-small">Next</button>
-        <button id="btnFinish" class="btn-small" title="Finish test and see payment">Finish</button>
-      </div>
-    </div>
-
-    <div id="resultBlock" class="result-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div>
-          <div class="small" id="answeredText">You answered</div>
-          <div style="font-weight:800;font-size:18px" id="scoreText">-- / 35</div>
-          <div class="small" id="performanceText">Performance: —</div>
-        </div>
-        <div style="text-align:right">
-          <div class="small" id="unlockNote">Unlock full & detailed report</div>
-          <a id="mpLink" class="pay-button" href="https://mpago.la/2UqEUEx" target="_blank" rel="noopener">Pay $13 & Unlock</a>
-          <div style="margin-top:8px" class="small">After payment click "I've paid" to show your report (testing mode).</div>
-          <div style="margin-top:8px"><button id="btnIvePaid" class="btn-outline">I've paid</button></div>
-        </div>
-      </div>
-      <div id="report" class="report" aria-live="polite">
-        <h3 id="reportTitle">Full Report</h3>
-        <p id="reportBody"></p>
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <button id="btnShare" class="btn-small">Share</button>
-          <button id="btnCopy" class="btn-outline">Copy result</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="padding:18px 0;text-align:center;color:var(--muted);font-size:13px">© 2025 — IQ Test</div>
-  </section>
+<div class="quiz-container">
+  <button class="language-btn" onclick="toggleLanguage()">🇧🇷 / 🇺🇸</button>
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
+  <div id="question-container" class="question"></div>
+  <div class="choices" id="choices-container"></div>
+  <div class="explanation" id="explanation"></div>
+  <button class="next-btn" onclick="nextQuestion()">Próxima / Next</button>
+  <div class="payment" id="payment">
+    <h2>🎉 Parabéns! Você completou o quiz.</h2>
+    <p class="price">Preço promocional: <del>$50</del> <strong>$13</strong></p>
+    <button onclick="alert('Redirecionando para pagamento...')">Pagar Agora</button>
+  </div>
 </div>
 
 <script>
-// ================= CONFIG & QUESTIONS =================
-const MP_LINK = "https://mpago.la/2UqEUEx";
-
-const QUESTIONS = [
-{q:"1. Which number comes next: 2, 4, 8, 16, ?", choices:["32","24","18","20"], correct:0},
-{q:"2. DOG is to MAMMAL as SWALLOW is to ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1},
-{q:"3. Which does NOT belong: square, rectangle, circle, diamond?", choices:["square","rectangle","circle","diamond"], correct:2},
-{q:"4. Solve: 7 × 6 − 8 =", choices:["34","36","38","40"], correct:0},
-{q:"5. Which word does not fit: pen, pencil, notebook, ruler?", choices:["pen","pencil","notebook","ruler"], correct:2},
-{q:"6. If today is Tuesday, what day will it be in 3 days?", choices:["Friday","Thursday","Saturday","Wednesday"], correct:2},
-{q:"7. Next number: 1,1,2,3,5,8,?", choices:["10","11","12","13"], correct:3},
-{q:"8. If all roses are flowers and some flowers wilt, can we say all roses wilt?", choices:["Yes","No","Sometimes","Impossible to know"], correct:1},
-{q:"9. Synonym of 'fast'?", choices:["Slow","Quick","Weak","Morbid"], correct:1},
-{q:"10. Train leaves at 10 and travels 120 km in 2 hours. Average speed?", choices:["40 km/h","50 km/h","60 km/h","70 km/h"], correct:2},
-{q:"11. If A > B and B > C, then A is ____ C.", choices:["smaller than","greater than","equal to","cannot tell"], correct:1},
-{q:"12. Complete: 3,6,9,___,15", choices:["10","12","11","13"], correct:1},
-{q:"13. Opposite of joy?", choices:["Happiness","Sadness","Pleasure","Satisfaction"], correct:1},
-{q:"14. All dogs are mammals, some mammals are cats. True or False?", choices:["All dogs are cats","Some dogs are cats","No dog is cat","Cannot tell"], correct:3},
-{q:"15. Next number: 5,10,20,40,?", choices:["60","70","80","90"], correct:2},
-{q:"16. Which figure completes the series?", choices:["A","B","C","D"], correct:0},
-{q:"17. Complete: 2,4,8,16,?", choices:["32","24","20","18"], correct:0},
-{q:"18. If all squares are red, all blocks are squares. What color are blocks?", choices:["Blue","Red","Green","Yellow"], correct:1},
-{q:"19. Height: Maria > João > Ana. Who is shortest?", choices:["Maria","João","Ana","Cannot tell"], correct:2},
-{q:"20. Find missing number: 3,6,9,___,15", choices:["10","12","11","13"], correct:1},
-{q:"21. Which shape comes next?", choices:["Circle","Triangle","Square","Diamond"], correct:2},
-{q:"22. Solve: 12 ÷ 4 + 3 × 2 = ?", choices:["6","7","8","9"], correct:2},
-{q:"23. Complete: 1,4,9,16,?", choices:["20","25","30","36"], correct:1},
-{q:"24. Which number is prime?", choices:["9","15","11","21"], correct:2},
-{q:"25. Find next in sequence: 2,3,5,7,11,?", choices:["12","13","14","15"], correct:1},
-{q:"26. Which is opposite of 'cold'?", choices:["Hot","Warm","Cool","Chilly"], correct:0},
-{q:"27. Select odd one: apple, banana, carrot, grape", choices:["apple","banana","carrot","grape"], correct:2},
-{q:"28. If all cats are animals and some animals can fly, can a cat fly?", choices:["Yes","No","Maybe","Cannot tell"], correct:3},
-{q:"29. Next number: 0,1,1,2,3,5,?", choices:["5","6","7","8"], correct:3},
-{q:"30. Solve: 100 ÷ 5 × 2 - 10 =", choices:["30","40","50","60"], correct:1},
-{q:"31. Which figure completes: ▲, ▼, ▲, ▼, ?", choices:["▲","▼","◆","◇"], correct:0},
-{q:"32. All squares are rectangles. True or False?", choices:["True","False","Cannot tell","Sometimes"], correct:0},
-{q:"33. Next number: 10, 20, 30, 40, ?", choices:["50","45","60","55"], correct:0},
-{q:"34. Solve: 3² + 4² = ?", choices:["9","12","16","25"], correct:3},
-{q:"35. Which number is smallest: 0.5, 0.05, 0.005, 0.0005?", choices:["0.5","0.05","0.005","0.0005"], correct:3},
+let lang = 'pt';
+let current = 0;
+let answered = false;
+let userAnswers = [];
+const QUESTIONS=[
+  {q_en:"1. Which number comes next: 2,4,8,16,?",q_pt:"1. Qual número vem a seguir: 2,4,8,16,?", choices:["18","24","32","34"], correct:2, explanation_en:"It's doubling each time: 2→4→8→16→32.", explanation_pt:"Está dobrando cada vez: 2→4→8→16→32."},
+  {q_en:"2. DOG is to MAMMAL as SWALLOW is to ?",q_pt:"2. CÃO é para MAMÍFERO como ANDORINHA é para ?", choices:["FISH","BIRD","REPTILE","INSECT"], correct:1, explanation_en:"A swallow is a bird.", explanation_pt:"Uma andorinha é um pássaro."},
+  {q_en:"3. What is 15 + 28?",q_pt:"3. Quanto é 15 + 28?", choices:["43","42","44","41"], correct:0, explanation_en:"15 + 28 equals 43.", explanation_pt:"15 + 28 é 43."},
+  {q_en:"4. Which shape has 4 equal sides and 4 right angles?",q_pt:"4. Qual forma tem 4 lados iguais e 4 ângulos retos?", choices:["Square","Rectangle","Rhombus","Trapezoid"], correct:0, explanation_en:"A square has 4 equal sides and 4 right angles.", explanation_pt:"Um quadrado tem 4 lados iguais e 4 ângulos retos."},
+  {q_en:"5. Find the next letter: A C E G ?",q_pt:"5. Encontre a próxima letra: A C E G ?", choices:["H","I","J","K"], correct:3, explanation_en:"Letters are skipping one: A(C)E(G) → K.", explanation_pt:"As letras pulam uma: A(C)E(G) → K."},
+  {q_en:"6. Which is the odd one out: Apple, Banana, Carrot, Grape?",q_pt:"6. Qual é o que não pertence: Maçã, Banana, Cenoura, Uva?", choices:["Apple","Banana","Carrot","Grape"], correct:2, explanation_en:"Carrot is a vegetable, others are fruits.", explanation_pt:"Cenoura é vegetal, os outros são frutas."},
+  {q_en:"7. Solve for x: 5x = 35",q_pt:"7. Resolva para x: 5x = 35", choices:["5","6","7","8"], correct:2, explanation_en:"x = 35/5 = 7.", explanation_pt:"x = 35/5 = 7."},
+  {q_en:"8. Which number is prime?",q_pt:"8. Qual número é primo?", choices:["21","29","35","39"], correct:1, explanation_en:"29 is only divisible by 1 and 29.", explanation_pt:"29 só é divisível por 1 e 29."},
+  {q_en:"9. Complete the analogy: Book is to Reading as Fork is to ?",q_pt:"9. Complete a analogia: Livro é para Ler como Garfo é para ?", choices:["Drawing","Eating","Writing","Driving"], correct:1, explanation_en:"Fork is used for eating.", explanation_pt:"O garfo é usado para comer."},
+  {q_en:"10. What is 7 × 8?",q_pt:"10. Quanto é 7 × 8?", choices:["54","56","58","64"], correct:1, explanation_en:"7×8 = 56.", explanation_pt:"7×8 = 56."},
+  {q_en:"11. Which figure completes the pattern: △, □, △, □, ?",q_pt:"11. Qual figura completa o padrão: △, □, △, □, ?", choices:["△","□","○","◇"], correct:0, explanation_en:"The pattern alternates, next is △.", explanation_pt:"O padrão alterna, próximo é △."},
+  {q_en:"12. Find the next number: 1, 1, 2, 3, 5, ?",q_pt:"12. Encontre o próximo número: 1, 1, 2, 3, 5, ?", choices:["5","6","7","8"], correct:3, explanation_en:"Fibonacci sequence: next is 8.", explanation_pt:"Sequência de Fibonacci: próximo é 8."},
+  {q_en:"13. What is the capital of France?",q_pt:"13. Qual é a capital da França?", choices:["Berlin","London","Paris","Rome"], correct:2, explanation_en:"Paris is the capital.", explanation_pt:"Paris é a capital."},
+  {q_en:"14. Which one is heavier: 1kg of steel or 1kg of feathers?",q_pt:"14. Qual é mais pesado: 1kg de aço ou 1kg de penas?", choices:["Steel","Feathers","Same","Cannot determine"], correct:2, explanation_en:"Both weigh the same: 1kg.", explanation_pt:"Ambos pesam o mesmo: 1kg."},
+  {q_en:"15. Rearrange letters to form a word: O T C O D",q_pt:"15. Reorganize as letras para formar uma palavra: O T C O D", choices:["COTDO","DOCTOR","TODCO","OCTOD"], correct:1, explanation_en:"Letters form 'DOCTOR'.", explanation_pt:"As letras formam 'DOCTOR'."},
+  {q_en:"16. Which is the largest planet in the Solar System?",q_pt:"16. Qual é o maior planeta do Sistema Solar?", choices:["Earth","Jupiter","Saturn","Mars"], correct:1, explanation_en:"Jupiter is the largest.", explanation_pt:"Júpiter é o maior."},
+  {q_en:"17. Solve: 12 ÷ 3 + 5",q_pt:"17. Resolva: 12 ÷ 3 + 5", choices:["4","9","11","15"], correct:2, explanation_en:"12 ÷ 3 = 4; 4 + 5 = 9.", explanation_pt:"12 ÷ 3 = 4; 4 + 5 = 9."},
+  {q_en:"18. Which one is a mammal?",q_pt:"18. Qual é um mamífero?", choices:["Shark","Dolphin","Frog","Penguin"], correct:1, explanation_en:"Dolphins are mammals.", explanation_pt:"Golfinhos são mamíferos."},
+  {q_en:"19. What comes next: J, F, M, A, M, ?",q_pt:"19. O que vem a seguir: J, F, M, A, M, ?", choices:["J","J","A","S"], correct:1, explanation_en:"Months initials: J F M A M J", explanation_pt:"Iniciais dos meses: J F M A M J"},
+  {q_en:"20. Find the sum: 25 + 36 + 14",q_pt:"20. Encontre a soma: 25 + 36 + 14", choices:["75","76","77","78"], correct:0, explanation_en:"25+36+14=75", explanation_pt:"25+36+14=75"},
+  {q_en:"21. Which color is made by mixing red and blue?",q_pt:"21. Qual cor é formada misturando vermelho e azul?", choices:["Green","Purple","Orange","Brown"], correct:1, explanation_en:"Red + Blue = Purple", explanation_pt:"Vermelho + Azul = Roxo"},
+  {q_en:"22. Find the odd number: 3, 7, 9, 13",q_pt:"22. Encontre o número ímpar: 3, 7, 9, 13", choices:["3","7","9","13"], correct:2, explanation_en:"9 is divisible by 3, others are not.", explanation_pt:"9 é divisível por 3, os outros não."},
+  {q_en:"23. What is the square root of 81?",q_pt:"23. Qual é a raiz quadrada de 81?", choices:["7","8","9","10"], correct:2, explanation_en:"√81=9", explanation_pt:"√81=9"},
+  {q_en:"24. Which animal lays eggs?",q_pt:"24. Qual animal põe ovos?", choices:["Dog","Cat","Snake","Elephant"], correct:2, explanation_en:"Snakes lay eggs.", explanation_pt:"Cobras põem ovos."},
+  {q_en:"25. Solve: 50 – 23 + 7",q_pt:"25. Resolva: 50 – 23 + 7", choices:["34","33","35","32"], correct:2, explanation_en:"50-23=27; 27+7=34", explanation_pt:"50-23=27; 27+7=34"},
+  {q_en:"26. Which is an even number?",q_pt:"26. Qual é um número par?", choices:["11","14","17","19"], correct:1, explanation_en:"14 is even.", explanation_pt:"14 é par."},
+  {q_en:"27. What is 100 ÷ 4?",q_pt:"27. Quanto é 100 ÷ 4?", choices:["24","25","26","20"], correct:1, explanation_en:"100 ÷ 4 = 25", explanation_pt:"100 ÷ 4 = 25"},
+  {q_en:"28. Which is the fastest land animal?",q_pt:"28. Qual é o animal terrestre mais rápido?", choices:["Cheetah","Lion","Horse","Elephant"], correct:0, explanation_en:"Cheetah is fastest.", explanation_pt:"Guepardo é mais rápido."},
+  {q_en:"29. Find the missing number: 5,10,20,40, ?",q_pt:"29. Encontre o número que falta: 5,10,20,40, ?", choices:["60","70","80","100"], correct:2, explanation_en:"Sequence doubles each time: next 40*2=80.", explanation_pt:"Sequência dobra cada vez: próximo 40*2=80."},
+  {q_en:"30. Which one is a polygon?",q_pt:"30. Qual é um polígono?", choices:["Circle","Triangle","Sphere","Oval"], correct:1, explanation_en:"Triangle is polygon.", explanation_pt:"Triângulo é polígono."},
+  {q_en:"31. What is 15% of 200?",q_pt:"31. Quanto é 15% de 200?", choices:["25","30","35","40"], correct:1, explanation_en:"200*0.15=30", explanation_pt:"200*0.15=30"},
+  {q_en:"32. Find the next number: 2, 6, 12, 20, ?",q_pt:"32. Encontre o próximo número: 2, 6, 12, 20, ?", choices:["28","30","32","36"], correct:2, explanation_en:"Pattern adds 4,6,8, next add 12→32", explanation_pt:"Padrão adiciona 4,6,8, próximo +12→32"},
+  {q_en:"33. Which is a triangle?",q_pt:"33. Qual é um triângulo?", choices:["□","△","○","◇"], correct:1, explanation_en:"△ is triangle.", explanation_pt:"△ é triângulo."},
+  {q_en:"34. Which is used for writing?",q_pt:"34. Qual é usado para escrever?", choices:["Pen","Knife","Spoon","Chair"], correct:0, explanation_en:"Pen is used for writing.", explanation_pt:"Caneta é usada para escrever."},
+  {q_en:"35. What is 9 × 9?",q_pt:"35. Quanto é 9 × 9?", choices:["81","72","79","89"], correct:0, explanation_en:"9×9=81", explanation_pt:"9×9=81"}
 ];
 
-// =============== MAIN APP LOGIC =================
-let currentQ = 0;
-const answers = Array(QUESTIONS.length).fill(null);
-const quizEl = document.getElementById("quiz");
-const qcount = document.getElementById("qcount");
-const progressFill = document.getElementById("progressFill");
-const btnPrev = document.getElementById("btnPrev");
-const btnNext = document.getElementById("btnNext");
-const btnFinish = document.getElementById("btnFinish");
-const resultBlock = document.getElementById("resultBlock");
-const mpLink = document.getElementById("mpLink");
-const btnIvePaid = document.getElementById("btnIvePaid");
-const report = document.getElementById("report");
-const reportBody = document.getElementById("reportBody");
-const startBtn = document.getElementById("startBtn");
-const langSelect = document.getElementById("langSelect");
-const splash = document.getElementById("splash");
-const main = document.getElementById("main");
-
-function renderQuestion(){
-  const q = QUESTIONS[currentQ];
-  let html = `<div class="question-card"><div class="q-title">${q.q}</div><div class="choices">`;
-  q.choices.forEach((c,i)=>{
-    const selected = answers[currentQ]===i ? "selected":"";
-    html+=`<div class="choice ${selected}" data-index="${i}">${c}</div>`;
-  });
-  html += "</div></div>";
-  quizEl.innerHTML = html;
-  qcount.textContent = currentQ+1;
-  progressFill.style.width = ((currentQ+1)/QUESTIONS.length*100) + "%";
-  document.querySelectorAll(".choice").forEach(el=>{
-    el.addEventListener("click",()=>{
-      answers[currentQ] = parseInt(el.dataset.index);
-      renderQuestion();
-    });
-  });
-}
-
-function goNext(){ if(currentQ<QUESTIONS.length-1){ currentQ++; renderQuestion(); } }
-function goPrev(){ if(currentQ>0){ currentQ--; renderQuestion(); } }
-
-function finishTest(){
-  resultBlock.style.display="block";
-  mpLink.style.display="inline-block"; // show only at end
-  const score = answers.filter((a,i)=>a===QUESTIONS[i].correct).length;
-  document.getElementById("scoreText").textContent = score + " / "+QUESTIONS.length;
-  let performance = score<=10?"Below average":score<=20?"Average":score<=30?"Above average":"High IQ";
-  document.getElementById("performanceText").textContent = "Performance: "+performance;
-}
-
-btnNext.addEventListener("click",goNext);
-btnPrev.addEventListener("click",goPrev);
-btnFinish.addEventListener("click",finishTest);
-
-startBtn.addEventListener("click",()=>{
-  splash.style.display="none";
-  main.style.display="block";
-  renderQuestion();
-});
-
-// Payment simulate
-btnIvePaid.addEventListener("click",()=>{
-  report.style.display="block";
-  reportBody.textContent = "Congratulations! Based on your answers, your estimated IQ is calculated with detailed strengths and weaknesses per section. Full analysis includes verbal reasoning, math, logic, spatial reasoning, and memory performance.";
-});
-
-// Language switch
-langSelect.addEventListener("change",()=>{
-  if(langSelect.value==="pt"){
-    document.querySelector(".title").textContent="Descubra seu QI verdadeiro";
-    document.querySelector(".subtitle").textContent="35 perguntas rápidas • Dura ~6–8 minutos • Resultado imediato e privado";
-    document.querySelector("#leadText").textContent="Este teste é anônimo e estima suas habilidades cognitivas. Tente responder sem pensar demais.";
-    document.querySelector("#startBtn").textContent="Iniciar Teste";
-    btnNext.textContent="Próxima";
-    btnPrev.textContent="Anterior";
-    btnFinish.textContent="Finalizar";
-    mpLink.textContent="Pagar $13 e desbloquear";
-    btnIvePaid.textContent="Já paguei";
-    document.getElementById("unlockNote").textContent="Desbloqueie o relatório completo";
-  } else {
-    document.querySelector(".title").textContent="Discover your true IQ";
-    document.querySelector(".subtitle").textContent="35 quick questions • Takes ~6–8 minutes • Immediate, private result";
-    document.querySelector("#leadText").textContent="This test is anonymous and estimates your cognitive strengths. Try to answer without overthinking.";
-    document.querySelector("#startBtn").textContent="Start Test";
-    btnNext.textContent="Next";
-    btnPrev.textContent="Previous";
-    btnFinish.textContent="Finish";
-    mpLink.textContent="Pay $13 & Unlock";
-    btnIvePaid.textContent="I've paid";
-    document.getElementById("unlockNote").textContent="Unlock full & detailed report";
+function showQuestion(){
+  if(current>=QUESTIONS.length){
+    document.getElementById("question-container").style.display="none";
+    document.getElementById("choices-container").style.display="none";
+    document.getElementById("explanation").style.display="none";
+    document.querySelector(".next-btn").style.display="none";
+    document.getElementById("payment").style.display="block";
+    return;
   }
-});
+  answered=false;
+  let q = QUESTIONS[current];
+  document.getElementById("question-container").innerText = (lang==='pt')? q.q_pt : q.q_en;
+  let choicesHTML = "";
+  q.choices.forEach((c,i)=>{
+    choicesHTML += `<button onclick="selectAnswer(${i},this)">${c}</button>`;
+  });
+  document.getElementById("choices-container").innerHTML = choicesHTML;
+  document.getElementById("explanation").innerText = "";
+  document.getElementById("explanation").style.display="block";
+  updateProgress();
+}
+
+function selectAnswer(idx, btn){
+  if(answered) return;
+  answered=true;
+  userAnswers[current]=idx;
+  let q = QUESTIONS[current];
+  if(idx===q.correct){
+    btn.classList.add("correct");
+    document.getElementById("explanation").innerText = (lang==='pt')? "✅ Correto! "+q.explanation_pt : "✅ Correct! "+q.explanation_en;
+  } else {
+    btn.classList.add("wrong");
+    document.getElementById("explanation").innerText = (lang==='pt')? "❌ Errado! "+q.explanation_pt : "❌ Wrong! "+q.explanation_en;
+    // highlight correct
+    let buttons = document.querySelectorAll("#choices-container button");
+    buttons[q.correct].classList.add("correct");
+  }
+}
+
+function nextQuestion(){
+  if(!answered) return alert(lang==='pt'?"Por favor, selecione uma resposta primeiro!":"Please select an answer first!");
+  current++;
+  showQuestion();
+}
+
+function toggleLanguage(){
+  lang = (lang==='pt')?'en':'pt';
+  showQuestion();
+}
+
+function updateProgress(){
+  let percent = ((current)/QUESTIONS.length)*100;
+  document.getElementById("progress").style.width = percent+"%";
+}
+
+showQuestion();
 </script>
+
 </body>
 </html>
