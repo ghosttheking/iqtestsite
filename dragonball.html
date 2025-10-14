@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dragon Ball Quiz — Test Your DB Knowledge</title>
+<meta name="description" content="35-question Dragon Ball knowledge quiz. Save progress and unlock full report after payment." />
+<style>
+  :root{
+    --bg1:#020615; --bg2:#081228;
+    --ki1:#ffdf5d; --ki2:#ff8a00; /* Super Saiyan aura */
+    --blue-ki:#4fc3ff;
+    --card:#fff; --muted:#9aa4b2;
+    --gold:#ffd54f;
+    --accent:#ff7044;
+    --glass: rgba(255,255,255,0.03);
+  }
+  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  html,body{height:100%;margin:0;background:
+    radial-gradient(1200px 500px at 10% 20%, rgba(255,138,0,0.06), transparent 10%),
+    radial-gradient(900px 400px at 90% 80%, rgba(79,195,255,0.03), transparent 10%),
+    linear-gradient(180deg,var(--bg1),var(--bg2)); color:#f5f7fa;}
+  body{display:flex;align-items:center;justify-content:center;padding:22px;}
+
+  .app{width:100%;max-width:980px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 30px 80px rgba(2,6,23,0.6);overflow:hidden;backdrop-filter: blur(6px);position:relative;border:1px solid rgba(255,255,255,0.02)}
+
+  /* TOP SPLASH */
+  .splash{padding:44px 36px;text-align:center;background:linear-gradient(90deg, rgba(255,138,0,0.08), rgba(79,195,255,0.04));color:var(--gold);}
+  .logo{width:112px;height:112px;border-radius:20px;background:linear-gradient(180deg,#ffd54f,#ff8a00);display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:32px;margin-bottom:16px;color:#201400;box-shadow:0 8px 30px rgba(255,138,0,0.12), inset 0 -6px 18px rgba(0,0,0,0.06)}
+  .title{font-size:30px;margin:0 0 6px;color:#fff;text-shadow:0 3px 18px rgba(255,140,0,0.08)}
+  .subtitle{font-size:14px;opacity:0.95;margin:0 0 14px;color:#fff}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{border:0;padding:12px 18px;border-radius:12px;cursor:pointer;font-weight:800}
+  .btn-dark{background:rgba(0,0,0,0.35);color:var(--gold);border:1px solid rgba(255,255,255,0.04)}
+  .btn-light{background:linear-gradient(90deg,#fff,#fff);color:#ff6f00;border-radius:12px;box-shadow:0 8px 26px rgba(255,138,0,0.06)}
+
+  /* MAIN */
+  .main{display:none;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
+  .topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .brand{display:flex;gap:12px;align-items:center}
+  .mini{width:56px;height:56px;border-radius:12px;background:linear-gradient(90deg,#ffca28,#ff7043);display:flex;align-items:center;justify-content:center;color:#201400;font-weight:900}
+  .lead{color:var(--muted);margin-top:8px}
+
+  /* QUESTION CARD */
+  .quiz{margin-top:18px;min-height:280px;transition:opacity .28s ease}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:20px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 40px rgba(2,6,23,0.06);transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}
+  .aura{position:absolute;inset:-30%;pointer-events:none;mix-blend-mode:screen;opacity:0.12}
+  .aura::before{content:"";position:absolute;left:-10%;top:-20%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,214,93,0.9), transparent 40%);}
+  .aura::after{content:"";position:absolute;right:-10%;bottom:-10%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 70% 70%, rgba(79,195,255,0.9), transparent 40%);}
+  .q-title{font-weight:800;font-size:20px;margin-bottom:14px;color:#fff;text-shadow:0 6px 22px rgba(0,0,0,0.35)}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .choice{padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));cursor:pointer;transition:transform .16s ease,box-shadow .16s ease;color:#fff}
+  .choice:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.35)}
+  .choice.selected{background:linear-gradient(90deg, rgba(255,214,93,0.16), rgba(255,138,0,0.12));border:1px solid rgba(255,214,93,0.18);box-shadow:0 24px 60px rgba(255,138,0,0.06);transform:translateY(-4px)}
+  .choice .label{display:block;font-weight:700}
+  .choice small{display:block;color:var(--muted);font-weight:600;margin-top:6px}
+
+  /* footer */
+  .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px;flex-wrap:wrap}
+  .progress-wrap{display:flex;align-items:center;gap:12px}
+  .progress-bar{height:12px;width:320px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--blue-ki),var(--ki2));width:0;transition:width .45s cubic-bezier(.2,.9,.2,1)}
+  .counter{color:var(--muted)}
+  .controls{display:flex;gap:10px;align-items:center}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--gold);padding:10px 14px;border-radius:10px}
+
+  .btn-small{background:linear-gradient(90deg,#ffca28,#ff7043);color:#1b0b00;padding:10px 14px;border-radius:10px;font-weight:800;border:0;cursor:pointer;box-shadow:0 8px 26px rgba(255,138,0,0.12)}
+
+  /* result */
+  .result{display:none;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,214,93,0.03),rgba(79,195,255,0.02));margin-top:18px;border:1px dashed rgba(255,214,93,0.06)}
+  .promo{font-weight:900;font-size:20px;color:#fff}
+  .promo-sub{color:var(--muted);margin-top:6px}
+  .pay-cta{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .pay-button{background:linear-gradient(90deg,#ff7044,#ffbf55);color:white;padding:14px 20px;border-radius:14px;text-decoration:none;font-weight:900;box-shadow:0 12px 36px rgba(255,112,68,0.14)}
+  #paidBtn{display:none;padding:10px 16px;border-radius:12px;border:1px solid rgba(6,24,40,0.06);background:transparent;color:#fff;cursor:pointer}
+  .report{display:none;margin-top:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), #fff);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);color:#111}
+  .report h3{color:#bf360c;margin:0 0 8px 0}
+  .report p{color:#222;line-height:1.45}
+
+  /* modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.7);align-items:center;justify-content:center;z-index:9999;padding:20px}
+  .modal .panel{background:linear-gradient(180deg,#fff,#fff);border-radius:12px;padding:18px;max-width:720px;width:100%;box-shadow:0 20px 50px rgba(2,6,23,0.3)}
+  .close{float:right;cursor:pointer;font-weight:700;color:#666}
+  @media(max-width:720px){.choices{grid-template-columns:1fr}.progress-bar{width:180px}.app{margin:16px}}
+</style>
+</head>
+<body>
+<div class="app" role="application" aria-label="Dragon Ball Knowledge Quiz">
+  <!-- Splash -->
+  <section id="splash" class="splash" aria-hidden="false">
+    <div>
+      <div class="logo" aria-hidden="true">DB</div>
+      <div class="title">Dragon Ball Knowledge Quiz</div>
+      <div class="subtitle">35 questions • ~6–10 minutes • Private results</div>
+      <div class="cta-row">
+        <button id="startBtn" class="btn btn-light">Start Quiz</button>
+        <button id="howBtn" class="btn btn-dark">How it works</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <section id="main" class="main" aria-hidden="true">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mini">DB</div>
+        <div>
+          <div style="font-weight:900;font-size:18px">Dragon Ball Quiz — Test your knowledge</div>
+          <div class="lead">Answer honestly — no timer. Your progress saves in your browser.</div>
+        </div>
+      </div>
+      <div style="text-align:right;color:var(--muted)">
+        <div style="font-weight:800">Power Meter</div>
+        <div style="font-size:12px">Train your knowledge and aim for Super Saiyan!</div>
+      </div>
+    </div>
+
+    <div id="quizArea" class="quiz" aria-live="polite"></div>
+
+    <div class="footer" role="region" aria-label="Quiz controls">
+      <div class="progress-wrap">
+        <div class="counter"><span id="qcount">1</span>/35</div>
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
+      </div>
+
+      <div class="controls">
+        <button id="prevBtn" class="btn-ghost">Previous</button>
+        <button id="nextBtn" class="btn-small">Next</button>
+        <button id="finishBtn" class="btn-small" style="display:none">Finish</button>
+      </div>
+    </div>
+
+    <div id="resultBlock" class="result" aria-hidden="true">
+      <div style="text-align:center">
+        <div class="promo">Your power level has been calculated!</div>
+        <div class="promo-sub">Unlock your full report now — limited offer: <strong>$13</strong></div>
+
+        <div class="pay-cta">
+          <a id="unlockLink" class="pay-button" href="#" target="_blank" rel="noopener">Unlock for $13</a>
+          <button id="paidBtn">I've paid</button>
+        </div>
+      </div>
+
+      <div id="report" class="report" aria-live="polite">
+        <h3>Full Report</h3>
+        <div id="reportBody"></div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- How it works modal -->
+<div id="howModal" class="modal" role="dialog" aria-hidden="true">
+  <div class="panel">
+    <div style="text-align:right"><span id="closeHow" class="close" aria-label="Close">×</span></div>
+    <h2>How it works</h2>
+    <p>This quiz contains 35 Dragon Ball questions covering characters, techniques, items, and events from the Dragon Ball franchise (DB, DBZ, DBS, GT).</p>
+    <p>Your answers are saved locally in your browser so you can resume if you close the page. No account required.</p>
+    <p>At the end, you'll see a basic summary. You can choose to unlock a full themed report for $13.</p>
+  </div>
+</div>
+
+<!-- Confetti canvas (golden aura) -->
+<canvas id="confettiCanvas" style="position:fixed;pointer-events:none;inset:0;z-index:9998;display:none"></canvas>
+
+<script>
+/* ========= Config & State ========= */
+const MP_LINK = "https://mpago.la/2UqEUEx"; // keep/change as needed
+const STORAGE_ANS = 'db_quiz_answers_v1';
+const STORAGE_IDX = 'db_quiz_index_v1';
+const STORAGE_UNLOCK = 'db_quiz_unlocked_v1';
+const STORAGE_PAID = 'db_quiz_paid_v1';
+
+/* ========= Dragon Ball QUESTIONS (35) ========= */
+const QUESTIONS = [
+  {q:"1. Who created the Dragon Balls?", choices:["Kami","Master Roshi","Bulma","Kami's predecessor, the Namekian guardian"], correct:3},
+  {q:"2. What is Goku's Saiyan name?", choices:["Kakarot","Bardock","Tarble","Kakaroto"], correct:0},
+  {q:"3. Which technique is Piccolo famous for?", choices:["Kamehameha","Special Beam Cannon","Final Flash","Spirit Bomb"], correct:1},
+  {q:"4. What is the name of Goku's first ship to King Kai's planet?", choices:["None — he used the Afterlife's walkway","Saiyan Pod","Goku's Cloud","None of the above"], correct:0},
+  {q:"5. Vegeta is prince of which planet?", choices:["Vegeta","Earth","Namek","Vampa"], correct:0},
+  {q:"6. What does the Senzu Bean do?", choices:["Grants super strength","Heals wounds and restores stamina","Increases ki permanently","Teleports the user"], correct:1},
+  {q:"7. Which villain first trained on the spaceship with Frieza as a child? (canon)", choices:["Vegeta","Goku","Raditz","Future Trunks"], correct:0},
+  {q:"8. Who performs the Kamehameha origin in the series?", choices:["Master Roshi","Goku","Gohan","All of the above (learned/used)"], correct:3},
+  {q:"9. What's the name of Goku's eldest son?", choices:["Goten","Gohan","Pan","Trunks"], correct:1},
+  {q:"10. Which item allows time travel in Trunks' storyline?", choices:["Time Machine","Time-Ring","Time Capsule","Time Scroll"], correct:0},
+  {q:"11. Who is the main antagonist of the Cell Saga?", choices:["Majin Buu","Frieza","Cell","Broly"], correct:2},
+  {q:"12. What transformation first multiplies a Saiyan's power dramatically with golden hair?", choices:["Kaioken","Great Ape","Super Saiyan","Ultra Instinct"], correct:2},
+  {q:"13. Name Goku's race.", choices:["Human","Saiyan","Namekian","Android"], correct:1},
+  {q:"14. Who fused to form Vegeto?", choices:["Goku + Piccolo","Goku + Vegeta (using Potara)","Goku + Vegeta (using Fusion Dance)","Goku + Trunks"], correct:1},
+  {q:"15. Which enemy wiped out Planet Vegeta?", choices:["Frieza","Cell","Beerus","Zamasu"], correct:0},
+  {q:"16. Who is Goku's teacher for the Spirit Bomb concept?", choices:["King Kai","Grandpa Gohan","Kami","Master Roshi"], correct:2},
+  {q:"17. Which character can turn into a Great Ape (Oozaru)?", choices:["Goku and any Saiyan with tail","Only Vegeta","Only Bardock","Only Broly"], correct:0},
+  {q:"18. What item does Bulma commonly use to find Dragon Balls?", choices:["Dragon Radar","Sensitivity Scope","Space Pod","Capsule Scanner"], correct:0},
+  {q:"19. Which character is a Majin created by Bibidi (and later Babidi)?", choices:["Majin Buu","Cell","Android 16","Hercule"], correct:0},
+  {q:"20. Who is the God of Destruction that appears in Battle of Gods?", choices:["Zeno","Beerus","Whis","Bills"], correct:1},
+  {q:"21. What is the Fusion Dance result name of Goku + Vegeta?", choices:["Vegito","Gogeta","Goketa","Vegeta-Goku"], correct:1},
+  {q:"22. Which saga introduces the concept of Universe vs Universe tournaments?", choices:["Frieza Saga","Cell Saga","Universe Survival Saga (Tournament of Power)","Android Saga"], correct:2},
+  {q:"23. What is the name of Krillin's signature move early on?", choices:["Destructo Disc (Kienzan)","Masenko","Galick Gun","Final Flash"], correct:0},
+  {q:"24. Who is Trunks' mother?", choices:["Chi-Chi","Bulma","Videl","Launch"], correct:1},
+  {q:"25. What is the name of the planet where Namekians come from?", choices:["Planet Vegeta","Planet Namek","Planet Yardrat","Planet Earth"], correct:1},
+  {q:"26. Which character achieves Ultra Instinct (initially) in the anime?", choices:["Goku","Beerus","Whis","Jiren"], correct:0},
+  {q:"27. What object summons Shenron?", choices:["7 Dragon Balls","One Dragon Ball","7 Senzu Beans","A special scroll"], correct:0},
+  {q:"28. Which technique drains the user's life/energy in certain versions? (e.g., Final Flash is powerful but...)", choices:["Spirit Bomb","Destructo Disc","Final Flash","Kaio-ken"], correct:3},
+  {q:"29. Who taught Goku the Instant Transmission in the original series (manga/anime)?", choices:["Yamcha","King Kai","Goku learned on Yardrat after Namek","Master Roshi"], correct:2},
+  {q:"30. Which hero sacrifices themself (temporarily) to help defeat Cell?", choices:["Goku","Piccolo","Gohan","Goku uses Instant Transmission to King Kai — actually uses sacrifice?"], correct:0},
+  {q:"31. In Dragon Ball Super, who defeats Zamasu merged (Fusion Zamasu) primarily?", choices:["Goku","Vegeta","Future Trunks with Hope Sword + Zeno erasure","Zeno alone"], correct:2},
+  {q:"32. What is the signature move of Frieza?", choices:["Death Beam","Kamehameha","Galick Gun","Masenko"], correct:0},
+  {q:"33. Who becomes the Supreme Kai candidate and trains Majin Buu later?", choices:["Goten","Gohan","Uub","Goku"], correct:2},
+  {q:"34. What form does Vegeta briefly reach in Dragon Ball Super that gives a blue aura?", choices:["Super Saiyan Blue (SSGSS)","Super Saiyan 4","Ultra Ego","Super Saiyan God"], correct:0},
+  {q:"35. Who is Goku's granddaughter (introduced in GT, non-canon to original manga continuity)?", choices:["Bra/Pan? (Pan is granddaughter)","Pan is Gohan's daughter — Goku's granddaughter is Pan","Videl","None"], correct:1}
+];
+
+/* ========= State initialisation ========= */
+let answers = JSON.parse(localStorage.getItem(STORAGE_ANS) || '[]');
+if(!Array.isArray(answers) || answers.length !== QUESTIONS.length) answers = Array(QUESTIONS.length).fill(null);
+let idx = parseInt(localStorage.getItem(STORAGE_IDX) || '0', 10);
+if(Number.isNaN(idx) || idx < 0) idx = 0;
+let unlocked = localStorage.getItem(STORAGE_UNLOCK) === 'true';
+let paid = localStorage.getItem(STORAGE_PAID) === 'true';
+
+/* ========= DOM ========= */
+const splash = document.getElementById('splash');
+const howBtn = document.getElementById('howBtn');
+const howModal = document.getElementById('howModal');
+const closeHow = document.getElementById('closeHow');
+const startBtn = document.getElementById('startBtn');
+const main = document.getElementById('main');
+const quizArea = document.getElementById('quizArea');
+const qcount = document.getElementById('qcount');
+const progressFill = document.getElementById('progressFill');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const finishBtn = document.getElementById('finishBtn');
+const resultBlock = document.getElementById('resultBlock');
+const unlockLink = document.getElementById('unlockLink');
+const paidBtn = document.getElementById('paidBtn');
+const reportEl = document.getElementById('report');
+const reportBody = document.getElementById('reportBody');
+const confettiCanvas = document.getElementById('confettiCanvas');
+
+/* ========= Helpers ========= */
+function saveState(){ localStorage.setItem(STORAGE_ANS, JSON.stringify(answers)); localStorage.setItem(STORAGE_IDX, String(idx)); }
+function updateProgressUI(){
+  qcount.textContent = Math.min(idx+1, QUESTIONS.length);
+  const pct = Math.round(((idx) / QUESTIONS.length) * 100);
+  progressFill.style.width = pct + '%';
+  progressFill.parentElement.setAttribute('aria-valuenow', pct);
+}
+
+/* ========= Web Audio: Ki sound & Transformation ========= */
+const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+function ensureAudio(){
+  if(!audioCtx) audioCtx = new AudioContextClass();
+  return audioCtx;
+}
+
+function playKiSound(){
+  try{
+    const ctx = ensureAudio();
+    const now = ctx.currentTime;
+    const o = ctx.createOscillator();
+    const o2 = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sawtooth';
+    o2.type = 'triangle';
+    o.frequency.setValueAtTime(220, now);
+    o2.frequency.setValueAtTime(440, now);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.08, now + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+    const bi = ctx.createBiquadFilter();
+    bi.type = 'bandpass';
+    bi.frequency.setValueAtTime(800, now);
+    o.connect(bi); o2.connect(bi); bi.connect(g); g.connect(ctx.destination);
+    o.start(now); o2.start(now);
+    o.stop(now + 0.32); o2.stop(now + 0.32);
+  }catch(e){/* ignore for autoplay restrictions */ }
+}
+
+/* Short hit used on selection */
+function playSelection(){
+  playKiSound();
+  // small pulse glow (handled elsewhere visually)
+}
+
+/* Super Saiyan transformation — longer, sweeping sound */
+function playTransform(){
+  try{
+    const ctx = ensureAudio();
+    const now = ctx.currentTime;
+    // base sweep
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(120, now);
+    o.frequency.exponentialRampToValueAtTime(1400, now + 1.6);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.5, now + 0.9);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+    const comp = ctx.createDynamicsCompressor();
+    o.connect(g); g.connect(comp); comp.connect(ctx.destination);
+    o.start(now); o.stop(now + 1.9);
+
+    // bright metallic hit
+    const o2 = ctx.createOscillator();
+    const g2 = ctx.createGain();
+    o2.type = 'triangle';
+    o2.frequency.setValueAtTime(900, now + 0.95);
+    g2.gain.setValueAtTime(0.0001, now + 0.95);
+    g2.gain.exponentialRampToValueAtTime(0.18, now + 1.05);
+    g2.gain.exponentialRampToValueAtTime(0.0001, now + 1.25);
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.setValueAtTime(800, now);
+    o2.connect(filter); filter.connect(g2); g2.connect(ctx.destination);
+    o2.start(now + 0.95); o2.stop(now + 1.25);
+
+  }catch(e){/* ignore */ }
+}
+
+/* ========= Render question ========= */
+function renderQuestion(){
+  if(idx >= QUESTIONS.length){
+    showResultStage();
+    return;
+  }
+  const q = QUESTIONS[idx];
+  quizArea.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<div class="aura" aria-hidden="true"></div><div class="q-title">${q.q}</div>`;
+  const choicesWr = document.createElement('div');
+  choicesWr.className = 'choices';
+  q.choices.forEach((c,i)=>{
+    const ch = document.createElement('div');
+    ch.className = 'choice';
+    ch.tabIndex = 0;
+    ch.dataset.i = i;
+    ch.innerHTML = `<span class="label">${c}</span>`;
+    if(answers[idx] === i) ch.classList.add('selected');
+    ch.addEventListener('click', ()=>{
+      // play ki sound and animate selection
+      playSelection();
+      // set answer
+      answers[idx] = i;
+      saveState();
+      // visual: mark selected
+      Array.from(choicesWr.children).forEach(x=>x.classList.remove('selected'));
+      ch.classList.add('selected');
+      ch.style.transform = 'scale(1.04)';
+      setTimeout(()=> ch.style.transform = '', 180);
+    });
+    ch.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') ch.click(); });
+    choicesWr.appendChild(ch);
+  });
+  card.appendChild(choicesWr);
+  quizArea.appendChild(card);
+
+  updateProgressUI();
+
+  // controls visibility
+  prevBtn.style.display = idx === 0 ? 'none' : 'inline-block';
+  if(idx === QUESTIONS.length - 1){ nextBtn.style.display = 'none'; finishBtn.style.display = 'inline-block'; }
+  else { nextBtn.style.display = 'inline-block'; finishBtn.style.display = 'none'; }
+
+  // focus first choice for accessibility
+  setTimeout(()=> {
+    const first = choicesWr.querySelector('.choice');
+    if(first) first.focus();
+  }, 80);
+}
+
+/* ========= Navigation ========= */
+nextBtn.addEventListener('click', ()=>{
+  if(answers[idx] === null){
+    alert('Please select an answer before continuing.');
+    return;
+  }
+  if(idx < QUESTIONS.length - 1){ idx++; saveState(); renderQuestion(); }
+});
+prevBtn.addEventListener('click', ()=>{
+  if(idx > 0){ idx--; saveState(); renderQuestion(); }
+});
+finishBtn.addEventListener('click', ()=>{
+  if(answers[idx] === null){ alert('Please select an answer before finishing.'); return; }
+  idx = QUESTIONS.length;
+  saveState();
+  renderQuestion();
+});
+
+/* ========= Result / Unlock flow ========= */
+function showResultStage(){
+  quizArea.innerHTML = '';
+  prevBtn.style.display = 'none';
+  nextBtn.style.display = 'none';
+  finishBtn.style.display = 'none';
+  updateProgressUI();
+  document.getElementById('resultBlock').style.display = 'block';
+  resultBlock.setAttribute('aria-hidden','false');
+  unlocked = localStorage.getItem(STORAGE_UNLOCK) === 'true';
+  paid = localStorage.getItem(STORAGE_PAID) === 'true';
+  if(unlocked) paidBtn.style.display = 'inline-block';
+  if(paid) revealReport();
+}
+
+/* unlock click: open payment link and show I've paid btn */
+unlockLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  window.open(MP_LINK, '_blank', 'noopener');
+  unlocked = true; localStorage.setItem(STORAGE_UNLOCK, 'true');
+  paidBtn.style.display = 'inline-block';
+});
+
+/* I've paid: simulate verification, reveal report + transformation */
+paidBtn.addEventListener('click', ()=>{
+  paid = true; localStorage.setItem(STORAGE_PAID, 'true');
+  // play transformation sound & launch confetti
+  playTransform();
+  launchConfetti(true);
+  revealReport(true);
+});
+
+/* compute score & "power level" mapping */
+function computeScoreAndPower(){
+  let score = 0;
+  for(let i=0;i<QUESTIONS.length;i++){
+    if(answers[i] === QUESTIONS[i].correct) score++;
+  }
+  // map to a playful "power level" and rank titles
+  // Power number for fun: base 800 * (score/35) scaled — purely illustrative
+  const base = Math.round(800 * (score / QUESTIONS.length) * (Math.random()*0.3 + 0.85));
+  const powerNum = Math.max(50, base + Math.round(score * 20));
+  // classification titles
+  let title = 'Earthling';
+  if(score >= 33) title = 'Legendary Super Saiyan';
+  else if(score >= 29) title = 'Super Saiyan God';
+  else if(score >= 24) title = 'Super Saiyan';
+  else if(score >= 18) title = 'Elite Fighter';
+  else if(score >= 12) title = 'Apprentice';
+  else title = 'Earthling';
+  return {score, powerNum, title};
+}
+
+/* reveal report */
+function revealReport(doVisual=false){
+  const {score, powerNum, title} = computeScoreAndPower();
+  reportEl.style.display = 'block';
+  reportBody.innerHTML = `
+    <p><strong>Estimated Power Level:</strong> ${powerNum}</p>
+    <p><strong>Title:</strong> ${title}</p>
+    <p><strong>Score:</strong> ${score} / ${QUESTIONS.length}</p>
+    <hr/>
+    <p><strong>Notes & tips</strong></p>
+    <ul>
+      <li>Rewatch key arcs: Namek, Android/Cell, and Universe Survival to pick up details.</li>
+      <li>Play attention to character names and transformations; small details often reappear.</li>
+      <li>Try the quiz again after studying — answers are saved so you can compare improvement.</li>
+    </ul>
+  `;
+  if(doVisual){
+    // small celebration already handled by caller
+    // scroll to report
+    setTimeout(()=> reportEl.scrollIntoView({behavior:'smooth'}), 180);
+  }
+}
+
+/* ========= Confetti: golden aura ========= */
+let confettiParticles = [];
+let confettiAnimationId = null;
+function launchConfetti(isTransformation=false){
+  const canvas = confettiCanvas;
+  const ctx = canvas.getContext('2d');
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * DPR;
+  canvas.height = window.innerHeight * DPR;
+  canvas.style.display = 'block';
+  confettiParticles = [];
+  const colors = isTransformation ? ['#ffd54f','#fff59d','#ffca28','#ffecb3'] : ['#ff4c4c','#ff9900','#63a4ff','#0b66ff','#7CFFB2'];
+  const count = isTransformation ? 220 : 140;
+  for(let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random() * canvas.width,
+      y: -Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 8,
+      vy: Math.random() * 6 + 2,
+      size: Math.random() * 10 + 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.3
+    });
+  }
+  let t0 = performance.now();
+  function frame(t){
+    const dt = (t - t0) / 16.6667; t0 = t;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(const p of confettiParticles){
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.rot += p.vr * dt;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2 * DPR, -p.size/2 * DPR, p.size * DPR, p.size * DPR);
+      ctx.restore();
+    }
+    confettiParticles = confettiParticles.filter(p => p.y < canvas.height + 200);
+    if(confettiParticles.length > 0){
+      confettiAnimationId = requestAnimationFrame(frame);
+    } else {
+      cancelAnimationFrame(confettiAnimationId);
+      canvas.style.display = 'none';
+    }
+  }
+  confettiAnimationId = requestAnimationFrame(frame);
+}
+
+/* ========= Resume banner on splash if progress exists ========= */
+function maybeShowResume(){
+  if(answers.some(a => a !== null) || idx > 0){
+    const banner = document.createElement('div');
+    banner.style.marginTop = '14px';
+    banner.style.background = 'linear-gradient(90deg, rgba(79,195,255,0.06), rgba(255,214,93,0.04))';
+    banner.style.padding = '12px';
+    banner.style.borderRadius = '10px';
+    banner.style.color = '#fff';
+    banner.innerHTML = `<strong>You have an unfinished quiz.</strong>
+      <div style="margin-top:8px">
+        <button id="resumeBtn" class="btn btn-dark" style="margin-right:8px">Resume</button>
+        <button id="restartBtn" class="btn btn-dark">Start Over</button>
+      </div>`;
+    splash.appendChild(banner);
+    document.getElementById('resumeBtn').addEventListener('click', ()=>{
+      showMain();
+    });
+    document.getElementById('restartBtn').addEventListener('click', ()=>{
+      if(!confirm('Clear saved progress and start over?')) return;
+      answers = Array(QUESTIONS.length).fill(null);
+      idx = 0;
+      localStorage.removeItem(STORAGE_ANS);
+      localStorage.removeItem(STORAGE_IDX);
+      localStorage.removeItem(STORAGE_UNLOCK);
+      localStorage.removeItem(STORAGE_PAID);
+      showMain();
+    });
+  }
+}
+
+/* ========= How modal handlers ========= */
+howBtn.addEventListener('click', ()=>{ howModal.style.display = 'flex'; howModal.setAttribute('aria-hidden','false'); });
+closeHow.addEventListener('click', ()=>{ howModal.style.display = 'none'; howModal.setAttribute('aria-hidden','true'); });
+howModal.addEventListener('click', (e)=>{ if(e.target === howModal){ howModal.style.display = 'none'; howModal.setAttribute('aria-hidden','true'); }});
+
+/* ========= Entry ========= */
+startBtn.addEventListener('click', ()=>{
+  showMain();
+});
+function showMain(){
+  splash.style.display = 'none';
+  main.style.display = 'block';
+  main.setAttribute('aria-hidden','false');
+  renderQuestion();
+  updateProgressUI();
+}
+
+/* On load: attach link and maybe show resume */
+document.addEventListener('DOMContentLoaded', ()=>{
+  maybeShowResume();
+  unlockLink.href = MP_LINK;
+  if(localStorage.getItem(STORAGE_PAID) === 'true'){
+    paid = true;
+  }
+});
+
+/* keyboard nav */
+document.addEventListener('keydown', (e)=>{
+  if(main.style.display === 'block'){
+    if(e.key === 'ArrowRight') nextBtn.click();
+    if(e.key === 'ArrowLeft') prevBtn.click();
+  }
+});
+
+/* Accessibility: ensure focus outlines visible */
+</script>
+</body>
+</html>
